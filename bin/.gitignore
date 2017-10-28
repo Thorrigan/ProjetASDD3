@@ -1,7 +1,7 @@
-/Lecteur.class
-/Main.class
-/Map.class
-/Point.class
-/Surface.class
-/Segment.class
-/Triangle.class
+/Fenetre.class
+/QuadTree.class
+/Droite.class
+/Jeu.class
+/CoefficientsDroite.class
+/QuadTree$Noeud.class
+/Rectangle.class

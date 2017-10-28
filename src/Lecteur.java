@@ -7,7 +7,12 @@ import java.util.ArrayList;
 
 
 public class Lecteur {
-	public Lecteur(String nomFichier){
+	String nomFichier = "";
+	public Lecteur(String nomFichier) {
+		this.nomFichier = nomFichier;
+	}
+	public Map read(){
+		Map m = null;
 		File f = new File(nomFichier);
 		//si existe
 		BufferedReader br;
@@ -58,6 +63,7 @@ public class Lecteur {
 			for(Surface sf : map){
 				System.out.println(sf.toString());
 			}
+			m = new Map(map, new Point(0,0), new Point(0,0));
 			br.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -66,6 +72,9 @@ public class Lecteur {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return m;
 	}
+	
 
 }

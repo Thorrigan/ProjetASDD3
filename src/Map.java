@@ -11,4 +11,16 @@ public class Map {
 		this.arv = arrivee;
 	}
 	
+	public ArrayList<Surface> getSurfaces() {
+		return surfaces;
+	}
+
+	public Point getDep() {
+		return dep;
+	}
+
+	public Point getArv() {
+		return arv;
+	}
+
 }

@@ -13,6 +13,11 @@ public class Surface {
 	public ArrayList<Point> getListp() {
 		return listp;
 	}
+	
+	public ArrayList<Triangle> TriangulationTerrain(){
+		return null;
+		
+	}
 
 	public char getType() {
 		return type;

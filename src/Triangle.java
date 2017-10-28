@@ -1,10 +1,14 @@
+import java.awt.Color;
 
 public class Triangle {
-	private Segment seg1;
-	private Segment seg2;
-	private Segment seg3;
+
+	private Color couleur;
 	
 	public Triangle(Segment s1, Segment s2, Segment s3) {
+		
+	}
+	
+	public Triangle(Point p1, Point p2, Point p3) {
 		
 	}
 }

@@ -1,5 +1,5 @@
 
-public class Point {
+public class Point implements Comparable<Point>{
 	private float x;
 	private float y;
 	
@@ -7,7 +7,25 @@ public class Point {
 		this.x = x;
 		this.y = y;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+			return false;
+		if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+			return false;
+		return true;
+	}
+
+
+
 	public float getX(){
 		return this.x;
 	}
@@ -23,5 +41,21 @@ public class Point {
 
 	public String toString() {
 		return "Point [x=" + x + ", y=" + y + "]";
+	}
+
+	public int compareTo(Point p) {
+		if(y < p.y) {
+			return -1;
+		}
+		if(y > p.y) {
+			return 1;
+		}
+		if(x < p.x) {
+			return -1;
+		}
+		if(x > p.x) {
+			return 1;
+		}
+		return 0;
 	}
 }
