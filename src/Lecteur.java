@@ -21,7 +21,7 @@ public class Lecteur {
 			String ligne;
 			int compteur = 0;
 			int nbsurfaces = 0;
-			ArrayList<Surface> map = new ArrayList<Surface>();
+			ArrayList<Polygone> map = new ArrayList<Polygone>();
 			while((ligne = br.readLine()) != null){
 				System.out.println(ligne);				
 				if(compteur == 0){
@@ -55,12 +55,12 @@ public class Lecteur {
 					}
 					char type = ligne.charAt(ligne.length()-1);
 					//System.out.println("Type: " + type);
-					Surface s = new Surface(lp, type);
+					Polygone s = new Polygone(lp);
 					map.add(s);
 				}
 				compteur ++;
 			}
-			for(Surface sf : map){
+			for(Polygone sf : map){
 				System.out.println(sf.toString());
 			}
 			m = new Map(map, new Point(0,0), new Point(0,0));

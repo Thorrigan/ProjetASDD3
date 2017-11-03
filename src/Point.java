@@ -1,9 +1,16 @@
 
+
 public class Point implements Comparable<Point>{
 	private float x;
 	private float y;
 	
 	public Point(float x, float y){
+		if(x == -0.0f) {
+			x = 0.0f;
+		}
+		if(y == -0.0f) {
+			y = 0.0f;
+		}
 		this.x = x;
 		this.y = y;
 	}
@@ -40,7 +47,7 @@ public class Point implements Comparable<Point>{
 	}
 
 	public String toString() {
-		return "Point [x=" + x + ", y=" + y + "]";
+		return "(" + x + ", " + y + ")";
 	}
 
 	public int compareTo(Point p) {

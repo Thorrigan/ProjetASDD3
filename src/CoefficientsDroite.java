@@ -28,13 +28,13 @@ public class CoefficientsDroite {
 		}
 		else {
 			a = (p2.getY() - p1.getY())/(p2.getX() - p1.getX());		
-			if(p2.getX() < p1.getX()) {
+			/*if(p2.getX() < p1.getX()) {
 				a *= -1;
-			}
+			}*/
 			b = -1;
-			c = p1.getY() - a*p1.getY();
+			c = p1.getY() - a*p1.getX();
 		}
-		
+		System.out.println(a + "x + " + b + "y + " + c + " = 0.");
 		return new CoefficientsDroite(a ,b, c);
 	}
 	

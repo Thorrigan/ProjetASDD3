@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 
 public class Map {
-	private ArrayList<Surface> surfaces;
+	private ArrayList<Polygone> surfaces;
 	private Point dep;
 	private Point arv;
 	
-	public Map(ArrayList<Surface> ls, Point depart, Point arrivee){
+	public Map(ArrayList<Polygone> ls, Point depart, Point arrivee){
 		this.surfaces = ls;
 		this.dep = depart;
 		this.arv = arrivee;
 	}
 	
-	public ArrayList<Surface> getSurfaces() {
+	public ArrayList<Polygone> getSurfaces() {
 		return surfaces;
 	}
 

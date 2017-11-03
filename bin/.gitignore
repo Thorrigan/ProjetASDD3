@@ -1,7 +1,7 @@
-/Fenetre.class
-/QuadTree.class
 /Droite.class
-/Jeu.class
-/CoefficientsDroite.class
-/QuadTree$Noeud.class
+/Forme.class
+/Point.class
+/Polygone.class
 /Rectangle.class
+/Segment.class
+/Triangle.class
