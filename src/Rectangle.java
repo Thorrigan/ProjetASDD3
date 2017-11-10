@@ -16,6 +16,53 @@ public class Rectangle implements Forme{
 		}
 	}
 	
+	public Rectangle[] division() {
+		Rectangle[] rectangles = new Rectangle[4];
+		rectangles[0] = new Rectangle(new Point(minX(), centre().getY()), new Point(centre().getX(), maxY()));
+		rectangles[1] = new Rectangle(centre(), p2);
+		rectangles[2] = new Rectangle(centre(), new Point(maxX(), minY()));
+		rectangles[3] = new Rectangle(p1, centre());
+		return rectangles;
+	}
+	
+	// peut etre pas besoin de celle la
+	public int nbIntersection(ArrayList<Triangle> tab) {
+		int compteur = 0;
+		for(Triangle t : tab) {
+			if(PointsintersectionTriangle(t) != null) {
+				compteur += PointsintersectionTriangle(t).size();
+			}
+		}
+		return compteur;
+	}
+	
+	public Point centre() {
+		return (new Segment(p1,p2)).milieu();
+	}
+	
+	private float minX() {
+		return p1.getX();
+	}
+	
+	private float maxX() {
+		return p2.getX();
+	}
+	
+	private float minY() {
+		if(p1.getY() < p2.getY()) {
+			return p1.getY();
+		}
+		return p2.getY();
+	}
+	
+	private float maxY() {
+		if(p1.getY() < p2.getY()) {
+			return p2.getY();
+		}
+		return p1.getY();
+	}
+	
+	
 	public Segment[] transformationSegment() {
 		Point p1p = new Point(p2.getX(), p1.getY());
 		Point p2p = new Point(p1.getX(), p2.getY());

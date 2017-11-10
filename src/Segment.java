@@ -16,6 +16,10 @@ public class Segment implements Forme{
 		}
 	}
 	
+	public Point milieu() {
+		return new Point((p1.getX()+p2.getX())/2, (p1.getY()+p2.getY())/2);
+	}
+	
 	private boolean estDansRectangle(Point p) {
 		if(p == null) {
 			return false;
