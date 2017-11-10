@@ -16,6 +16,11 @@ public class QuadTree {
 		
 		Noeud(Rectangle r){
 			this.region = r;
+			this.n1 = null;
+			this.n2 = null;
+			this.n3 = null;
+			this.n4 = null;
+			this.triangles = null;
 		}
 		
 		boolean estFeuille() {
@@ -30,7 +35,73 @@ public class QuadTree {
 		inserer(racine, t);
 	}
 	
+	public int hauteur() {
+		return hauteur(racine);
+	}
+	
+	private int hauteur(Noeud n) {
+		if(n == null) {
+			return 0;
+		}
+		return 1 + Math.max(Math.max(hauteur(n.n1), hauteur(n.n2)), Math.max(hauteur(n.n3), hauteur(n.n4)));
+	}
+	
+	public void afficher() {
+		System.out.println("Affichage de l'arbre :");
+		affichage(racine, 0);
+	}
+	
+	private void affichage(Noeud n, int hauteur) {
+		if(n != null) {
+			affichage(n.n1, hauteur +1);
+			affichage(n.n2, hauteur +1);
+			for(int i = 0; i < hauteur; i++) {
+				System.out.print("             ");
+			}
+			System.out.print(n.region.centre() + "\n");
+			affichage(n.n3, hauteur +1);
+			affichage(n.n4, hauteur +1);
+		}else if(hauteur < this.hauteur()){
+			affichage(null, hauteur +1);
+			affichage(null, hauteur +1);
+			for(int i = 0; i < hauteur; i++) {
+				System.out.print("             ");
+			}
+			System.out.print(n.region.centre() + "\n");
+			affichage(null, hauteur +1);
+			affichage(null, hauteur +1);
+		}
+	}
+	
 	private Noeud inserer(Noeud n, Triangle t) {
+		if(n.estFeuille() && (n.triangles.size() < N || n.triangles == null)) {
+			if(n.triangles == null) {
+				n.triangles = new ArrayList<Triangle>();
+			}
+			n.triangles.add(t);
+		}else if(n.estFeuille() && n.triangles.size() == N) {
+			Rectangle [] tab = n.region.division(); // On récupère les 4 sous-régions
+			n.n1 = new Noeud(tab[0]);
+			n.n2 = new Noeud(tab[1]);
+			n.n3 = new Noeud(tab[2]);
+			n.n4 = new Noeud(tab[3]);
+			ArrayList<Triangle> listr = n.triangles; // On sauvegarde temporairement la liste des triangles
+			n.triangles = null; // 
+			for(Triangle triangle : listr) {
+				inserer(n, triangle);
+			}
+			inserer(n, t);
+		}else {
+			if(n.n1.region.intersection(t)) {
+				inserer(n.n1, t);
+			}else if(n.n2.region.intersection(t)) {
+				inserer(n.n2, t);
+			}else if(n.n3.region.intersection(t)) {
+				inserer(n.n3, t);
+			}else if(n.n4.region.intersection(t)) {
+				inserer(n.n4, t);
+			}
+		}
 		return null;
 	}
 	
