@@ -8,7 +8,7 @@ public class Main {
 			nomFichier = args[0];
 		}
 		//Jeu jeu = new Jeu(nomFichier);
-		
+		TestsUnitaires test = new TestsUnitaires();
 		//testsMaths
 	}
 	
