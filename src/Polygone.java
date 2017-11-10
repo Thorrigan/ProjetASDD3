@@ -16,7 +16,42 @@ public class Polygone implements Forme{
 	}
 	
 	public ArrayList<Triangle> triangulation(){
-		return null;
+		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+		for(int i = 0; i < this.lstp.size(); i++) {
+			Point A;
+			Point B;
+			Point C;
+			if(i == lstp.size() - 2) {
+				A = lstp.get(i);
+				B = lstp.get(i+1);
+				C = lstp.get(0);
+			}else if(i == lstp.size() - 1) {
+				A = lstp.get(i);
+				B = lstp.get(0);
+				C = lstp.get(1);
+			}else {
+				A = lstp.get(i);
+				B = lstp.get(i+1);
+				C = lstp.get(i+2);
+			}
+			
+			Triangle t = new Triangle(A, B, C);
+			Segment seg = new Segment(A, C);
+			for(Point p : this.lstp) {
+				if(p != lstp.get(i) && p != lstp.get(i+1) && p != lstp.get(0) && (!t.contient(p) || seg.contient(p))) {
+					break;
+				}else {
+					
+				}
+			}
+			
+			// TODO finir
+		}
+		
+		if(triangles.isEmpty()) {
+			return null;
+		}
+		return triangles;
 	}
 	
 	public ArrayList<Segment> transformationSegment(){
@@ -47,28 +82,48 @@ public class Polygone implements Forme{
 		return false;
 	}
 
-	private boolean intersectionPolygone(Polygone f1) {
-		// TODO Auto-generated method stub
+	private boolean intersectionPolygone(Polygone pg1) {
+		for(Segment seg : this.transformationSegment()) {
+			for(Segment seg1 : pg1.transformationSegment()) {
+				seg.intersection(seg1);
+			}
+		}
 		return false;
 	}
 
-	private boolean intersectionRectangle(Rectangle f1) {
-		// TODO Auto-generated method stub
+	private boolean intersectionRectangle(Rectangle r1) {
+		for(Segment seg : this.transformationSegment()) {
+			for(Segment seg1 : r1.transformationSegment()) {
+				seg.intersection(seg1);
+			}
+		}
 		return false;
 	}
 
-	private boolean intersectionTriangle(Triangle f1) {
-		// TODO Auto-generated method stub
+	private boolean intersectionTriangle(Triangle t1) {
+		for(Segment seg : this.transformationSegment()) {
+			if(seg.intersection(t1)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
-	private boolean intersectionSegment(Segment f1) {
-		// TODO Auto-generated method stub
+	private boolean intersectionSegment(Segment s1) {
+		for(Segment seg : this.transformationSegment()) {
+			if(seg.intersection(s1)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
-	private boolean intersectionDroite(Droite f1) {
-		// TODO Auto-generated method stub
+	private boolean intersectionDroite(Droite d1) {
+		for(Segment seg : this.transformationSegment()) {
+			if(seg.intersection(d1)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -87,29 +142,75 @@ public class Polygone implements Forme{
 		return null;
 	}
 
-	private ArrayList<Point> PointsintersectionPolygone(Polygone f1) {
-		// TODO Auto-generated method stub
-		return null;
+	private ArrayList<Point> PointsintersectionPolygone(Polygone pg1) {
+		ArrayList<Point> pts = new ArrayList<Point>();
+		for(Segment seg : this.transformationSegment()) {
+			for(Segment seg1 : pg1.transformationSegment()) {
+				if(seg.intersection(seg1)) {
+					pts.add(seg.PointsIntersection(seg1).get(0));
+				}
+			}
+		}
+		if(pts.isEmpty()) {
+			return null;
+		}
+		return pts;
 	}
 
-	private ArrayList<Point> PointsintersectionRectangle(Rectangle f1) {
-		// TODO Auto-generated method stub
-		return null;
+	private ArrayList<Point> PointsintersectionRectangle(Rectangle r1) {
+		ArrayList<Point> pts = new ArrayList<Point>();
+		for(Segment seg : this.transformationSegment()) {
+			for(Segment seg1 : r1.transformationSegment()) {
+				if(seg.intersection(seg1)) {
+					pts.add(seg.PointsIntersection(seg1).get(0));
+				}
+			}
+		}
+		if(pts.isEmpty()) {
+			return null;
+		}
+		return pts;
 	}
 
-	private ArrayList<Point> PointsintersectionTriangle(Triangle f1) {
-		// TODO Auto-generated method stub
-		return null;
+	private ArrayList<Point> PointsintersectionTriangle(Triangle t1) {
+		ArrayList<Point> pts = new ArrayList<Point>();
+		for(Segment seg : this.transformationSegment()) {
+			for(Segment seg1 : t1.transformationSegment()) {
+				if(seg.intersection(seg1)) {
+					pts.add(seg.PointsIntersection(seg1).get(0));
+				}
+			}
+		}
+		if(pts.isEmpty()) {
+			return null;
+		}
+		return pts;
 	}
 
-	private ArrayList<Point> PointsintersectionSegment(Segment f1) {
-		// TODO Auto-generated method stub
-		return null;
+	private ArrayList<Point> PointsintersectionSegment(Segment s1) {
+		ArrayList<Point> pts = new ArrayList<Point>();
+		for(Segment seg : this.transformationSegment()) {
+			if(seg.intersection(s1)) {
+				pts.add(seg.PointsIntersection(s1).get(0));
+			}
+		}
+		if(pts.isEmpty()) {
+			return null;
+		}
+		return pts;
 	}
 
-	private ArrayList<Point> PointsintersectionDroite(Droite f1) {
-		// TODO Auto-generated method stub
-		return null;
+	private ArrayList<Point> PointsintersectionDroite(Droite d1) {
+		ArrayList<Point> pts = new ArrayList<Point>();
+		for(Segment seg : this.transformationSegment()) {
+			if(seg.intersection(d1)) {
+				pts.add(seg.PointsIntersection(d1).get(0));
+			}
+		}
+		if(pts.isEmpty()) {
+			return null;
+		}
+		return pts;
 	}
 
 	public boolean contient(Forme f1) {
@@ -128,17 +229,20 @@ public class Polygone implements Forme{
 	}
 
 	private boolean contientPolygone(Polygone pg1) {
-		// TODO Auto-generated method stub
+		if(PointsIntersection(pg1).size() == 0) {
+			return true;
+		}
 		return false;
 	}
 
-	@Override
 	public String toString() {
 		return "[lstp=" + lstp + "]";
 	}
 
 	private boolean contientRectangle(Rectangle r1) {
-		// TODO Auto-generated method stub
+		if(PointsIntersection(r1).size() == 0) {
+			return true;
+		}
 		return false;
 	}
 
