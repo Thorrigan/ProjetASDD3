@@ -283,7 +283,7 @@ public class Polygone implements Forme{
 	// On prend un point dont on sait qu'il est dehors du polygone
 	public boolean contient(Point p) {
 		Segment seg = new Segment(new Point(minX-1, 0), p);
-		if(this.PointsIntersection(seg).size() == 0) {
+		if(this.PointsIntersection(seg) == null) {
 			System.out.println("Le polygone ne contient pas le point: " + p);
 			return false;
 		}

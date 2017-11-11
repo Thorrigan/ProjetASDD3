@@ -1,6 +1,18 @@
 import java.util.ArrayList;
 
-
+/**
+ * Compléxité: Dans ce programme, nous noterons: 
+ * 1 : une compléxité constante
+ * n : le nombre d'itération dans le cas général
+ * log(n) : une compléxité logarithmique 
+ * nbp : le nombre de points 
+ * nbd : le nombre de droites
+ * nbs : le nombre de segments
+ * nbt : le nombre de triangles
+ * nbpg : le nombre de polygones
+ * @author matt
+ *
+ */
 public class Main {
 	public static void main(String[] args) {
 		String nomFichier = "map.txt";

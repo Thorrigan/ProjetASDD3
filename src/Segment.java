@@ -77,9 +77,9 @@ public class Segment implements Forme{
 	}
 
 	private boolean intersectionSegment(Segment s1) {
-		if(this.intersectionDroite(s1.transformationDroite()) && s1.intersectionDroite(this.transformationDroite())) {
+		/*if(this.transformationDroite().intersection(s1.transformationDroite()) && this.transformationDroite().PointsIntersection()) {
 			return true;
-		}
+		}*/
 		return false;
 	}
 
