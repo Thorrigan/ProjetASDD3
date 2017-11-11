@@ -20,6 +20,17 @@ public class Segment implements Forme{
 		return new Point((p1.getX()+p2.getX())/2, (p1.getY()+p2.getY())/2);
 	}
 	
+	public Point pointSuivant(Point p) {
+		if(this.transformationDroite().estOrdinaire()) {
+			return new Point(p.getX()+1, p.getY()+(p2.getY()-p1.getY())/(p2.getX()-p1.getX()));
+		}else if(this.transformationDroite().estHorizontale()) {
+			return new Point(p.getX()+1, p.getY());
+		}else if(this.transformationDroite().estVerticale()) {
+			return new Point(p.getX(), p.getY()+1);
+		}
+		return null;
+	}
+	
 	private boolean estDansRectangle(Point p) {
 		if(p == null) {
 			return false;

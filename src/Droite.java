@@ -42,6 +42,17 @@ public class Droite implements Forme{
 		this.p2 = p2;
 	}
 	
+	public Point pointSuivant(Point p) {
+		if(this.estOrdinaire()) {
+			return new Point(p.getX()+1, p.getY()+(p2.getY()-p1.getY())/(p2.getX()-p1.getX()));
+		}else if(this.estHorizontale()) {
+			return new Point(p.getX()+1, p.getY());
+		}else if(this.estVerticale()) {
+			return new Point(p.getX(), p.getY()+1);
+		}
+		return null;
+	}
+	
 	public boolean intersection(Forme f1) {
 		if(f1 instanceof Droite) {
 			return intersectionDroite((Droite) f1);

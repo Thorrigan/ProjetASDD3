@@ -14,7 +14,7 @@ public class Polygone implements Forme{
 	public void ajouterPoint(Point p) {
 		this.lstp.add(p);
 	}
-	
+	// O(n2)
 	public ArrayList<Triangle> triangulation(){
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		for(int i = 0; i < this.lstp.size(); i++) {
@@ -41,7 +41,11 @@ public class Polygone implements Forme{
 				if(p != lstp.get(i) && p != lstp.get(i+1) && p != lstp.get(0) && (!t.contient(p) || seg.contient(p))) {
 					break;
 				}else {
-					
+					Segment AD = new Segment(A,C);
+					while(this.contient(AD.p2)) {
+						AD = new Segment(A, AD.pointSuivant(AD.p2));
+					}
+					System.out.println(AD);
 				}
 			}
 			

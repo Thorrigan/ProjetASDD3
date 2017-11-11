@@ -9,18 +9,15 @@ public class TestsUnitaires {
 	}
 	
 	private void MenuTestUnitaireQuadTree() {
-		QuadTree qt = new QuadTree(0,10,0,10,3);
+		QuadTree qt = new QuadTree(0,10,0,10,1);
 		qt.inserer(new Triangle(new Point(1.0f, 7.0f), new Point(2.0f, 9.0f), new Point(4.0f, 8.0f)));
 		qt.inserer(new Triangle(new Point(4.0f, 8.0f), new Point(6.25f, 9.0f), new Point(6.25f, 7.5f)));
 		qt.inserer(new Triangle(new Point(4.0f, 8.0f), new Point(6.25f, 7.5f), new Point(7.0f, 6.0f)));
-		qt.afficher();
 		qt.inserer(new Triangle(new Point(6.25f, 9.0f), new Point(6.25f, 7.5f), new Point(8.0f, 8.0f)));
-		qt.afficher();
 		qt.inserer(new Triangle(new Point(6.25f, 9.0f), new Point(8.0f, 8.0f), new Point(8.5f, 9.5f)));
 		qt.inserer(new Triangle(new Point(8.5f, 9.5f), new Point(8.0f, 8.0f), new Point(9.5f, 7.5f)));
 		qt.inserer(new Triangle(new Point(7.0f, 6.0f), new Point(8.0f, 8.0f), new Point(9.5f, 7.5f)));
 		qt.inserer(new Triangle(new Point(7.0f, 6.0f), new Point(8.0f, 8.0f), new Point(6.25f, 7.5f)));
-		qt.afficher();
 		qt.inserer(new Triangle(new Point(1.0f, 1.0f), new Point(0.5f, 2.5f), new Point(2.5f, 3.5f)));
 		qt.inserer(new Triangle(new Point(1.0f, 1.0f), new Point(4.0f, 4.0f), new Point(2.5f, 3.5f)));
 		qt.inserer(new Triangle(new Point(4.0f, 4.0f), new Point(6.5f, 1.5f), new Point(6.5f, 3.5f)));

@@ -7,8 +7,10 @@ public class Main {
 		if(args.length != 0) {
 			nomFichier = args[0];
 		}
+		Polygone pg = new Polygone();
+		pg.ajouterPoint(new Point(1.0f,1.0f));
 		//Jeu jeu = new Jeu(nomFichier);
-		TestsUnitaires test = new TestsUnitaires();
+		//TestsUnitaires test = new TestsUnitaires();
 		//testsMaths
 	}
 	
