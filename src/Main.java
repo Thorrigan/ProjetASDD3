@@ -9,6 +9,19 @@ public class Main {
 		}
 		Polygone pg = new Polygone();
 		pg.ajouterPoint(new Point(1.0f,1.0f));
+		pg.ajouterPoint(new Point(1.0f,3.0f));
+		pg.ajouterPoint(new Point(3.0f,3.0f));
+		pg.ajouterPoint(new Point(4.0f,4.0f));
+		pg.ajouterPoint(new Point(5.0f,4.0f));
+		pg.ajouterPoint(new Point(5.0f,2.0f));
+		pg.ajouterPoint(new Point(6.0f,1.0f));
+		pg.ajouterPoint(new Point(5.0f,0.0f));
+		pg.ajouterPoint(new Point(2.0f,1.0f));
+		ArrayList<Triangle> tt = pg.triangulation();
+		for(Triangle t : tt) {
+			System.out.println(t);
+		}
+		
 		//Jeu jeu = new Jeu(nomFichier);
 		//TestsUnitaires test = new TestsUnitaires();
 		//testsMaths

@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Polygone implements Forme{
 	private ArrayList<Point> lstp;
+	private float minX;
 	
 	public Polygone(ArrayList<Point> lstp) {
 		this.lstp = lstp;
@@ -12,6 +14,9 @@ public class Polygone implements Forme{
 	}
 	
 	public void ajouterPoint(Point p) {
+		if(p.getX() < minX) {
+			minX = p.getX();
+		}
 		this.lstp.add(p);
 	}
 	// O(n2)
@@ -37,19 +42,26 @@ public class Polygone implements Forme{
 			
 			Triangle t = new Triangle(A, B, C);
 			Segment seg = new Segment(A, C);
+			
 			for(Point p : this.lstp) {
-				if(p != lstp.get(i) && p != lstp.get(i+1) && p != lstp.get(0) && (!t.contient(p) || seg.contient(p))) {
+				if(p != A && p != B && p != C && (!t.contient(p) || seg.contient(p))) {
 					break;
 				}else {
 					Segment AD = new Segment(A,C);
 					while(this.contient(AD.p2)) {
+						System.out.println(AD + " " + AD.p2);
 						AD = new Segment(A, AD.pointSuivant(AD.p2));
+						try {
+							TimeUnit.SECONDS.sleep(2);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 					System.out.println(AD);
+
 				}
 			}
-			
-			// TODO finir
 		}
 		
 		if(triangles.isEmpty()) {
@@ -267,14 +279,16 @@ public class Polygone implements Forme{
 	private boolean contientDroite(Droite f1) {
 		return false;
 	}
-
+	
+	// On prend un point dont on sait qu'il est dehors du polygone
 	public boolean contient(Point p) {
-		for(Triangle t : this.triangulation()) {
-			if(t.contient(p)) {
-				return true;
-			}
+		Segment seg = new Segment(new Point(minX-1, 0), p);
+		if(this.PointsIntersection(seg).size() == 0) {
+			System.out.println("Le polygone ne contient pas le point: " + p);
+			return false;
 		}
-		return false;
+		System.out.println("Le polygone contient le point: " + p);
+		return true;
 	}
 
 }
