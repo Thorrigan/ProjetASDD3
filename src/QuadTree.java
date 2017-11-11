@@ -24,10 +24,10 @@ public class QuadTree {
 		}
 		
 		boolean estFeuille() {
-			if(triangles.isEmpty()) {
-				return false;
+			if(n1 == null && n2 == null && n3 == null && n4 == null) {
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 	
@@ -53,52 +53,71 @@ public class QuadTree {
 	
 	private void affichage(Noeud n, int hauteur) {
 		if(n != null) {
-			affichage(n.n1, hauteur +1);
-			affichage(n.n2, hauteur +1);
-			for(int i = 0; i < hauteur; i++) {
-				System.out.print("             ");
+			if(n.estFeuille() && n.triangles != null) {
+				for(int i = 0; i < hauteur; i++) {
+					System.out.print("             ");
+				}
+				System.out.print(n.region.centre() + " ");
+				for(Triangle t : n.triangles) {
+					System.out.print(t);
+				}
+				System.out.print("\n");
+			}else if(n.estFeuille() && n.triangles == null) {
+				for(int i = 0; i < hauteur; i++) {
+					System.out.print("             ");
+				}
+				System.out.print(n.region.centre() + "\n");
 			}
-			System.out.print(n.region.centre() + "\n");
-			affichage(n.n3, hauteur +1);
-			affichage(n.n4, hauteur +1);
+			else {
+				affichage(n.n1, hauteur +1);
+				affichage(n.n2, hauteur +1);
+				for(int i = 0; i < hauteur; i++) {
+					System.out.print("             ");
+				}
+				System.out.print(n.region.centre() + "\n");
+				affichage(n.n3, hauteur +1);
+				affichage(n.n4, hauteur +1);
+			}
 		}else if(hauteur < this.hauteur()){
 			affichage(null, hauteur +1);
 			affichage(null, hauteur +1);
 			for(int i = 0; i < hauteur; i++) {
 				System.out.print("             ");
 			}
-			System.out.print(n.region.centre() + "\n");
+			System.out.print(".............\n");
 			affichage(null, hauteur +1);
 			affichage(null, hauteur +1);
 		}
 	}
 	
 	private Noeud inserer(Noeud n, Triangle t) {
-		if(n.estFeuille() && (n.triangles.size() < N || n.triangles == null)) {
+		if(n.estFeuille()) {
 			if(n.triangles == null) {
 				n.triangles = new ArrayList<Triangle>();
+				n.triangles.add(t);
+			}else if(n.triangles.size() == N) {
+				Rectangle [] tab = n.region.division(); // On récupère les 4 sous-régions
+				n.n1 = new Noeud(tab[0]);
+				n.n2 = new Noeud(tab[1]);
+				n.n3 = new Noeud(tab[2]);
+				n.n4 = new Noeud(tab[3]);
+				ArrayList<Triangle> listr = n.triangles; // On sauvegarde temporairement la liste des triangles
+				n.triangles = new ArrayList<Triangle>(); // 
+				for(Triangle triangle : listr) {
+					inserer(n, triangle);
+				}
+				inserer(n, t);
+			}else {
+				n.triangles.add(t);
 			}
-			n.triangles.add(t);
-		}else if(n.estFeuille() && n.triangles.size() == N) {
-			Rectangle [] tab = n.region.division(); // On récupère les 4 sous-régions
-			n.n1 = new Noeud(tab[0]);
-			n.n2 = new Noeud(tab[1]);
-			n.n3 = new Noeud(tab[2]);
-			n.n4 = new Noeud(tab[3]);
-			ArrayList<Triangle> listr = n.triangles; // On sauvegarde temporairement la liste des triangles
-			n.triangles = null; // 
-			for(Triangle triangle : listr) {
-				inserer(n, triangle);
-			}
-			inserer(n, t);
 		}else {
-			if(n.n1.region.intersection(t)) {
+			if(n.n1.region.intersection(t) || n.n1.region.contient(t)) {
 				inserer(n.n1, t);
-			}else if(n.n2.region.intersection(t)) {
+			}else if(n.n2.region.intersection(t) || n.n2.region.contient(t)) {
 				inserer(n.n2, t);
-			}else if(n.n3.region.intersection(t)) {
+			}else if(n.n3.region.intersection(t) || n.n3.region.contient(t)) {
 				inserer(n.n3, t);
-			}else if(n.n4.region.intersection(t)) {
+			}else if(n.n4.region.intersection(t) || n.n4.region.contient(t)) {
 				inserer(n.n4, t);
 			}
 		}
