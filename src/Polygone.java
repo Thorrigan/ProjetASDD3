@@ -17,7 +17,7 @@ public class Polygone implements Forme{
 	
 	/**
 	 * Constructeur d'un polygone à partir d'une liste de sommet/point
-	 * Compléxité: O(nbp)
+	 * Compléxité: O(taille(lstp))
 	 * @param lstp Une liste de point/sommet
 	 */
 	public Polygone(ArrayList<Point> lstp) {
@@ -31,7 +31,8 @@ public class Polygone implements Forme{
 	}
 	
 	/**
-	 * 
+	 * Constructeur d'un polygone vide.
+	 * Compléxité: O(1)
 	 */
 	public Polygone() {
 		this.minX = 0.0f;
@@ -39,7 +40,10 @@ public class Polygone implements Forme{
 	}
 	
 	/**
-	 * @param p
+	 * Ajout d'un point dans un polygone.
+	 * Le point sera toujours en dernière position.
+	 * Compléxité: O(1)
+	 * @param p Le sommet à ajouter au polygone.
 	 */
 	public void ajouterPoint(Point p) {
 		if(p.getX() < minX) {
@@ -47,9 +51,12 @@ public class Polygone implements Forme{
 		}
 		this.lstp.add(p);
 	}
-	// O(n2)
+	
 	/**
-	 * @return
+	 * Réalise la découpe d'un polygone en plusieurs triangle non sécants
+	 * Compléxité: O(n^2) Avec la méthode de l'oreille. 
+	 * NB: Il existe d'autres méthodes plus complexes mais qui permettent une efficacité en O(nlog(n).
+	 * @return La liste des triangles qui composent le polygone
 	 */
 	public ArrayList<Triangle> triangulation(){
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
@@ -102,7 +109,9 @@ public class Polygone implements Forme{
 	}
 	
 	/**
-	 * @return
+	 * Relie tous les sommets du polygone par des segments.
+	 * Compléxité: O(nbp) du polygone.
+	 * @return La liste des segments qui composent le polygone
 	 */
 	public ArrayList<Segment> transformationSegment(){
 		ArrayList<Segment> lsts = new ArrayList<Segment>();
@@ -112,12 +121,13 @@ public class Polygone implements Forme{
 			}else {
 				lsts.add(new Segment(lstp.get(i), lstp.get(i+1)));
 			}
-		}
-		
+		}		
 		return lsts;
 	}
 
 	/* (non-Javadoc)
+	 * Compléxité: O(nbs) -> O(nbp) le nombre de points qui composent le polygone en meilleur cas. 
+	 * Sinon O(nbp * nbp(f1)) en pire cas.
 	 * @see Forme#intersection(Forme)
 	 */
 	public boolean intersection(Forme f1) {
@@ -166,6 +176,8 @@ public class Polygone implements Forme{
 	}
 
 	/* (non-Javadoc)
+	 * Compléxité: O(nbs) -> O(nbp) le nombre de points qui composent le polygone en meilleur cas.
+	 * Sinon O(nbp * nbp(f1)) en pire cas.
 	 * @see Forme#PointsIntersection(Forme)
 	 */
 	public ArrayList<Point> PointsIntersection(Forme f1) {
@@ -216,6 +228,7 @@ public class Polygone implements Forme{
 	}
 	
 	/* (non-Javadoc)
+	 * Compléxité: O(1)
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -223,6 +236,7 @@ public class Polygone implements Forme{
 	}
 
 	/* (non-Javadoc)
+	 * Compléxité: O(1) en meilleur cas, O(nbp * nbp(f1)) en pire cas.
 	 * @see Forme#contient(Forme)
 	 */
 	public boolean contient(Forme f1) {
