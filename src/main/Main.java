@@ -1,4 +1,12 @@
+package main;
 import java.util.ArrayList;
+
+import Maths.Droite;
+import Maths.Point;
+import Maths.Polygone;
+import Maths.Rectangle;
+import Maths.Segment;
+import Maths.Triangle;
 
 /**
  * Compléxité: Dans ce programme, nous noterons: 
@@ -19,6 +27,7 @@ public class Main {
 		if(args.length != 0) {
 			nomFichier = args[0];
 		}
+		/*
 		Polygone pg = new Polygone();
 		pg.ajouterPoint(new Point(1.0f,1.0f));
 		pg.ajouterPoint(new Point(1.0f,3.0f));
@@ -33,14 +42,14 @@ public class Main {
 		Triangle t = new Triangle(new Point(1.0f,1.0f), new Point(2.0f,1.0f), new Point(2.0f,2.0f));
 		
 		System.out.println(pg.PointsIntersection(t));
-		/*ArrayList<Triangle> tt = pg.triangulation();
+		ArrayList<Triangle> tt = pg.triangulation();
 		for(Triangle t : tt) {
 			System.out.println(t);
 		}*/
 		
 		//Jeu jeu = new Jeu(nomFichier);
 		//TestsUnitaires test = new TestsUnitaires();
-		//testsMaths
+		testsMaths();
 	}
 	
 	private static void testsMaths() {

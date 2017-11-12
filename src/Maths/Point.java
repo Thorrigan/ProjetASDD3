@@ -1,3 +1,4 @@
+package Maths;
 
 
 public class Point implements Comparable<Point>{

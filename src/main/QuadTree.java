@@ -1,4 +1,9 @@
+package main;
 import java.util.ArrayList;
+
+import Maths.Point;
+import Maths.Rectangle;
+import Maths.Triangle;
 
 public class QuadTree {
 	private Noeud racine;

@@ -1,5 +1,11 @@
+package Tests;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Maths.Point;
+import Maths.Polygone;
+import Maths.Triangle;
+import main.QuadTree;
 
 public class TestsUnitaires {
 	

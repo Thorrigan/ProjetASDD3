@@ -1,3 +1,4 @@
+package Maths;
 import java.util.ArrayList;
 /**
  * <p>
@@ -96,7 +97,7 @@ public class Droite implements Forme{
 			if((this.a*d1.b) - (d1.a*this.b) != 0.0f) {
 				return true;
 			}else if(this.a == 1 && d1.a== 1 && this.b == 0 && d1.b == 0) {
-					return false;
+				return false;
 			}else if(this.a == 0 && d1.a== 0 && this.b == 1 && d1.b == 1) {
 				return false;
 			}else if((this.a == 1 && this.b == 0) ||(d1.a == 1 && d1.b == 0)) {
