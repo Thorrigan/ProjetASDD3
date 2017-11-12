@@ -1,18 +1,37 @@
-
-
 import java.util.ArrayList;
-
+/**
+ * <p>
+ * Une classe représentant une forme géométrique de type "Triangle".
+ * Elle est représentée par les 3 points qui forment les sommets du triangle.
+ * </p>
+ * @version 1.0
+ * @author Matthias Goulley, Apollon Vieira
+ * @see Forme
+ */
 public class Triangle implements Forme{
+	// Les trois sommets
 	protected Point p1;
 	protected Point p2;
 	protected Point p3;
 	
+	/**
+	 * Le constructeur d'un triangle
+	 * Compléxité: O(1)
+	 * @param p1 Le premier sommet
+	 * @param p2 Le deuxième sommet
+	 * @param p3 Le troisième sommet
+	 */
 	public Triangle(Point p1, Point p2, Point p3) {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
 	}
 	
+	/**
+	 * Transforme un triangle (3 points) en 3 segments
+	 * Compléxité: O(1)
+	 * @return Les trois segments représentants le triangle.
+	 */
 	public Segment[] transformationSegment() {
 		Segment[] tab = new Segment[3];
 		tab[0] = new Segment(p1, p2);
@@ -21,66 +40,60 @@ public class Triangle implements Forme{
 		return tab;
 		
 	}
-
-	public boolean intersection(Forme f1) {
-		if(f1 instanceof Droite) {
-			return intersectionDroite((Droite) f1);
-		}else if(f1 instanceof Segment) {
-			return intersectionSegment((Segment) f1);
-		}else if(f1 instanceof Triangle) {
-			return intersectionTriangle((Triangle) f1);
-		}else if(f1 instanceof Rectangle) {
-			return intersectionRectangle((Rectangle) f1);
-		}else if(f1 instanceof Polygone) {
-			return intersectionPolygone((Polygone) f1);
-		}		
-		return false;
-	}
-
+	
+	/* (non-Javadoc)
+	 * Compléxité: O(1)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "[" + p1 + ", " + p2 + ", " + p3 + "]";
 	}
 
-	private boolean intersectionPolygone(Polygone pg1) {
-		return pg1.intersection(this);
-	}
-
-	private boolean intersectionRectangle(Rectangle r1) {
-		return r1.intersection(this);
-	}
-
-	private boolean intersectionTriangle(Triangle t1) {
-		int compteur = 0;
-		for(Segment seg : this.transformationSegment()) {
-			for(Segment seg2 : t1.transformationSegment()) {
-				if(seg.intersection(seg2)) {
+	/* (non-Javadoc)
+	 * Compléxité: O(nbs) en meilleur cas, O(nbs^nbs) en pire. 
+	 * Comme un triangle est toujours constitué de 3 segments on à alors en pire cas O(9) -> O(1)
+	 * Sinon, voir la compléxité de la classe de la forme.
+	 * @see Forme#intersection(Forme)
+	 */
+	public boolean intersection(Forme f1) {
+		if(f1 instanceof Droite) {
+			Droite d1 = (Droite) f1;
+			int compteur = 0;
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(d1)) {
 					compteur++;
 				}
 			}
-		}
-		return compteur != 0;
-	}
-
-	private boolean intersectionSegment(Segment s1) {
-		int compteur = 0;
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(s1)) {
-				compteur++;
+			return compteur != 0;
+		}else if(f1 instanceof Segment) {
+			Segment s1 = (Segment) f1;
+			int compteur = 0;
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(s1)) {
+					compteur++;
+				}
 			}
-		}
-		return compteur != 0;
-	}
-
-	private boolean intersectionDroite(Droite d1) {
-		int compteur = 0;
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(d1)) {
-				compteur++;
+			return compteur != 0;
+		}else if(f1 instanceof Triangle) {
+			Triangle t1 = (Triangle) f1;
+			int compteur = 0;
+			for(Segment seg : this.transformationSegment()) {
+				for(Segment seg2 : t1.transformationSegment()) {
+					if(seg.intersection(seg2)) {
+						compteur++;
+					}
+				}
 			}
+			return compteur != 0;
+		}else {
+			return f1.intersection(this);
 		}
-		return compteur != 0;
 	}
 
+	/* (non-Javadoc)
+	 * Compléxité: O(nbs) donc comme on est dans un triangle -> O(3) -> O(1)
+	 * @see Forme#contient(Point)
+	 */
 	public boolean contient(Point p) {
 		for(Segment s : this.transformationSegment()) {
 			if(s.contient(p)) {
@@ -95,131 +108,100 @@ public class Triangle implements Forme{
 		return (ABP + APC + PBC) == ABC;
 	}
 
+	/* (non-Javadoc)
+	 * Compléxité: O(nbs) en meilleur cas, O(nbs^nbs) en pire cas
+	 * Comme un triangle est toujours constitué de 3 segments on à alors en pire cas O(9) -> O(1)
+	 * Sinon, voir la compléxité de la classe de la forme.
+	 * @see Forme#PointsIntersection(Forme)
+	 */
 	public ArrayList<Point> PointsIntersection(Forme f1) {
 		if(f1 instanceof Droite) {
-			return PointsintersectionDroite((Droite) f1);
-		}else if(f1 instanceof Segment) {
-			return PointsintersectionSegment((Segment) f1);
-		}else if(f1 instanceof Triangle) {
-			return PointsintersectionTriangle((Triangle) f1);
-		}else if(f1 instanceof Rectangle) {
-			return PointsintersectionRectangle((Rectangle) f1);
-		}else if(f1 instanceof Polygone) {
-			return PointsintersectionPolygone((Polygone) f1);
-		}		
-		return null;
-	}
-
-	private ArrayList<Point> PointsintersectionPolygone(Polygone pg1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		return lstp;
-	}
-
-	private ArrayList<Point> PointsintersectionRectangle(Rectangle r1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		return lstp;
-	}
-
-	private ArrayList<Point> PointsintersectionTriangle(Triangle t1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		if(!intersectionTriangle(t1)) {
-			lstp.add(null);
-			return lstp;
-		}
-		
-		for(Segment seg : this.transformationSegment()) {
-			for(Segment seg2 : t1.transformationSegment()) {
-				if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
-					lstp.add(seg.PointsIntersection(seg2).get(0));
+			Droite d1 = (Droite) f1;
+			ArrayList<Point> lstp = new ArrayList<Point>();
+			if(!intersection(d1)) {
+				return lstp;
+			}
+			
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(d1) && !lstp.contains(seg.PointsIntersection(d1).get(0))) {
+					lstp.add(seg.PointsIntersection(d1).get(0));
 				}
 			}
-		}
-		
-		return lstp;
-	}
-
-	private ArrayList<Point> PointsintersectionSegment(Segment s1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		if(!intersectionSegment(s1)) {
-			lstp.add(null);
+			
 			return lstp;
-		}
-		
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(s1) && !lstp.contains(seg.PointsIntersection(s1).get(0))) {
-				lstp.add(seg.PointsIntersection(s1).get(0));
+		}else if(f1 instanceof Segment) {
+			Segment s1 = (Segment) f1;
+			ArrayList<Point> lstp = new ArrayList<Point>();
+			if(!intersection(s1)) {
+				return lstp;
 			}
-		}
-		
-		return lstp;
-	}
-
-	private ArrayList<Point> PointsintersectionDroite(Droite d1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		if(!intersectionDroite(d1)) {
-			lstp.add(null);
+			
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(s1) && !lstp.contains(seg.PointsIntersection(s1).get(0))) {
+					lstp.add(seg.PointsIntersection(s1).get(0));
+				}
+			}
+			
 			return lstp;
-		}
-		
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(d1) && !lstp.contains(seg.PointsIntersection(d1).get(0))) {
-				lstp.add(seg.PointsIntersection(d1).get(0));
+		}else if(f1 instanceof Triangle) {
+			Triangle t1 = (Triangle) f1;
+			ArrayList<Point> lstp = new ArrayList<Point>();
+			if(!intersection(t1)) {
+				return lstp;
 			}
+			
+			for(Segment seg : this.transformationSegment()) {
+				for(Segment seg2 : t1.transformationSegment()) {
+					if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
+						lstp.add(seg.PointsIntersection(seg2).get(0));
+					}
+				}
+			}
+			
+			return lstp;
+		}else {
+			return f1.PointsIntersection(this);
 		}
-		
-		return lstp;
 	}
 	
+	/* (non-Javadoc)
+	 * Compléxité: O(1) en meilleur cas, O(nbs) en fonction de la taille du polygone en pire cas
+	 * @see Forme#contient(Forme)
+	 */
 	public boolean contient(Forme f1) {
 		if(f1 instanceof Droite) {
-			return contientDroite((Droite) f1);
+			return false;
 		}else if(f1 instanceof Segment) {
-			return contientSegment((Segment) f1);
+			Segment s1 = (Segment) f1;
+			if(this.contient(s1.p1) && this.contient(s1.p2)) {
+				return true;
+			}
+			return false;
 		}else if(f1 instanceof Triangle) {
-			return contientTriangle((Triangle) f1);
+			Triangle t1 = (Triangle) f1;
+			if(this.contient(t1.p1) && this.contient(t1.p2) && this.contient(t1.p3)) {
+				return true;
+			}
+			return false;
 		}else if(f1 instanceof Rectangle) {
-			return contientRectangle((Rectangle) f1);
+			Rectangle r1 = (Rectangle) f1;
+			int compteur = 0;
+			for(Segment seg : r1.transformationSegment()) {
+				if(!this.contient(seg)) {
+					compteur++;
+				}
+			}
+			return compteur == 0;
 		}else if(f1 instanceof Polygone) {
-			return contientPolygone((Polygone) f1);
+			Polygone pg1 = (Polygone) f1;
+			int compteur = 0;
+			for(Segment seg : pg1.transformationSegment()) {
+				if(!this.contient(seg)) {
+					compteur++;
+				}
+			}
+			return compteur == 0;
 		}		
-		return false;
-	}
-
-	private boolean contientPolygone(Polygone pg1) {
-		int compteur = 0;
-		for(Segment seg : pg1.transformationSegment()) {
-			if(!this.contient(seg)) {
-				compteur++;
-			}
-		}
-		return compteur == 0;
-	}
-
-	private boolean contientRectangle(Rectangle r1) {
-		int compteur = 0;
-		for(Segment seg : r1.transformationSegment()) {
-			if(!this.contient(seg)) {
-				compteur++;
-			}
-		}
-		return compteur == 0;
-	}
-
-	private boolean contientTriangle(Triangle t1) {
-		if(this.contient(t1.p1) && this.contient(t1.p2) && this.contient(t1.p3)) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean contientSegment(Segment s1) {
-		if(this.contient(s1.p1) && this.contient(s1.p2)) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean contientDroite(Droite d1) {
 		return false;
 	}
 }
