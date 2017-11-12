@@ -93,7 +93,7 @@ public class Segment implements Forme{
 			return false;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
-			if(this.transformationDroite().intersection(s1.transformationDroite()) && this.contient(this.transformationDroite().PointsIntersection(s1).get(0))) {
+			if(this.transformationDroite().intersection(s1.transformationDroite()) && !this.transformationDroite().PointsIntersection(s1).isEmpty()) {
 				return true;
 			}
 			return false;

@@ -1,11 +1,23 @@
-
-
 import java.util.ArrayList;
-
+/**
+ * <p>
+ * Une classe représentant une forme géométrique de type "Rectangle".
+ * Elle est représentée par 2 points seulement car les deux autres points du rectangles sont calculables.
+ * </p>
+ * @version 1.0
+ * @author Matthias Goulley, Apollon Vieira
+ * @see Forme
+ */
 public class Rectangle implements Forme{
 	private Point p1;
 	private Point p2;
 	
+	/**
+	 * Constructeur d'un rectangle à l'aide de deux points
+	 * Compléxité: O(1)
+	 * @param p1 Le premier point du rectangle
+	 * @param p2 Le deuxième point du rectangle (diagonale avec le premier point)
+	 */
 	public Rectangle(Point p1, Point p2) {
 		if(p1.getX() < p2.getX()) {
 			this.p1 = p1;
@@ -16,6 +28,11 @@ public class Rectangle implements Forme{
 		}
 	}
 	
+	/**
+	 * Divise un rectangle en 4 sous rectangles.
+	 * Compléxité: O(1)
+	 * @return Les 4 sous rectangles de ce rectangle
+	 */
 	public Rectangle[] division() {
 		Rectangle[] rectangles = new Rectangle[4];
 		rectangles[0] = new Rectangle(new Point(minX(), centre().getY()), new Point(centre().getX(), maxY()));
@@ -25,29 +42,48 @@ public class Rectangle implements Forme{
 		return rectangles;
 	}
 	
-	// peut etre pas besoin de celle la
+	/**
+	 * Compte le nombre d'intersection avec une liste de triangle
+	 * Compléxité: O(nbt)
+	 * @param tab la liste des triangles.
+	 * @return le nombre d'intersection entre les triangle et le rectangle
+	 */
 	public int nbIntersection(ArrayList<Triangle> tab) {
 		int compteur = 0;
 		for(Triangle t : tab) {
-			if(PointsintersectionTriangle(t) != null) {
-				compteur += PointsintersectionTriangle(t).size();
+			if(PointsIntersection(t) != null) {
+				compteur += PointsIntersection(t).size();
 			}
 		}
 		return compteur;
 	}
 	
+	/**
+	 * Localise le point au centre du rectangle.
+	 * Compléxité: O(1)
+	 * @return Le point situé au centredu rectangle
+	 */
 	public Point centre() {
 		return (new Segment(p1,p2)).milieu();
 	}
 	
+	/**
+	 * @return La valeur de X minimum dans le rectangle
+	 */
 	private float minX() {
 		return p1.getX();
 	}
 	
+	/**
+	 * @return La valeur de X maximum dans le rectangle
+	 */
 	private float maxX() {
 		return p2.getX();
 	}
 	
+	/**
+	 * @return La valeur de Y minimum dans le rectangle
+	 */
 	private float minY() {
 		if(p1.getY() < p2.getY()) {
 			return p1.getY();
@@ -55,6 +91,9 @@ public class Rectangle implements Forme{
 		return p2.getY();
 	}
 	
+	/**
+	 * @return La valeur de Y maximum dans le rectangle
+	 */
 	private float maxY() {
 		if(p1.getY() < p2.getY()) {
 			return p2.getY();
@@ -63,6 +102,11 @@ public class Rectangle implements Forme{
 	}
 	
 	
+	/**
+	 * Permet de "découper" un rectangle en 4 segments qui le composent
+	 * Compléxité: O(1)
+	 * @return les 4 segments du rectangle
+	 */
 	public Segment[] transformationSegment() {
 		Point p1p = new Point(p2.getX(), p1.getY());
 		Point p2p = new Point(p1.getX(), p2.getY());
@@ -75,63 +119,56 @@ public class Rectangle implements Forme{
 		
 	}
 	
+	/* (non-Javadoc)
+	 * Compléxité: en meilleur cas O(nbs) dans le rectangle -> O(4) -> O(1), 
+	 * en pire cas O(4^4) -> O(256) -> O(1),
+	 * ou si f1 est un polygone, voir la classe polygone
+	 * @see Forme#intersection(Forme)
+	 */
 	public boolean intersection(Forme f1) {
 		if(f1 instanceof Droite) {
-			return intersectionDroite((Droite) f1);
-		}else if(f1 instanceof Segment) {
-			return intersectionSegment((Segment) f1);
-		}else if(f1 instanceof Triangle) {
-			return intersectionTriangle((Triangle) f1);
-		}else if(f1 instanceof Rectangle) {
-			return intersectionRectangle((Rectangle) f1);
-		}else if(f1 instanceof Polygone) {
-			return intersectionPolygone((Polygone) f1);
-		}		
-		return false;
-	}
-
-	private boolean intersectionPolygone(Polygone pg1) {
-		return pg1.intersection(this);
-	}
-
-	private boolean intersectionRectangle(Rectangle r1) {
-		for(Segment seg : this.transformationSegment()) {
-			for(Segment seg2 : r1.transformationSegment()) {
-				if(seg.intersection(seg2)) {
+			Droite d1 = (Droite) f1;
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(d1)) {
 					return true;
 				}
 			}
-		}
-		return false;
-	}
-
-	private boolean intersectionTriangle(Triangle t1) {
-		for(Segment seg : this.transformationSegment()) {
-			if(t1.intersection(seg)) {
-				return true;
+			return false;
+		}else if(f1 instanceof Segment) {
+			Segment s1 = (Segment) f1;
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(s1)) {
+					return true;
+				}
 			}
-		}
-		return false;
-	}
-
-	private boolean intersectionSegment(Segment s1) {
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(s1)) {
-				return true;
+			return false;
+		}else if(f1 instanceof Triangle) {
+			Triangle t1 = (Triangle) f1;
+			for(Segment seg : this.transformationSegment()) {
+				if(t1.intersection(seg)) {
+					return true;
+				}
 			}
-		}
-		return false;
-	}
-
-	private boolean intersectionDroite(Droite d1) {
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(d1)) {
-				return true;
+			return false;
+		}else if(f1 instanceof Rectangle) {
+			Rectangle r1 = (Rectangle) f1;
+			for(Segment seg : this.transformationSegment()) {
+				for(Segment seg2 : r1.transformationSegment()) {
+					if(seg.intersection(seg2)) {
+						return true;
+					}
+				}
 			}
+			return false;
+		}else {
+			return f1.intersection(this);
 		}
-		return false;
 	}
 
+	/* (non-Javadoc)
+	 * Compléxité: O(1)
+	 * @see Forme#contient(Point)
+	 */
 	public boolean contient(Point p) {
 		if(p == null) {
 			return false;
@@ -145,148 +182,99 @@ public class Rectangle implements Forme{
 		}
 		return false;
 	}
-
-	public ArrayList<Point> PointsIntersection(Forme f1) {
-		if(f1 instanceof Droite) {
-			return PointsintersectionDroite((Droite) f1);
-		}else if(f1 instanceof Segment) {
-			return PointsintersectionSegment((Segment) f1);
-		}else if(f1 instanceof Triangle) {
-			return PointsintersectionTriangle((Triangle) f1);
-		}else if(f1 instanceof Rectangle) {
-			return PointsintersectionRectangle((Rectangle) f1);
-		}else if(f1 instanceof Polygone) {
-			return PointsintersectionPolygone((Polygone) f1);
-		}		
-		return null;
-	}
-
-	private ArrayList<Point> PointsintersectionPolygone(Polygone pg1) {
-		return pg1.PointsIntersection(this);
-	}
-
-	private ArrayList<Point> PointsintersectionRectangle(Rectangle r1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		if(!intersectionRectangle(r1)) {
-			lstp.add(null);
-			return lstp;
-		}
-		
-		for(Segment seg : this.transformationSegment()) {
-			for(Segment seg2 : r1.transformationSegment()) {
-				if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
-					lstp.add(seg.PointsIntersection(seg2).get(0));
-				}
-			}
-		}
-		
-		return lstp;
-	}
-
+	
+	/* (non-Javadoc)
+	 * Compléxité: O(1)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "[" + p1 + ", " + p2 + "]";
 	}
 
-	private ArrayList<Point> PointsintersectionTriangle(Triangle t1) {
+	/* (non-Javadoc)
+	 * Compléxité: en meilleur cas O(nbs) du rectangle -> O(4) -> O(1),
+	 * en pire cas O(4^4) -> O(256) -> O(1),
+	 * Sinon si f1 est un polgone, voir la classe polygone.
+	 * @see Forme#PointsIntersection(Forme)
+	 */
+	public ArrayList<Point> PointsIntersection(Forme f1) {
 		ArrayList<Point> lstp = new ArrayList<Point>();
-		if(!intersectionTriangle(t1)) {
-			lstp.add(null);
-			return lstp;
-		}
-		
-		for(Segment seg : this.transformationSegment()) {
-			for(Segment seg2 : t1.transformationSegment()) {
-				if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
-					lstp.add(seg.PointsIntersection(seg2).get(0));
+		if(f1 instanceof Droite) {
+			Droite d1 = (Droite) f1;		
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(d1)) {
+					lstp.add(seg.PointsIntersection(d1).get(0));
 				}
 			}
-		}
-		
-		return lstp;
-	}
-
-	private ArrayList<Point> PointsintersectionSegment(Segment s1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		if(!intersectionSegment(s1)) {
-			lstp.add(null);
-			return lstp;
-		}
-		
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(s1)) {
-				lstp.add(seg.PointsIntersection(s1).get(0));
+		}else if(f1 instanceof Segment) {
+			Segment s1 = (Segment) f1;
+			for(Segment seg : this.transformationSegment()) {
+				if(seg.intersection(s1)) {
+					lstp.add(seg.PointsIntersection(s1).get(0));
+				}
 			}
-		}
-		
-		return lstp;
-	}
-
-	private ArrayList<Point> PointsintersectionDroite(Droite d1) {
-		ArrayList<Point> lstp = new ArrayList<Point>();
-		if(!intersectionDroite(d1)) {
-			lstp.add(null);
-			return lstp;
-		}
-		
-		for(Segment seg : this.transformationSegment()) {
-			if(seg.intersection(d1)) {
-				lstp.add(seg.PointsIntersection(d1).get(0));
+		}else if(f1 instanceof Triangle) {
+			Triangle t1 = (Triangle) f1;
+			for(Segment seg : this.transformationSegment()) {
+				for(Segment seg2 : t1.transformationSegment()) {
+					if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
+						lstp.add(seg.PointsIntersection(seg2).get(0));
+					}
+				}
 			}
+		}else if(f1 instanceof Rectangle) {
+			Rectangle r1 = (Rectangle) f1;
+			for(Segment seg : this.transformationSegment()) {
+				for(Segment seg2 : r1.transformationSegment()) {
+					if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
+						lstp.add(seg.PointsIntersection(seg2).get(0));
+					}
+				}
+			}
+		}else {
+			return f1.PointsIntersection(this);
 		}
-		
 		return lstp;
 	}
 	
+	/* (non-Javadoc)
+	 * Compléxité: O(1) en meilleur cas, O(1) en pire cas ou si f1 est un polygone voir la classe polygone
+	 * @see Forme#contient(Forme)
+	 */
 	public boolean contient(Forme f1) {
 		if(f1 instanceof Droite) {
-			return contientDroite((Droite) f1);
+			return false;
 		}else if(f1 instanceof Segment) {
-			return contientSegment((Segment) f1);
+			Segment s1 = (Segment) f1;
+			if(this.contient(s1.p1) && this.contient(s1.p2)) {
+				return true;
+			}
+			return false;
 		}else if(f1 instanceof Triangle) {
-			return contientTriangle((Triangle) f1);
+			Triangle t1 = (Triangle) f1;
+			if(this.contient(t1.p1) && this.contient(t1.p2) && this.contient(t1.p3)) {
+				return true;
+			}
+			return false;
 		}else if(f1 instanceof Rectangle) {
-			return contientRectangle((Rectangle) f1);
+			Rectangle r1 = (Rectangle) f1;
+			int compteur = 0;
+			for(Segment seg : r1.transformationSegment()) {
+				if(!this.contient(seg)) {
+					compteur++;
+				}
+			}
+			return compteur == 0;
 		}else if(f1 instanceof Polygone) {
-			return contientPolygone((Polygone) f1);
+			Polygone pg1 = (Polygone) f1;
+			int compteur = 0;
+			for(Segment seg : pg1.transformationSegment()) {
+				if(!this.contient(seg)) {
+					compteur++;
+				}
+			}
+			return compteur == 0;
 		}		
-		return false;
-	}
-
-	private boolean contientPolygone(Polygone pg1) {
-		int compteur = 0;
-		for(Segment seg : pg1.transformationSegment()) {
-			if(!this.contient(seg)) {
-				compteur++;
-			}
-		}
-		return compteur == 0;
-	}
-
-	private boolean contientRectangle(Rectangle r1) {
-		int compteur = 0;
-		for(Segment seg : r1.transformationSegment()) {
-			if(!this.contient(seg)) {
-				compteur++;
-			}
-		}
-		return compteur == 0;
-	}
-
-	private boolean contientTriangle(Triangle t1) {
-		if(this.contient(t1.p1) && this.contient(t1.p2) && this.contient(t1.p3)) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean contientSegment(Segment s1) {
-		if(this.contient(s1.p1) && this.contient(s1.p2)) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean contientDroite(Droite d1) {
 		return false;
 	}
 }
