@@ -119,25 +119,23 @@ public class Segment implements Forme{
 	 * @see Forme#PointsIntersection(Forme)
 	 */
 	public ArrayList<Point> PointsIntersection(Forme f1) {
+		ArrayList<Point> lstp = new ArrayList<Point>();
 		if(f1 instanceof Droite) {
-			ArrayList<Point> lstp = new ArrayList<Point>();
 			Droite d1 = (Droite) f1;
 			if(!this.intersection(d1)) {
 				return lstp;
 			}
 			lstp.add(this.transformationDroite().PointsIntersection(d1).get(0));
-			return lstp;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
-			ArrayList<Point> lstp = new ArrayList<Point>();
 			if(!intersection(s1)) {
 				return lstp;
 			}			
 			lstp.add(this.transformationDroite().PointsIntersection(s1.transformationDroite()).get(0));
-			return lstp;
 		}else {
 			return f1.PointsIntersection(this);
-		}
+		}		
+		return lstp;
 	}
 
 	/* (non-Javadoc)

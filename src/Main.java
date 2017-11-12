@@ -29,10 +29,14 @@ public class Main {
 		pg.ajouterPoint(new Point(6.0f,1.0f));
 		pg.ajouterPoint(new Point(5.0f,0.0f));
 		pg.ajouterPoint(new Point(2.0f,1.0f));
-		ArrayList<Triangle> tt = pg.triangulation();
+		
+		Triangle t = new Triangle(new Point(1.0f,1.0f), new Point(2.0f,1.0f), new Point(2.0f,2.0f));
+		
+		System.out.println(pg.PointsIntersection(t));
+		/*ArrayList<Triangle> tt = pg.triangulation();
 		for(Triangle t : tt) {
 			System.out.println(t);
-		}
+		}*/
 		
 		//Jeu jeu = new Jeu(nomFichier);
 		//TestsUnitaires test = new TestsUnitaires();

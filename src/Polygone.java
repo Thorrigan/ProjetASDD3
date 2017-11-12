@@ -185,7 +185,7 @@ public class Polygone implements Forme{
 		if(f1 instanceof Droite) {
 			Droite d1 = (Droite) f1;
 			for(Segment seg : this.transformationSegment()) {
-				if(seg.intersection(d1)) {
+				if(seg.intersection(d1) && pts.contains(seg.PointsIntersection(d1).get(0))) {
 					pts.add(seg.PointsIntersection(d1).get(0));
 				}
 			}
@@ -200,7 +200,7 @@ public class Polygone implements Forme{
 			Triangle t1 = (Triangle) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg1 : t1.transformationSegment()) {
-					if(seg.intersection(seg1)) {
+					if(seg.intersection(seg1) && !pts.contains(seg.PointsIntersection(seg1).get(0))) {
 						pts.add(seg.PointsIntersection(seg1).get(0));
 					}
 				}
@@ -250,7 +250,9 @@ public class Polygone implements Forme{
 			return false;
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
-			if(this.contient(t1.p1) && this.contient(t1.p2) && this.contient(t1.p3) && PointsIntersection(t1).size() == 0) {
+			System.out.println("Triangle: " + t1);
+			System.out.println(this.PointsIntersection(t1));
+			if(PointsIntersection(t1).isEmpty()) {
 				return true;
 			}
 			return false;
@@ -275,13 +277,22 @@ public class Polygone implements Forme{
 	 * @see Forme#contient(Point)
 	 */
 	public boolean contient(Point p) {
-		Segment seg = new Segment(new Point(minX-1, 0), p);
-		if(this.PointsIntersection(seg).isEmpty()) {
-			System.out.println("Le polygone ne contient pas le point: " + p);
-			return false;
+		for(int i = 0; i < this.lstp.size(); i++) {
+			if(i == this.lstp.size() - 1) {
+				Triangle t = new Triangle(lstp.get(i), p, lstp.get(0));
+				if(this.contient(t)) {
+					System.out.println("Le polygone contient le point: " + p);
+					return true;
+				}
+			}else {
+				Triangle t = new Triangle(lstp.get(i), p, lstp.get(i+1));
+				if(this.contient(t)) {
+					System.out.println("Le polygone contient le point: " + p);
+					return true;
+				}
+			}
 		}
-		System.out.println("Le polygone contient le point: " + p);
-		return true;
+		System.out.println("Le polygone ne contient pas le point: " + p);
+		return false;
 	}
-
 }

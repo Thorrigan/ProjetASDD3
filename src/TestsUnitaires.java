@@ -5,7 +5,7 @@ public class TestsUnitaires {
 	
 	public TestsUnitaires() {
 		//MenuTestUnitaireMaths();
-		MenuTestUnitaireQuadTree();
+		//MenuTestUnitaireQuadTree();
 	}
 	
 	private void MenuTestUnitaireQuadTree() {
@@ -32,7 +32,6 @@ public class TestsUnitaires {
 		}
 	}
 	
-
 	public void testPolygone(ArrayList<Point> polygone1, ArrayList<Point> polygone2) {			
 		Polygone p1 = new Polygone(polygone1);
 		Polygone p2 = new Polygone(polygone2);
@@ -85,6 +84,30 @@ public class TestsUnitaires {
 		return scanner.nextInt();
 	}
 	
+	private ArrayList<Point> SaisiePointTriangle(){
+		ArrayList<Point> lstp = new ArrayList<Point>();
+		Point p1 = SaisiePoint();
+		Point p2 = SaisiePoint();
+		Point p3 = SaisiePoint();
+		if(p1 != null && p2 != null && p3 != null) {
+			lstp.add(p1);
+			lstp.add(p2);
+			lstp.add(p3);
+		}
+		return lstp;
+	}
+	
+	private ArrayList<Point> Saisie2Point(){
+		ArrayList<Point> lstp = new ArrayList<Point>();
+		Point p1 = SaisiePoint();
+		Point p2 = SaisiePoint();
+		if(p1 != null && p2 != null) {
+			lstp.add(p1);
+			lstp.add(p2);
+		}
+		return lstp;
+	}
+	
 	private ArrayList<Point> SaisieListePoints() {
 		ArrayList<Point> lstp = new ArrayList<Point>();
 		System.out.println("Veuillez entrer votre choix:");
@@ -92,10 +115,6 @@ public class TestsUnitaires {
 		while(p != null) {
 			lstp.add(p);
 			p = SaisiePoint();
-		}
-		
-		if(lstp.isEmpty()) {
-			return null;
 		}
 		return lstp;
 	}
@@ -109,10 +128,13 @@ public class TestsUnitaires {
 			System.out.print("Y: ");
 			if(scanner.hasNextFloat()) {
 				float y = scanner.nextFloat();
+				scanner.close();
 				return new Point(x, y);
 			}
+			scanner.close();
 			return null;
 		}
+		scanner.close();
 		return null;
 	}
 }
