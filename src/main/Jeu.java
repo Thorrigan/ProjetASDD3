@@ -7,10 +7,7 @@ public class Jeu {
 	private Terrain map;
 	
 	public Jeu(String nomFichier) {
-		Lecteur l =  new Lecteur(nomFichier);
-		Map map = l.read();
-		Dessin dessin = new Dessin(map);
-		Fenetre fen = new Fenetre("Jeu de Golf", 1200, 1000, dessin);
+		
 	}
 	
 	public Point CalculePointAtterrissageBalle() {

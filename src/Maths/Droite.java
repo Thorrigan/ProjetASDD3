@@ -160,7 +160,6 @@ public class Droite implements Forme{
 				x = d1.p1.getX();
 				y = this.p1.getY();
 			}
-			
 			lstp.add(new Point(x,y));
 			return lstp;
 		}else {
