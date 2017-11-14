@@ -1,4 +1,6 @@
 package main;
+import Maths.Point;
+import Maths.Polygone;
 import Tests.TestsUnitairesMaths;
 
 /**
@@ -21,9 +23,9 @@ public class Main {
 			nomFichier = args[0];
 		}
 		
-		TestsUnitairesMaths.menuprincipalMaths();
+		//TestsUnitairesMaths.menuprincipalMaths();
 		
-		/*
+		
 		Polygone pg = new Polygone();
 		pg.ajouterPoint(new Point(1.0f,1.0f));
 		pg.ajouterPoint(new Point(1.0f,3.0f));
@@ -35,6 +37,9 @@ public class Main {
 		pg.ajouterPoint(new Point(5.0f,0.0f));
 		pg.ajouterPoint(new Point(2.0f,1.0f));
 		
+		System.out.println(pg.contient(new Point(3.0f, 2.0f)));
+		
+		/*
 		Triangle t = new Triangle(new Point(1.0f,1.0f), new Point(2.0f,1.0f), new Point(2.0f,2.0f));
 		
 		System.out.println(pg.PointsIntersection(t));
@@ -43,8 +48,6 @@ public class Main {
 			System.out.println(t);
 		}
 		
-		Jeu jeu = new Jeu(nomFichier);
-		TestsUnitaires test = new TestsUnitaires();
-		testsMaths();*/
+		Jeu jeu = new Jeu(nomFichier);*/
 	}
 }

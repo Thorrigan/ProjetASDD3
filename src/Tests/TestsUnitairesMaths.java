@@ -1,5 +1,6 @@
 package Tests;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import Maths.Droite;
 import Maths.Forme;
@@ -93,28 +94,32 @@ public class TestsUnitairesMaths {
 	private static void testFormes(Forme f1, Forme f2) {
 		if(f1.intersection(f2) && f2.intersection(f1)) {
 			System.out.println("Les deux formes sont sécantes.");
-			if(f1.PointsIntersection(f2).equals(f2.PointsIntersection(f1)) && !f1.PointsIntersection(f2).isEmpty()) {
-				System.out.println("Voici leurs points d'intersections.");
+			if((f1.PointsIntersection(f2).equals(f2.PointsIntersection(f1))) && !f1.PointsIntersection(f2).isEmpty()) {
+				System.out.println("Voici leurs points d'intersections:");
 				for(Point p : f1.PointsIntersection(f2)) {
 					System.out.print(p + " ");
 				}
 				System.out.println();
-				if(f1.contient(f2) && !f2.contient(f1)) {
-					System.out.println("La première forme contient la seconde.");
-				}else if(!f1.contient(f2) && f2.contient(f1)) {
-					System.out.println("La seconde forme contient la première.");
-				}else if(f1.contient(f2) && f2.contient(f1)){
-					System.out.println("*-*-*-*-*   ERREUR CONTENANCE   *-*-*-*-*");
-				}else {
-					System.out.println("Les deux formes ne se contiennent pas.");
-				}
 			}else {
 				System.out.println("*-*-*-*-*   ERREUR POINTS INTERSECTION   *-*-*-*-*");
+				System.out.println(f1.PointsIntersection(f2));
+				System.out.println(f2.PointsIntersection(f1));
 			}
 		}else if((f1.intersection(f2) && !f2.intersection(f1)) || (!f1.intersection(f2) && f2.intersection(f1))) {
 			System.out.println("*-*-*-*-*   ERREUR INTERSECTION   *-*-*-*-*");
+			System.out.println("F1: " + f1.intersection(f2));
+			System.out.println("F2: " + f2.intersection(f1));
 		}else if(!f1.intersection(f2) && !f2.intersection(f1)){
 			System.out.println("Les deux formes ne sont pas sécantes.");
+			if(f1.contient(f2) && !f2.contient(f1)) {
+				System.out.println("La première forme contient la seconde.");
+			}else if(!f1.contient(f2) && f2.contient(f1)) {
+				System.out.println("La seconde forme contient la première.");
+			}else if(f1.contient(f2) && f2.contient(f1)){
+				System.out.println("*-*-*-*-*   ERREUR CONTENANCE   *-*-*-*-*");
+			}else {
+				System.out.println("Les deux formes ne se contiennent pas.");
+			}
 		}else {
 			System.out.println("*-*-*-*-*   ERREUR INCONNUE   *-*-*-*-*");
 		}

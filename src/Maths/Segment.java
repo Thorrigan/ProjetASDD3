@@ -94,8 +94,11 @@ public class Segment implements Forme{
 			return false;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
-			if(this.transformationDroite().intersection(s1.transformationDroite()) && !this.transformationDroite().PointsIntersection(s1).isEmpty()) {
-				return true;
+			if(this.transformationDroite().intersection(s1.transformationDroite())) {
+				if(this.estDansRectangle(this.PointsIntersection(s1.transformationDroite()).get(0)) && s1.estDansRectangle(s1.PointsIntersection(this.transformationDroite()).get(0))){
+					return true;
+				}
+				return false;
 			}
 			return false;
 		}else {
@@ -123,7 +126,7 @@ public class Segment implements Forme{
 		ArrayList<Point> lstp = new ArrayList<Point>();
 		if(f1 instanceof Droite) {
 			Droite d1 = (Droite) f1;
-			if(!this.intersection(d1)) {
+			if(!this.transformationDroite().intersection(d1)) {
 				return lstp;
 			}
 			lstp.add(this.transformationDroite().PointsIntersection(d1).get(0));

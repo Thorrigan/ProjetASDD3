@@ -160,7 +160,9 @@ public class Polygone implements Forme{
 			Rectangle r1 = (Rectangle) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg1 : r1.transformationSegment()) {
-					seg.intersection(seg1);
+					if(seg.intersection(seg1)) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -168,7 +170,9 @@ public class Polygone implements Forme{
 			Polygone pg1 = (Polygone) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg1 : pg1.transformationSegment()) {
-					seg.intersection(seg1);
+					if(seg.intersection(seg1)) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -245,7 +249,7 @@ public class Polygone implements Forme{
 			return false;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
-			if(this.contient(s1.p1) && this.contient(s1.p2) && PointsIntersection(s1).size() == 0) {
+			if(PointsIntersection(s1).size() == 0) {
 				return true;
 			}
 			return false;
@@ -280,14 +284,16 @@ public class Polygone implements Forme{
 	public boolean contient(Point p) {
 		for(int i = 0; i < this.lstp.size(); i++) {
 			if(i == this.lstp.size() - 1) {
-				Triangle t = new Triangle(lstp.get(i), p, lstp.get(0));
-				if(this.contient(t)) {
+				Segment s1 = new Segment(this.lstp.get(i), p);
+				Segment s2 = new Segment(this.lstp.get(i+1), p);
+				if(this.contient(s1) && this.contient(s2)) {
 					System.out.println("Le polygone contient le point: " + p);
 					return true;
 				}
 			}else {
-				Triangle t = new Triangle(lstp.get(i), p, lstp.get(i+1));
-				if(this.contient(t)) {
+				Segment s1 = new Segment(this.lstp.get(i), p);
+				Segment s2 = new Segment(this.lstp.get(0), p);
+				if(this.contient(s1) && this.contient(s2)) {
 					System.out.println("Le polygone contient le point: " + p);
 					return true;
 				}
