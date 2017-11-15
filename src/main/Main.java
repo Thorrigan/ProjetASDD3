@@ -22,11 +22,16 @@ public class Main {
 		if(args.length != 0) {
 			nomFichier = args[0];
 		}
-		
+		Point p1 = new Point(1.0f, 1.0f);
+		Point p2 = new Point(1.0f, 2.0f);
+		float angle = 90f;
+		System.out.println(angle);
+		Point p3 = p1.rotation(1f, angle);
+		System.out.println(p3);
 		//TestsUnitairesMaths.menuprincipalMaths();
 		
 		
-		Polygone pg = new Polygone();
+		/*Polygone pg = new Polygone();
 		pg.ajouterPoint(new Point(1.0f,1.0f));
 		pg.ajouterPoint(new Point(1.0f,3.0f));
 		pg.ajouterPoint(new Point(3.0f,3.0f));
@@ -37,7 +42,7 @@ public class Main {
 		pg.ajouterPoint(new Point(5.0f,0.0f));
 		pg.ajouterPoint(new Point(2.0f,1.0f));
 		
-		System.out.println(pg.contient(new Point(3.0f, 2.0f)));
+		System.out.println(pg.contient(new Point(3.0f, 2.0f))); */
 		
 		/*
 		Triangle t = new Triangle(new Point(1.0f,1.0f), new Point(2.0f,1.0f), new Point(2.0f,2.0f));

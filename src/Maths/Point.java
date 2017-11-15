@@ -65,4 +65,32 @@ public class Point implements Comparable<Point>{
 		}
 		return 0;
 	}
+	
+	public float distance(Point p1){
+		return (float) Math.sqrt(Math.pow(Math.abs(p1.getX()-this.x), 2) + Math.pow(Math.abs(p1.getY()-this.y), 2));
+	}
+	
+	public float distanceOrigine(){
+		return (float) Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+	}
+	
+	public Point rotation(float dist, float angle){
+		return new Point((float)(((Math.cos(Math.toRadians(angle))* this.x) - Math.sin(Math.toRadians(angle))* this.y) * dist),(float) (((Math.sin(Math.toRadians(angle))* this.x) + Math.cos(Math.toRadians(angle))* this.y)) * dist);
+	}
+	
+	public void rotationv(float dist, float angle){
+		this.x = (float) ((Math.cos(angle)* this.x) - Math.sin(angle)* this.y);
+		this.y = (float) ((Math.sin(angle)* this.x) + Math.cos(angle)* this.y);
+	}
+	
+	public float angle(Point p1){
+		if (p1.getX() == this.x)
+			return 90;
+		else if (p1.getY() == this.y)
+			return 0;
+		else {
+			Point p2 = new Point(p1.getX(), this.y);
+			return (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+		}
+	}
 }
