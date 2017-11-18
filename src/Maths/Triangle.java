@@ -14,7 +14,8 @@ public class Triangle implements Forme{
 	protected Point p1;
 	protected Point p2;
 	protected Point p3;
-	
+	private char type;
+
 	/**
 	 * Le constructeur d'un triangle
 	 * Compléxité: O(1)
@@ -26,6 +27,21 @@ public class Triangle implements Forme{
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
+	}
+	
+	/**
+	 * Le constructeur d'un triangle
+	 * Compléxité: O(1)
+	 * @param p1 Le premier sommet
+	 * @param p2 Le deuxième sommet
+	 * @param p3 Le troisième sommet
+	 * @parem t	Le type de la surface du triangle
+	 */
+	public Triangle(Point p1, Point p2, Point p3, char t) {
+		this.p1 = p1;
+		this.p2 = p2;
+		this.p3 = p3;
+		this.type = t;
 	}
 	
 	/**
@@ -204,5 +220,13 @@ public class Triangle implements Forme{
 			return compteur == 0;
 		}		
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @return type du triangle
+	 */
+	public char getType() {
+		return type;
 	}
 }

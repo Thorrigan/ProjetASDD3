@@ -14,20 +14,23 @@ import java.util.concurrent.TimeUnit;
  */
 public class Polygone implements Forme{
 	private ArrayList<Point> lstp;
+	private char type;
 	private float minX;
 	
 	/**
 	 * Constructeur d'un polygone à partir d'une liste de sommet/point
 	 * Compléxité: O(taille(lstp))
 	 * @param lstp Une liste de point/sommet
+	 * @param t Le type de la surface du polygone
 	 */
-	public Polygone(ArrayList<Point> lstp) {
+	public Polygone(ArrayList<Point> lstp, char t) {
 		this.minX = 0.0f;
 		for(Point p : lstp) {
 			if(p.getX() < minX) {
 				minX = p.getX();
 			}
 		}
+		this.type = t;
 		this.lstp = lstp;
 	}
 	
