@@ -62,6 +62,18 @@ public class Droite implements Forme{
 		return this.a*p1.getX() + this.b*p1.getY() + this.c == 0;
 	}
 	
+	
+	public Point pointenX(float x) {
+		if(this.estOrdinaire()) {
+			return new Point(x, (this.a*x)+c);
+		}else if(this.estHorizontale()) {
+			return new Point(x, this.p1.getY());
+		}else if(this.estVerticale() && p1.getX() == x) {
+			return new Point(x, x);
+		}
+		return null;
+	}
+	
 	/**
 	 * Permet de localiser un point par rapport à une droite.
 	 * Compléxité: O(1)

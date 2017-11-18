@@ -81,24 +81,15 @@ public class Polygone implements Forme{
 			
 			Triangle t = new Triangle(A, B, C);
 			Segment seg = new Segment(A, C);
+			Point D = seg.transformationDroite().pointenX(11.0f);
+			Segment AD = new Segment(A, D);
+			System.out.println(AD + " " + C);
 			
 			for(Point p : this.lstp) {
 				if(p != A && p != B && p != C && (!t.contient(p) || seg.contient(p))) {
 					break;
 				}else {
-					Segment AD = new Segment(A,C);
-					while(this.contient(AD.p2)) {
-						System.out.println(AD + " " + AD.p2);
-						AD = new Segment(A, AD.pointSuivant(AD.p2));
-						try {
-							TimeUnit.SECONDS.sleep(2);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					System.out.println(AD);
-
+					
 				}
 			}
 		}
@@ -107,6 +98,20 @@ public class Polygone implements Forme{
 			return null;
 		}
 		return triangles;
+	}
+	
+	private int intersectionPropre(Segment seg) {
+		if(!seg.PointsIntersection(this).isEmpty()) {
+			int compteur = 0;
+			// Si le point d'intersection est à l'intérieur du segment ouvert
+			if(seg.PointsIntersection(this).get(0) != seg.p1 || seg.PointsIntersection(this).get(0) != seg.p2) {
+				
+			}
+			// Si le sommet est à l'intérieur du segment ouvert
+			
+			// Si le segment AB est à l'intérieur du segment ouvert
+		}
+		return 0;
 	}
 	
 	/**
@@ -282,24 +287,27 @@ public class Polygone implements Forme{
 	 * @see Forme#contient(Point)
 	 */
 	public boolean contient(Point p) {
-		for(int i = 0; i < this.lstp.size(); i++) {
-			if(i == this.lstp.size() - 1) {
-				Segment s1 = new Segment(this.lstp.get(i), p);
-				Segment s2 = new Segment(this.lstp.get(i+1), p);
-				if(this.contient(s1) && this.contient(s2)) {
-					System.out.println("Le polygone contient le point: " + p);
-					return true;
-				}
-			}else {
-				Segment s1 = new Segment(this.lstp.get(i), p);
-				Segment s2 = new Segment(this.lstp.get(0), p);
-				if(this.contient(s1) && this.contient(s2)) {
-					System.out.println("Le polygone contient le point: " + p);
-					return true;
+		// Si le point est l'un des sommets
+		if(this.lstp.contains(p)) {
+			return true;
+		}
+		// Si le point est sur l'une des arrêtes
+		for(Segment s : this.transformationSegment()) {
+			if(s.contient(p)) {
+				return true;
+			}
+		}
+		// Si le point n'est ni un sommet et n'est pas sur une arrête
+		Segment seg = new Segment(p, new Point(11.0f, 0.0f));
+		int compteur = 0;
+		for(Segment s : this.transformationSegment()) {
+			if(!s.PointsIntersection(seg).isEmpty()) {
+				Point p1 = s.PointsIntersection(seg).get(0);
+				if(s.p1 != p1 && s.p2 != p1) {
+					compteur++;
 				}
 			}
 		}
-		System.out.println("Le polygone ne contient pas le point: " + p);
-		return false;
+		return (compteur%2 != 0);
 	}
 }
