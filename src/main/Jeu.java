@@ -93,8 +93,10 @@ public class Jeu {
 				this.state = 1;
 				return cible;
 			}
-			else
+			else {
+				this.state = 0;
 				return cible;
+			}
 		}
 	}
 	
