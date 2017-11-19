@@ -23,14 +23,8 @@ public class Segment implements Forme{
 	 * @param p2 Le deuxième point représentant le segment
 	 */
 	public Segment(Point p1, Point p2) {
-		// on met le point avec la plus petite valeur de X en premier.
-		if(p1.getX() < p2.getX()) {
-			this.p1 = p1;
-			this.p2 = p2;
-		}else {
-			this.p1 = p2;
-			this.p2 = p1;
-		}
+		this.p1 = p1;
+		this.p2 = p2;
 	}
 	
 	/**
@@ -94,6 +88,9 @@ public class Segment implements Forme{
 			return false;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
+			if(this.contient(s1)) {
+				return true;
+			}
 			if(this.transformationDroite().intersection(s1.transformationDroite())) {
 				if(this.estDansRectangle(this.PointsIntersection(s1.transformationDroite()).get(0)) && s1.estDansRectangle(s1.PointsIntersection(this.transformationDroite()).get(0))){
 					return true;
@@ -132,6 +129,9 @@ public class Segment implements Forme{
 			lstp.add(this.transformationDroite().PointsIntersection(d1).get(0));
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
+			if(this.contient(s1)) {
+				return null;
+			}
 			if(!intersection(s1)) {
 				return lstp;
 			}			
@@ -161,6 +161,8 @@ public class Segment implements Forme{
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
 			if((this.p1 == s1.p1 && this.p2 == s1.p2) || (this.p1 == s1.p2 && this.p2 == s1.p1)) {
+				return true;
+			}else if(this.transformationDroite().contient(s1.p1) && this.transformationDroite().contient(s1.p2) && s1.p1.getX() > this.p1.getX() && s1.p2.getX() < this.p2.getX()) {
 				return true;
 			}
 			return false;

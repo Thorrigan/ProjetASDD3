@@ -1,5 +1,5 @@
 package main;
-import Maths.Point;;
+import Maths.Point;
 import java.util.ArrayList;
 
 import Maths.Droite;

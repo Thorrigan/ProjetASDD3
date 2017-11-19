@@ -6,6 +6,8 @@ public class Point implements Comparable<Point>{
 	private float y;
 	
 	public Point(float x, float y){
+		x = Math.round(x*100.0f)/100.0f;
+		y = Math.round(y*100.0f)/100.0f;
 		if(x == -0.0f) {
 			x = 0.0f;
 		}
@@ -24,6 +26,9 @@ public class Point implements Comparable<Point>{
 		if (getClass() != obj.getClass())
 			return false;
 		Point other = (Point) obj;
+		if(Float.floatToIntBits(x) == Float.floatToIntBits(other.x) &&  Float.floatToIntBits(y) == Float.floatToIntBits(other.y)) {
+			return true;
+		}
 		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
 			return false;
 		if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))

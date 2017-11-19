@@ -34,6 +34,17 @@ public class Polygone implements Forme{
 		this.lstp = lstp;
 	}
 	
+	public Polygone(ArrayList<Point> lstp) {
+		this.minX = 0.0f;
+		for(Point p : lstp) {
+			if(p.getX() < minX) {
+				minX = p.getX();
+			}
+		}
+		this.type = ' ';
+		this.lstp = lstp;
+	}
+	
 	/**
 	 * Constructeur d'un polygone vide.
 	 * ComplÃ©xitÃ©: O(1)
@@ -63,62 +74,83 @@ public class Polygone implements Forme{
 	 * @return La liste des triangles qui composent le polygone
 	 */
 	public ArrayList<Triangle> triangulation(){
-		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		for(int i = 0; i < this.lstp.size(); i++) {
-			Point A;
-			Point B;
-			Point C;
-			if(i == lstp.size() - 2) {
-				A = lstp.get(i);
-				B = lstp.get(i+1);
-				C = lstp.get(0);
-			}else if(i == lstp.size() - 1) {
-				A = lstp.get(i);
-				B = lstp.get(0);
-				C = lstp.get(1);
-			}else {
-				A = lstp.get(i);
-				B = lstp.get(i+1);
-				C = lstp.get(i+2);
-			}
-			
-			Triangle t = new Triangle(A, B, C);
-			Segment seg = new Segment(A, C);
-			Point D = seg.transformationDroite().pointenX(11.0f);
-			//Segment AD = new Segment(A, D);
-			//System.out.println(AD + " " + C);
-			
-			for(Point p : this.lstp) {
-				if(p != A && p != B && p != C && (!t.contient(p) || seg.contient(p))) {
-					break;
-				}else {
-					
-				}
-			}
-		}
-		
-		if(triangles.isEmpty()) {
-			return null;
-		}
-		return triangles;
+		System.out.println("Debut triangulation");
+		return this.triangulation(this.lstp, 0);
 	}
 	
-	public char getType() {
-		return type;
-	}
-
-	private int intersectionPropre(Segment seg) {
-		if(!seg.PointsIntersection(this).isEmpty()) {
-			int compteur = 0;
-			// Si le point d'intersection est à l'intérieur du segment ouvert
-			if(seg.PointsIntersection(this).get(0) != seg.p1 || seg.PointsIntersection(this).get(0) != seg.p2) {
-				
-			}
-			// Si le sommet est à l'intérieur du segment ouvert
-			
-			// Si le segment AB est à l'intérieur du segment ouvert
+	private ArrayList<Triangle> triangulation(ArrayList<Point> points, int index){
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+		if(points.isEmpty()) {
+			return null;
 		}
-		return 0;
+		if(points.size() == 3) {
+			// Si les trois points sont alignés
+			if((points.get(0).getX() == points.get(1).getX() && points.get(1).getX() == points.get(2).getX()) || 
+					(points.get(0).getY() == points.get(1).getY() && points.get(1).getY() == points.get(2).getY())) {
+				return triangles;
+			}
+			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2)));
+			return triangles;
+		}
+	
+		Point A = points.get(0+index);
+		Point B = points.get(1+index);
+		Point C = points.get(2+index);
+		Triangle t = new Triangle(A, B, C);
+		Segment seg = new Segment(A, C);
+		Point D = seg.transformationDroite().pointenX(11.0f);
+		Segment AD = new Segment(A, D);
+		//System.out.println("Triangle: " + t + " Point D: " + D);
+		if(this.contient(seg.milieu())) {
+			if(this.intersectionPropre(AD) % 2 != 0) {
+				triangles.add(t);
+				points.remove(B);
+				index++;
+			}
+		}
+		index++;
+		
+		if(index > points.size()-3) {
+			index = 0;
+		}
+		
+		// On retourne la liste des triangles actuels + la liste des triangles restants
+		ArrayList<Triangle> resultat = new ArrayList<Triangle>();
+		resultat.addAll(triangles);
+		resultat.addAll(this.triangulation(points, index));
+		return resultat;
+	}
+	
+	private int intersectionPropre(Segment seg) {
+		int compteur = 0;
+		Point prevPoint = null;
+		for(Segment s : this.transformationSegment()) {
+			if(seg.intersection(s) && seg.contient(s)) {
+				// On est alors de type C	
+				System.out.println("Intersection type C." + seg + " " + s);
+				compteur++;
+			}else if(seg.intersection(s)) {
+				Point p = seg.PointsIntersection(s).get(0);
+				if(p.equals(prevPoint)) {
+					break;
+				}
+				// Si le point d'intersection est un des sommet du segment fermé
+				if((p.equals(s.p1) || p.equals(s.p2)) && !p.equals(seg.p1) && !p.equals(seg.p2)) {
+					// On est alors de type B
+					System.out.println("Intersection type B. " + p + " "  + seg + " " + s);
+					prevPoint = p;
+					compteur++;
+				}
+				// Si le point d'intersection n'est pas sur un des point du segment ouvert
+				else if(!p.equals(seg.p1) && !p.equals(seg.p2)) {
+					System.out.println("Intersection type A. " + p + " " + seg + " " + s);
+					prevPoint = p;
+					compteur++;
+				}			
+			}
+		}
+		return compteur;
 	}
 	
 	/**

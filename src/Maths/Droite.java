@@ -64,12 +64,18 @@ public class Droite implements Forme{
 	
 	
 	public Point pointenX(float x) {
-		if(this.estOrdinaire()) {
+		if(this.estOrdinaire() && p1.getX() < p2.getX()) {
 			return new Point(x, (this.a*x)+c);
-		}else if(this.estHorizontale()) {
+		}else if(this.estOrdinaire() && p1.getX() > p2.getX()){
+			return new Point(-1, (-this.a)+c);
+		}else if(this.estHorizontale() && p1.getX() < p2.getX()) {
 			return new Point(x, this.p1.getY());
-		}else if(this.estVerticale() && p1.getX() == x) {
-			return new Point(x, x);
+		}else if(this.estHorizontale() && p1.getX() > p2.getX()) {
+			return new Point(-1, this.p1.getY());
+		}else if(this.estVerticale() && p1.getY() > p2.getY()) {
+			return new Point(p1.getX(), -1);
+		}else if(this.estVerticale() && p1.getY() < p2.getY()) {
+			return new Point(p1.getX(), x);
 		}
 		return null;
 	}
