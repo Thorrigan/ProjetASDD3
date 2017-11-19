@@ -87,6 +87,7 @@ public class Jeu {
 					if (cible.distance(p) < cible.distance(min))
 						min = p;
 				}
+				this.state = 0;
 				return min;
 			}
 			else if (arrive.distance(cible) <= 1.0) {
