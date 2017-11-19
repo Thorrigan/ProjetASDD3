@@ -26,6 +26,11 @@ public class Main {
 		if(args.length != 0) {
 			nomFichier = args[0];
 		}
+		System.out.println(nomFichier);
+		lecteur lec = new lecteur(nomFichier);
+		ArrayList<Polygone> listp = lec.getMap();
+		
+		System.out.println(listp.get(0).getType());
 		/*Point p1 = new Point(1.0f, 1.0f);
 		Point p2 = new Point(1.0f, 2.0f);
 		float angle = 90f;
@@ -37,7 +42,7 @@ public class Main {
 		//Droite d = new Droite(new Point(1.0f,0.0f), new Point(2.0f,2.0f));
 		//System.out.println(d + " " + d.pointenX(0.5f));
 		
-		Polygone pg = new Polygone();
+		/*Polygone pg = new Polygone();
 		pg.ajouterPoint(new Point(1.0f,1.0f));
 		pg.ajouterPoint(new Point(1.0f,3.0f));
 		pg.ajouterPoint(new Point(3.0f,3.0f));
@@ -52,9 +57,9 @@ public class Main {
 		//Triangle t = new Triangle(new Point(1.0f,1.0f), new Point(2.0f,1.0f), new Point(2.0f,2.0f));		
 		//System.out.println(pg.PointsIntersection(t));
 		ArrayList<Triangle> tt = pg.triangulation();
-		for(Triangle t : tt) {
+		/*for(Triangle t : tt) {
 			System.out.println(t);
-		}
+		}*/
 		
 		//Jeu jeu = new Jeu(nomFichier);
 	}

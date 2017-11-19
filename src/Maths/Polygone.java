@@ -85,8 +85,8 @@ public class Polygone implements Forme{
 			Triangle t = new Triangle(A, B, C);
 			Segment seg = new Segment(A, C);
 			Point D = seg.transformationDroite().pointenX(11.0f);
-			Segment AD = new Segment(A, D);
-			System.out.println(AD + " " + C);
+			//Segment AD = new Segment(A, D);
+			//System.out.println(AD + " " + C);
 			
 			for(Point p : this.lstp) {
 				if(p != A && p != B && p != C && (!t.contient(p) || seg.contient(p))) {
@@ -103,6 +103,10 @@ public class Polygone implements Forme{
 		return triangles;
 	}
 	
+	public char getType() {
+		return type;
+	}
+
 	private int intersectionPropre(Segment seg) {
 		if(!seg.PointsIntersection(this).isEmpty()) {
 			int compteur = 0;

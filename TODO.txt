@@ -1,5 +1,6 @@
 - Triangulation (Matt)
 - ConstructionQT (Matt)
-- CalculPointAtterissageBalle
-- CalculPointDepartBalle
-- CalculeScore
+- CalculPointAtterissageBalle (DONE BITCH) A tester
+- CalculPointDepartBalle (KC COMME JAJA) A tester
+- CalculeScore (done?)
+- fonction jeu !! genre tour loop
