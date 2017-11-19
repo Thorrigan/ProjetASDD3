@@ -67,6 +67,10 @@ public class Polygone implements Forme{
 		this.lstp.add(p);
 	}
 	
+	public char getType() {
+		return type;
+	}
+	
 	/**
 	 * Réalise la découpe d'un polygone en plusieurs triangle non sécants
 	 * Compléxité: O(n^2) Avec la méthode de l'oreille. 
