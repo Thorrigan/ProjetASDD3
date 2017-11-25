@@ -30,14 +30,14 @@ public class Main {
 		lecteur lec = new lecteur(nomFichier);
 		ArrayList<Polygone> listp = lec.getMap();
 		
-		//for(Polygone p : listp){
-			Polygone p = listp.get(11);
-			System.out.println(p.transformationSegment());
+		for(Polygone p : listp){
+			//Polygone p = listp.get(11);
+			//System.out.println(p.transformationSegment());
 			ArrayList<Triangle> tt = p.triangulation();
 			for(Triangle t : tt) {
 				System.out.println(t);
 			}
-		//}
+		}
 		
 		System.out.println(listp.get(0).getType());
 		

@@ -100,7 +100,7 @@ public class Segment implements Forme{
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
 			if(this.contient(s1)) {
-				return true;
+				return false;
 			}
 			if(this.transformationDroite().intersection(s1.transformationDroite())) {
 				if(this.estDansRectangle(this.PointsIntersection(s1.transformationDroite()).get(0)) && s1.estDansRectangle(s1.PointsIntersection(this.transformationDroite()).get(0))){
