@@ -83,15 +83,26 @@ public class Polygone implements Forme{
 	}
 	
 	private ArrayList<Triangle> triangulation(ArrayList<Point> points, int index){
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(points);
 		if(points.isEmpty()) {
 			return null;
 		}
 		if(points.size() == 3) {
-			// Si les trois points sont alignés
+			
+			// Si les trois points sont alignï¿½s
 			if((points.get(0).getX() == points.get(1).getX() && points.get(1).getX() == points.get(2).getX()) || 
 					(points.get(0).getY() == points.get(1).getY() && points.get(1).getY() == points.get(2).getY())) {
+				System.out.println("3 derniers points alignÃ©s DUH");
 				return triangles;
 			}
 			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2)));
@@ -101,19 +112,32 @@ public class Polygone implements Forme{
 		Point A = points.get(0+index);
 		Point B = points.get(1+index);
 		Point C = points.get(2+index);
+		System.out.println("A " + A + " B " + B + " C " + C);
 		Triangle t = new Triangle(A, B, C);
 		Segment seg = new Segment(A, C);
 		Point D = seg.transformationDroite().pointenX(11.0f);
 		Segment AD = new Segment(A, D);
-		//System.out.println("Triangle: " + t + " Point D: " + D);
+		System.out.println("Triangle: " + t + " Point D: " + D);
+		for(Point p : this.lstp){
+			if(t.contient(p) && p != A && p != B && p != C){
+				System.out.println("POINT " + p);
+				ArrayList<Triangle> resultat = new ArrayList<Triangle>();
+				resultat.addAll(triangles);
+				resultat.addAll(this.triangulation(points, index+1));
+				return resultat;
+			}
+		}
 		if(this.contient(seg.milieu())) {
 			if(this.intersectionPropre(AD) % 2 != 0) {
 				triangles.add(t);
 				points.remove(B);
-				index++;
+				//index++;
 			}
+		}else{
+			System.out.println("ELSE");
+			index++;
 		}
-		index++;
+		//index++;
 		
 		if(index > points.size()-3) {
 			index = 0;
@@ -130,6 +154,7 @@ public class Polygone implements Forme{
 		int compteur = 0;
 		Point prevPoint = null;
 		for(Segment s : this.transformationSegment()) {
+			System.out.println("Evaluation du segment: "+ s);
 			if(seg.intersection(s) && seg.contient(s)) {
 				// On est alors de type C	
 				System.out.println("Intersection type C." + seg + " " + s);
@@ -139,7 +164,7 @@ public class Polygone implements Forme{
 				if(p.equals(prevPoint)) {
 					break;
 				}
-				// Si le point d'intersection est un des sommet du segment fermé
+				// Si le point d'intersection est un des sommet du segment fermï¿½
 				if((p.equals(s.p1) || p.equals(s.p2)) && !p.equals(seg.p1) && !p.equals(seg.p2)) {
 					// On est alors de type B
 					System.out.println("Intersection type B. " + p + " "  + seg + " " + s);
@@ -151,7 +176,12 @@ public class Polygone implements Forme{
 					System.out.println("Intersection type A. " + p + " " + seg + " " + s);
 					prevPoint = p;
 					compteur++;
-				}			
+				}
+				else{
+					System.out.println("Intersection mais enfaite non." + seg + " " + s);
+				}
+			}else{
+				System.out.println("Pas d'intersection." + seg + " " + s);
 			}
 		}
 		return compteur;
@@ -285,7 +315,7 @@ public class Polygone implements Forme{
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "[lstp=" + lstp + "]";
+		return "[Type= "+ type  +" lstp=" + lstp + "]";
 	}
 
 	/* (non-Javadoc)
@@ -334,13 +364,13 @@ public class Polygone implements Forme{
 		if(this.lstp.contains(p)) {
 			return true;
 		}
-		// Si le point est sur l'une des arrêtes
+		// Si le point est sur l'une des arrï¿½tes
 		for(Segment s : this.transformationSegment()) {
 			if(s.contient(p)) {
 				return true;
 			}
 		}
-		// Si le point n'est ni un sommet et n'est pas sur une arrête
+		// Si le point n'est ni un sommet et n'est pas sur une arrï¿½te
 		Segment seg = new Segment(p, new Point(11.0f, 0.0f));
 		int compteur = 0;
 		for(Segment s : this.transformationSegment()) {

@@ -8,10 +8,10 @@ import Maths.Triangle;
 import Tests.TestsUnitairesMaths;
 
 /**
- * ComplÃ©xitÃ©: Dans ce programme, nous noterons: 
- * 1 : une complÃ©xitÃ© constante
- * n : le nombre d'itÃ©ration dans le cas gÃ©nÃ©ral
- * log(n) : une complÃ©xitÃ© logarithmique 
+ * Compléxité: Dans ce programme, nous noterons: 
+ * 1 : une compléxité constante
+ * n : le nombre d'itération dans le cas général
+ * log(n) : une compléxité logarithmique 
  * nbp : le nombre de points 
  * nbd : le nombre de droites
  * nbs : le nombre de segments
@@ -29,6 +29,15 @@ public class Main {
 		System.out.println(nomFichier);
 		lecteur lec = new lecteur(nomFichier);
 		ArrayList<Polygone> listp = lec.getMap();
+		
+		//for(Polygone p : listp){
+			Polygone p = listp.get(11);
+			System.out.println(p.transformationSegment());
+			ArrayList<Triangle> tt = p.triangulation();
+			for(Triangle t : tt) {
+				System.out.println(t);
+			}
+		//}
 		
 		System.out.println(listp.get(0).getType());
 		

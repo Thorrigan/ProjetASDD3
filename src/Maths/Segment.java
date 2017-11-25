@@ -43,12 +43,23 @@ public class Segment implements Forme{
 	 * @return Le point qui prolonge le segment
 	 */
 	public Point pointSuivant(Point p) {
-		if(this.transformationDroite().estOrdinaire()) {
-			return new Point(p.getX()+1, p.getY()+(p2.getY()-p1.getY())/(p2.getX()-p1.getX()));
-		}else if(this.transformationDroite().estHorizontale()) {
-			return new Point(p.getX()+1, p.getY());
-		}else if(this.transformationDroite().estVerticale()) {
-			return new Point(p.getX(), p.getY()+1);
+		if(this.p1.getX() < this.p2.getX()){
+			if(this.transformationDroite().estOrdinaire()) {
+				return new Point(p.getX()+1, p.getY()+(p2.getY()-p1.getY())/(p2.getX()-p1.getX()));
+			}else if(this.transformationDroite().estHorizontale()) {
+				return new Point(p.getX()+1, p.getY());
+			}else if(this.transformationDroite().estVerticale()) {
+				return new Point(p.getX(), p.getY()+1);
+			}
+		}
+		else{
+			if(this.transformationDroite().estOrdinaire()) {
+				return new Point(p.getX()+1, p.getY()+(p1.getY()-p2.getY())/(p1.getX()-p2.getX()));
+			}else if(this.transformationDroite().estHorizontale()) {
+				return new Point(p.getX()+1, p.getY());
+			}else if(this.transformationDroite().estVerticale()) {
+				return new Point(p.getX(), p.getY()+1);
+			}
 		}
 		return null;
 	}
@@ -160,9 +171,7 @@ public class Segment implements Forme{
 			return this.transformationDroite().contient(d1);
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
-			if((this.p1 == s1.p1 && this.p2 == s1.p2) || (this.p1 == s1.p2 && this.p2 == s1.p1)) {
-				return true;
-			}else if(this.transformationDroite().contient(s1.p1) && this.transformationDroite().contient(s1.p2) && s1.p1.getX() > this.p1.getX() && s1.p2.getX() < this.p2.getX()) {
+			if(this.contient(s1.p1) && this.contient(s1.p2)){
 				return true;
 			}
 			return false;
