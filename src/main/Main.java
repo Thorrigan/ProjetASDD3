@@ -1,11 +1,5 @@
 package main;
-import java.util.ArrayList;
-
-import Maths.Droite;
-import Maths.Point;
-import Maths.Polygone;
-import Maths.Triangle;
-import Tests.TestsUnitairesMaths;
+import java.util.Scanner;
 
 /**
  * Compléxité: Dans ce programme, nous noterons: 
@@ -22,82 +16,47 @@ import Tests.TestsUnitairesMaths;
  */
 public class Main {
 	public static void main(String[] args) {
+		// Initialisation du programme avec les valeurs par défault
+		// ou les valeurs entree en ligne de commande
 		String nomFichier = "map.txt";
-		if(args.length != 0) {
+		int N = 3;
+		if(args.length >= 1) {
 			nomFichier = args[0];
 		}
-		System.out.println(nomFichier);
-		lecteur lec = new lecteur(nomFichier);
-		ArrayList<Polygone> listp = lec.getMap();
+		if(args.length >= 2){
+			N = Integer.parseInt(args[1]);
+		}
 		
-		for(Polygone p : listp){
-			//Polygone p = listp.get(11);
-			//System.out.println(p.transformationSegment());
-			ArrayList<Triangle> tt = p.triangulation();
-			for(Triangle t : tt) {
-				System.out.println(t);
+		// Variables pour le menu principal du programme
+		int select = 0;
+		
+		// Programme principal
+		System.out.println("Bienvenu sur notre jeu de Golf.");
+		Scanner scanner = new Scanner(System.in);
+		while(select !=1 || select !=2){
+			System.out.println("Menu Principal :");
+			System.out.println("- Tapez 1 pour un affichage graphique");
+			System.out.println("- Tapez 2 pour un affichage console");
+			System.out.println("- Tapez 0 pour quitter le programme");
+			select = scanner.nextInt();
+			if(select == 1){
+				Jeu jeu = new Jeu(nomFichier, N);
+				jeu.JeuGraphique();
+				System.out.println("Fin du Jeu, retour au menu principal.");
+				select = 0;
+			}else if(select == 2){
+				Jeu jeu = new Jeu(nomFichier, N);
+				jeu.JeuConsole();
+				System.out.println("Fin du Jeu, retour au menu principal.");
+				select = 0;
+			}
+			else if(select == 0){
+				Jeu jeu = new Jeu(nomFichier, N);
+				jeu.JeuConsole();
+				System.out.println("Fin du Jeu, retour au menu principal.");
+				select = 0;
 			}
 		}
-		
-		System.out.println(listp.get(0).getType());
-		
-		/*Segment s1 = new Segment(new Point(1.0f, 1.0f), new Point(11.0f,11.0f));
-		Segment s2 = new Segment(new Point(3.0f, 3.0f), new Point(4.0f,4.0f));
-		//System.out.println(s1.contient(s2));
-		//System.out.println(new Point(1.0f, 1.0f).equals(new Point(1.0f, 1.1f)));
-		
-		
-		Polygone pg = new Polygone();
-		pg.ajouterPoint(new Point(1.0f,1.0f));
-		pg.ajouterPoint(new Point(1.0f,3.0f));
-		pg.ajouterPoint(new Point(3.0f,3.0f));
-		pg.ajouterPoint(new Point(4.0f,4.0f));
-		pg.ajouterPoint(new Point(5.0f,4.0f));
-		pg.ajouterPoint(new Point(5.0f,2.0f));
-		pg.ajouterPoint(new Point(6.0f,1.0f));
-		pg.ajouterPoint(new Point(5.0f,0.0f));
-		pg.ajouterPoint(new Point(2.0f,1.0f));
-		
-		//System.out.println(pg.contient(new Point(1.0f, 2.0f)));		
-		//Triangle t = new Triangle(new Point(1.0f,1.0f), new Point(2.0f,1.0f), new Point(2.0f,2.0f));		
-		//System.out.println(pg.PointsIntersection(t));
-		ArrayList<Triangle> tt = pg.triangulation();
-		for(Triangle t : tt) {
-			System.out.println(t);
-		}
-		*/
-		
-		
-		/*Point p1 = new Point(1.0f, 1.0f);
-		Point p2 = new Point(1.0f, 2.0f);
-		float angle = 90f;
-		System.out.println(angle);
-		Point p3 = p1.rotation(1f, angle);
-		System.out.println(p3);*/
-		//TestsUnitairesMaths.menuprincipalMaths();
-		
-		//Droite d = new Droite(new Point(1.0f,0.0f), new Point(2.0f,2.0f));
-		//System.out.println(d + " " + d.pointenX(0.5f));
-		
-		/*Polygone pg = new Polygone();
-		pg.ajouterPoint(new Point(1.0f,1.0f));
-		pg.ajouterPoint(new Point(1.0f,3.0f));
-		pg.ajouterPoint(new Point(3.0f,3.0f));
-		pg.ajouterPoint(new Point(4.0f,4.0f));
-		pg.ajouterPoint(new Point(5.0f,4.0f));
-		pg.ajouterPoint(new Point(5.0f,2.0f));
-		pg.ajouterPoint(new Point(6.0f,1.0f));
-		pg.ajouterPoint(new Point(5.0f,0.0f));
-		pg.ajouterPoint(new Point(2.0f,1.0f));
-		
-		//System.out.println(pg.contient(new Point(1.0f, 2.0f)));		
-		//Triangle t = new Triangle(new Point(1.0f,1.0f), new Point(2.0f,1.0f), new Point(2.0f,2.0f));		
-		//System.out.println(pg.PointsIntersection(t));
-		ArrayList<Triangle> tt = pg.triangulation();
-		/*for(Triangle t : tt) {
-			System.out.println(t);
-		}*/
-		
-		//Jeu jeu = new Jeu(nomFichier);
+		scanner.close();
 	}
 }

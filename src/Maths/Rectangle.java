@@ -37,9 +37,9 @@ public class Rectangle implements Forme{
 	public Rectangle[] division() {
 		Rectangle[] rectangles = new Rectangle[4];
 		rectangles[0] = new Rectangle(new Point(minX(), centre().getY()), new Point(centre().getX(), maxY()));
-		rectangles[1] = new Rectangle(centre(), p2);
+		rectangles[1] = new Rectangle(centre(), new Point(maxX(), maxY()));
 		rectangles[2] = new Rectangle(centre(), new Point(maxX(), minY()));
-		rectangles[3] = new Rectangle(p1, centre());
+		rectangles[3] = new Rectangle(new Point(minX(), minY()), centre());
 		return rectangles;
 	}
 	
@@ -145,11 +145,19 @@ public class Rectangle implements Forme{
 			return false;
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
-			for(Segment seg : this.transformationSegment()) {
-				if(t1.intersection(seg)) {
+			for(Segment seg : this.transformationSegment()){
+				// Si un des points du triangle est sur les bords du rectangle
+				if(seg.contient(t1.p1) || seg.contient(t1.p2) || seg.contient(t1.p3)){
 					return true;
 				}
+				//System.out.println("Le segment " + seg + " ne contient aucun point du triangle.");
+				for(Segment seg2 : t1.transformationSegment()){
+					if(seg.intersection(seg2) || seg.contient(seg2) || seg2.contient(seg)){
+						return true;
+					}
+				}
 			}
+			System.out.println("PAS D'intersection entre la region: "+ toString() + " et le triangle " + t1);
 			return false;
 		}else if(f1 instanceof Rectangle) {
 			Rectangle r1 = (Rectangle) f1;

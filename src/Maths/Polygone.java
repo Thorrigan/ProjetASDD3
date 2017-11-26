@@ -78,7 +78,7 @@ public class Polygone implements Forme{
 	 * @return La liste des triangles qui composent le polygone
 	 */
 	public ArrayList<Triangle> triangulation(){
-		System.out.println("Debut triangulation");
+		//System.out.println("Debut triangulation");
 		return this.triangulation(this.lstp, 0);
 	}
 	
@@ -93,7 +93,7 @@ public class Polygone implements Forme{
 			e.printStackTrace();
 		}*/
 		
-		System.out.println(points);
+		//System.out.println(points);
 		if(points.isEmpty()) {
 			return null;
 		}

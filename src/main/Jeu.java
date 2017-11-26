@@ -6,22 +6,19 @@ import Maths.Droite;
 import Maths.Point;
 import Maths.Polygone;
 import Maths.Triangle;
-import Tests.TestsUnitairesMaths;
 
 public class Jeu {
 	private Point balle;
-	private int score;
-	private int scoretrace;
 	private QuadTree map;
 	private Point arrive;
+	private int score;
+	
+	private int scoretrace;
 	private int state;
 	private int par;
 	private int tour;
 	private ArrayList<Polygone> lpoly;
 	
-	public Jeu(String nomFichier) {
-		this.score += this.scoretrace;
-	}
 	
 	/*STATE A CHOISIR
 	0 default
@@ -30,6 +27,36 @@ public class Jeu {
 	3 
 	*/
 	
+	public Jeu(String nomFichier, int N) {
+		// On lit le fichier
+		Lecteur lec = new Lecteur(nomFichier);
+		// Creation du QuadTree
+		this.map = new QuadTree(0,10,0,10,N);
+		this.lpoly = lec.getMap();
+		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+		//for(Polygone p : this.lpoly){
+			Polygone p = this.lpoly.get(10);
+			triangles.addAll(p.triangulation());
+		//}
+		for(Triangle t : triangles){
+			map.inserer(t);
+			map.afficher();
+		}
+		
+		// Definition point depart et arrivee
+		this.balle = lec.depart();
+		this.arrive = lec.arrivee();
+		
+		this.score += this.scoretrace;
+	}
+	
+	public void JeuGraphique(){
+		
+	}
+	
+	public void JeuConsole(){
+		
+	}
 	
 	//A TESTER LUL
 	public Point CalculePointAtterrissageBalle(Point cible) {

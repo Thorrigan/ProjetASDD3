@@ -19,6 +19,14 @@ public class QuadTree {
 		ArrayList<Triangle> triangles;
 		Rectangle region;
 		
+		public String toString() {
+			if(estFeuille()){
+				return "[triangles=" + triangles + ", region=" + region + "]";
+			}else{
+				return "[region=" + region + "]";
+			}
+		}
+
 		Noeud(Rectangle r){
 			this.region = r;
 			this.n1 = null;
@@ -37,6 +45,7 @@ public class QuadTree {
 	}
 	
 	public void inserer(Triangle t) {
+		System.out.println("Debut insertion du triangle: " + t);
 		inserer(racine, t);
 	}
 	
@@ -96,10 +105,12 @@ public class QuadTree {
 	}
 	
 	private Noeud inserer(Noeud n, Triangle t) {
+		//System.out.println("Insertion du triangle: " + t + " dans le noeud " + n);
 		if(n.estFeuille()) {
 			if(n.triangles == null) {
 				n.triangles = new ArrayList<Triangle>();
 				n.triangles.add(t);
+				return null;
 			}else if(n.triangles.size() == N) {
 				Rectangle [] tab = n.region.division(); // On récupère les 4 sous-régions
 				n.n1 = new Noeud(tab[0]);
@@ -111,22 +122,25 @@ public class QuadTree {
 				for(Triangle triangle : listr) {
 					inserer(n, triangle);
 				}
-				inserer(n, t);
+				 return inserer(n, t);
 			}else {
 				n.triangles.add(t);
+				return null;
 			}
 		}else {
 			if(n.n1.region.intersection(t) || n.n1.region.contient(t)) {
-				inserer(n.n1, t);
+				return inserer(n.n1, t);
 			}else if(n.n2.region.intersection(t) || n.n2.region.contient(t)) {
-				inserer(n.n2, t);
+				return inserer(n.n2, t);
 			}else if(n.n3.region.intersection(t) || n.n3.region.contient(t)) {
-				inserer(n.n3, t);
+				return inserer(n.n3, t);
 			}else if(n.n4.region.intersection(t) || n.n4.region.contient(t)) {
-				inserer(n.n4, t);
+				return inserer(n.n4, t);
+			}else{
+				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
+				return null;
 			}
 		}
-		return null;
 	}
 	
 	public Triangle recherche(Point p) {

@@ -75,33 +75,30 @@ public class Triangle implements Forme{
 	public boolean intersection(Forme f1) {
 		if(f1 instanceof Droite) {
 			Droite d1 = (Droite) f1;
-			int compteur = 0;
 			for(Segment seg : this.transformationSegment()) {
 				if(seg.intersection(d1)) {
-					compteur++;
+					return true;
 				}
 			}
-			return compteur != 0;
+			return false;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
-			int compteur = 0;
 			for(Segment seg : this.transformationSegment()) {
 				if(seg.intersection(s1)) {
-					compteur++;
+					return true;
 				}
 			}
-			return compteur != 0;
+			return false;
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
-			int compteur = 0;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg2 : t1.transformationSegment()) {
 					if(seg.intersection(seg2)) {
-						compteur++;
+						return true;
 					}
 				}
 			}
-			return compteur != 0;
+			return false;
 		}else {
 			return f1.intersection(this);
 		}

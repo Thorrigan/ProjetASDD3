@@ -11,11 +11,16 @@ import Maths.Point;
 import Maths.Polygone;
 
 
-public class lecteur {
-	private ArrayList<Polygone> map = new ArrayList<Polygone>();
+public class Lecteur {
+	String nomFichier = "";
 	
-	public lecteur(String nomFichier){
+	public Lecteur(String nomFichier){
+		this.nomFichier = nomFichier;	
+	}
+
+	public ArrayList<Polygone> getMap() {
 		File f = new File(nomFichier);
+		ArrayList<Polygone> map = new ArrayList<Polygone>();
 		//si existe
 		BufferedReader br;
 		try {
@@ -72,11 +77,15 @@ public class lecteur {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	}
-
-	public ArrayList<Polygone> getMap() {
 		return map;
+	}
+	
+	public Point depart(){
+		return null;
+	}
+	
+	public Point arrivee(){
+		return null;
 	}
 
 }
