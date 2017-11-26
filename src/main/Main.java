@@ -1,6 +1,9 @@
 package main;
 import java.util.Scanner;
 
+import Maths.Point;
+import Maths.Triangle;
+
 /**
  * Compléxité: Dans ce programme, nous noterons: 
  * 1 : une compléxité constante
@@ -18,7 +21,7 @@ public class Main {
 	public static void main(String[] args) {
 		// Initialisation du programme avec les valeurs par défault
 		// ou les valeurs entree en ligne de commande
-		String nomFichier = "map.txt";
+		/*String nomFichier = "map.txt";
 		int N = 3;
 		if(args.length >= 1) {
 			nomFichier = args[0];
@@ -57,6 +60,13 @@ public class Main {
 				select = 0;
 			}
 		}
-		scanner.close();
+		scanner.close();*/
+		test();
+	}
+	
+	private static void test(){
+		QuadTree qt = new QuadTree(0,10,0,10,3);
+		qt.inserer(new Triangle(new Point(5.5f, 10.0f), new Point(10.0f,5.0f), new Point(10.0f,10.0f)));
+		qt.afficher();
 	}
 }

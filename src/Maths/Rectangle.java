@@ -109,13 +109,11 @@ public class Rectangle implements Forme{
 	 * @return les 4 segments du rectangle
 	 */
 	public Segment[] transformationSegment() {
-		Point p1p = new Point(p2.getX(), p1.getY());
-		Point p2p = new Point(p1.getX(), p2.getY());
 		Segment[] tab = new Segment[4];
-		tab[0] = new Segment(p1, p2p);
-		tab[1] = new Segment(p2p, p2);
-		tab[2] = new Segment(p2, p1p);
-		tab[3] = new Segment(p1p, p1);
+		tab[0] = new Segment(new Point(minX(), minY()), new Point(minX(),maxY()));
+		tab[1] = new Segment(new Point(minX(),maxY()), new Point(maxX(),maxY()));
+		tab[2] = new Segment(new Point(maxX(),maxY()), new Point(maxX(),minY()));
+		tab[3] = new Segment(new Point(maxX(), minY()), new Point(minX(),minY()));
 		return tab;
 		
 	}
@@ -182,13 +180,18 @@ public class Rectangle implements Forme{
 		if(p == null) {
 			return false;
 		}
-		if(this.p1.getY() < this.p2.getY() && this.p1.getX() <= p.getX() &&  this.p2.getX() >= p.getX() && p.getY() <= this.p2.getY() && p.getY() >= this.p1.getY()) {
+		
+		if(p.getX()>= minX() && p.getX() <= maxX() && p.getY() >= minY() && p.getY() <= maxY()){
+			return true;
+		}
+		
+		/*if(this.p1.getY() < this.p2.getY() && this.p1.getX() <= p.getX() &&  this.p2.getX() >= p.getX() && p.getY() <= this.p2.getY() && p.getY() >= this.p1.getY()) {
 			return true;
 		}else if(this.p1.getY() > this.p2.getY() && this.p1.getX() <= p.getX() && p.getY() >= this.p2.getY() && p.getY() <= this.p1.getY() && p.getX() <= this.p2.getX()) {
 			return true;
 		}else if(this.p1.getY() == this.p2.getY() && this.p1.getX() <= p.getX() && p.getX() <= this.p2.getX() && p.getY() == this.p1.getY()) {
 			return true;
-		}
+		}*/
 		return false;
 	}
 	

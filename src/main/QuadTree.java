@@ -105,7 +105,8 @@ public class QuadTree {
 	}
 	
 	private Noeud inserer(Noeud n, Triangle t) {
-		//System.out.println("Insertion du triangle: " + t + " dans le noeud " + n);
+		afficher();
+		System.out.println("On passe par le noeud: " + n);
 		if(n.estFeuille()) {
 			if(n.triangles == null) {
 				n.triangles = new ArrayList<Triangle>();
@@ -124,17 +125,22 @@ public class QuadTree {
 				}
 				 return inserer(n, t);
 			}else {
+				System.out.println("wtf ");
 				n.triangles.add(t);
 				return null;
 			}
 		}else {
 			if(n.n1.region.intersection(t) || n.n1.region.contient(t)) {
+				System.out.println("ON SE DIRIGE EN N1");
 				return inserer(n.n1, t);
 			}else if(n.n2.region.intersection(t) || n.n2.region.contient(t)) {
+				System.out.println("ON SE DIRIGE EN N2");
 				return inserer(n.n2, t);
 			}else if(n.n3.region.intersection(t) || n.n3.region.contient(t)) {
+				System.out.println("ON SE DIRIGE EN N3");
 				return inserer(n.n3, t);
 			}else if(n.n4.region.intersection(t) || n.n4.region.contient(t)) {
+				System.out.println("ON SE DIRIGE EN N4");
 				return inserer(n.n4, t);
 			}else{
 				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
