@@ -54,6 +54,7 @@ public class Polygone implements Forme{
 		this.lstp = new ArrayList<Point>();
 	}
 	
+	
 	/**
 	 * Ajout d'un point dans un polygone.
 	 * Le point sera toujours en dernière position.
@@ -71,6 +72,11 @@ public class Polygone implements Forme{
 		return type;
 	}
 	
+	
+	public ArrayList<Point> getLstp() {
+		return lstp;
+	}
+
 	/**
 	 * Réalise la découpe d'un polygone en plusieurs triangle non sécants
 	 * Compléxité: O(n^2) Avec la méthode de l'oreille. 

@@ -1,7 +1,11 @@
 package main;
+import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JFrame;
 
+import Dessin.Fenetre;
 import Maths.Point;
+import Maths.Polygone;
 import Maths.Triangle;
 
 /**
@@ -21,7 +25,7 @@ public class Main {
 	public static void main(String[] args) {
 		// Initialisation du programme avec les valeurs par défault
 		// ou les valeurs entree en ligne de commande
-		/*String nomFichier = "map.txt";
+		String nomFichier = "map.txt";
 		int N = 3;
 		if(args.length >= 1) {
 			nomFichier = args[0];
@@ -29,7 +33,7 @@ public class Main {
 		if(args.length >= 2){
 			N = Integer.parseInt(args[1]);
 		}
-		
+		/*
 		// Variables pour le menu principal du programme
 		int select = 0;
 		
@@ -61,7 +65,11 @@ public class Main {
 			}
 		}
 		scanner.close();*/
-		test();
+		//test();
+		
+		Jeu jeu = new Jeu(nomFichier, N);
+		ArrayList<Polygone> lpoly = jeu.getLpoly();
+		JFrame fenetre = new Fenetre(lpoly);
 	}
 	
 	private static void test(){

@@ -34,7 +34,7 @@ public class Jeu {
 		this.map = new QuadTree(0,10,0,10,N);
 		this.lpoly = lec.getMap();
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		for(Polygone p : this.lpoly){
+	/*	for(Polygone p : this.lpoly){
 			//Polygone p = this.lpoly.get(10);
 			triangles.addAll(p.triangulation());
 		}
@@ -43,11 +43,11 @@ public class Jeu {
 			map.afficher();
 		}
 		System.out.println("Il doit y avoir " +  triangles.size() + " triangles dans le QT.");
-		
+		*/
 		// Definition point depart et arrivee
-		this.balle = lec.depart();
+	/*	this.balle = lec.depart();
 		this.arrive = lec.arrivee();
-		
+		*/
 		this.score += this.scoretrace;
 	}
 	
@@ -139,4 +139,10 @@ public class Jeu {
 	public int CalculeScore() {
 		return score;
 	}
+
+	public ArrayList<Polygone> getLpoly() {
+		return lpoly;
+	}
+	
+	
 }
