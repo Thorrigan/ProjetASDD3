@@ -24,7 +24,8 @@ public class Panneau extends JPanel {
 	        super.paintComponent(g);
 		  Graphics2D g2 = (Graphics2D) g;
 		  int scalaire = 80; //resize ++
-
+		  g2.translate(0, getHeight());
+		  g2.scale(1.0, -1.0);
 		  
 		  for (int i = 0; i < this.lpoly.size(); i++) {
 			  Path2D path = new Path2D.Float();
@@ -50,6 +51,8 @@ public class Panneau extends JPanel {
 			  else //
 				  g2.setColor(Color.yellow); //sable
 			  g2.fill(path);
+			  g2.setColor(Color.black);
+			  g2.draw(path);
 			  path.closePath();
 		  }
 	  }            
