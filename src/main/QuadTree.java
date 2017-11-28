@@ -8,12 +8,18 @@ import Maths.Triangle;
 public class QuadTree {
 	private Noeud racine;
 	private int N; //nb max de triangle dans une région
+	private static int erreur;
 	
 	public QuadTree(float min_x,float max_x, float min_y, float max_y, int nbIntersec) {
 		racine = new Noeud(new Rectangle(new Point(min_x, min_y), new Point(max_x, max_y)));
 		N = nbIntersec;
+		erreur = 0;
 	}
 	
+	public static int getErreur() {
+		return erreur;
+	}
+
 	private class Noeud{
 		Noeud n1,n2,n3,n4;
 		ArrayList<Triangle> triangles;
@@ -105,13 +111,6 @@ public class QuadTree {
 	}
 	
 	private Noeud inserer(Noeud n, Triangle t) {
-		//afficher();
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		System.out.println("On passe par le noeud: " + n);
 		if(n.estFeuille()) {
 			if(n.triangles.size() < N) {
@@ -150,6 +149,8 @@ public class QuadTree {
 				return inserer(n.n4, t);
 			}else{
 				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
+				this.erreur++;
+				System.out.println(this.erreur);
 				return null;
 			}
 		}

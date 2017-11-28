@@ -44,7 +44,7 @@ public class Jeu {
 		}
 		map.afficher();
 		System.out.println("Il doit y avoir " +  triangles.size() + " triangles dans le QT.");
-		
+		System.out.println("il y a " + this.map.getErreur() + "  erreurs");
 		// Definition point depart et arrivee
 		this.balle = lec.depart();
 		this.arrive = lec.arrivee();

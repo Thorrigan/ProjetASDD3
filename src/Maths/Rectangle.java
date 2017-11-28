@@ -28,7 +28,6 @@ public class Rectangle implements Forme{
 			this.p2 = p1;
 		}
 	}
-	
 	/**
 	 * Divise un rectangle en 4 sous rectangles.
 	 * Compléxité: O(1)
@@ -150,9 +149,9 @@ public class Rectangle implements Forme{
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
 			for(Segment seg : this.transformationSegment()){
-				// Si un des points du triangle est sur les bords du rectangle ICI CA BUGGAIT
+				// Si un des points du triangle est sur les bords du rectangle ICI CA BUGGAIT!!!!
 				if(seg.contient(t1.p1) || seg.contient(t1.p2) || seg.contient(t1.p3)){
-					return false;
+					return true;
 				}
 				//System.out.println("Le segment " + seg + " ne contient aucun point du triangle.");
 				for(Segment seg2 : t1.transformationSegment()){
