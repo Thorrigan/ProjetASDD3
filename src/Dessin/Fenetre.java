@@ -11,7 +11,7 @@ public class Fenetre extends JFrame {
 	public Fenetre(ArrayList<Polygone> lpoly){
 	this.lpoly = lpoly;
     this.setTitle("Ma première fenêtre Java");
-    this.setSize(410, 410);
+    this.setSize(810, 810);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
     this.setVisible(true);

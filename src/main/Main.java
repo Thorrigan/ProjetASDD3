@@ -9,10 +9,10 @@ import Maths.Polygone;
 import Maths.Triangle;
 
 /**
- * Compléxité: Dans ce programme, nous noterons: 
- * 1 : une compléxité constante
- * n : le nombre d'itération dans le cas général
- * log(n) : une compléxité logarithmique 
+ * Complï¿½xitï¿½: Dans ce programme, nous noterons: 
+ * 1 : une complï¿½xitï¿½ constante
+ * n : le nombre d'itï¿½ration dans le cas gï¿½nï¿½ral
+ * log(n) : une complï¿½xitï¿½ logarithmique 
  * nbp : le nombre de points 
  * nbd : le nombre de droites
  * nbs : le nombre de segments
@@ -21,9 +21,10 @@ import Maths.Triangle;
  * @author matt
  *
  */
+
 public class Main {
 	public static void main(String[] args) {
-		// Initialisation du programme avec les valeurs par défault
+		// Initialisation du programme avec les valeurs par dï¿½fault
 		// ou les valeurs entree en ligne de commande
 		String nomFichier = "map.txt";
 		int N = 3;
@@ -69,6 +70,8 @@ public class Main {
 		
 		Jeu jeu = new Jeu(nomFichier, N);
 		ArrayList<Polygone> lpoly = jeu.getLpoly();
+		Lecteur lec = new Lecteur(nomFichier);
+		//ArrayList<Polygone> lpoly = lec.getMap();
 		JFrame fenetre = new Fenetre(lpoly);
 	}
 	

@@ -72,21 +72,27 @@ public class Rectangle implements Forme{
 	 * @return La valeur de X minimum dans le rectangle
 	 */
 	private float minX() {
-		return p1.getX();
+		if(p1.getX() <= p2.getX()) {
+			return p1.getX();
+		}
+		return p2.getX();
 	}
 	
 	/**
 	 * @return La valeur de X maximum dans le rectangle
 	 */
 	private float maxX() {
-		return p2.getX();
+		if(p1.getX() < p2.getX()) {
+			return p2.getX();
+		}
+		return p1.getX();
 	}
 	
 	/**
 	 * @return La valeur de Y minimum dans le rectangle
 	 */
 	private float minY() {
-		if(p1.getY() < p2.getY()) {
+		if(p1.getY() <= p2.getY()) {
 			return p1.getY();
 		}
 		return p2.getY();
@@ -144,13 +150,13 @@ public class Rectangle implements Forme{
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
 			for(Segment seg : this.transformationSegment()){
-				// Si un des points du triangle est sur les bords du rectangle
+				// Si un des points du triangle est sur les bords du rectangle ICI CA BUGGAIT
 				if(seg.contient(t1.p1) || seg.contient(t1.p2) || seg.contient(t1.p3)){
-					return true;
+					return false;
 				}
 				//System.out.println("Le segment " + seg + " ne contient aucun point du triangle.");
 				for(Segment seg2 : t1.transformationSegment()){
-					if(seg.intersection(seg2) || seg.contient(seg2) || seg2.contient(seg)){
+					if(seg.intersection(seg2)  || seg.contient(seg2) || seg2.contient(seg)){
 						return true;
 					}
 				}

@@ -3,12 +3,12 @@ package Dessin;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-+import java.awt.geom.AffineTransform;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
-public class Dessin(Map map) {
-	
+public class Dessin {
+	/*
 	public void paint(Graphics g) {
 		super.paint(g);
 		int scalaire = 80;
@@ -36,8 +36,8 @@ public class Dessin(Map map) {
 			g2.setColor(getColor(s.getType()));
 			g2.fill(path);
 		}
-		}*/
+		}
 
 	}
-	}
+	}*/
 }

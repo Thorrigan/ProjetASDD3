@@ -33,7 +33,7 @@ public class QuadTree {
 			this.n2 = null;
 			this.n3 = null;
 			this.n4 = null;
-			this.triangles = null;
+			this.triangles = new ArrayList<Triangle>();
 		}
 		
 		boolean estFeuille() {
@@ -105,13 +105,18 @@ public class QuadTree {
 	}
 	
 	private Noeud inserer(Noeud n, Triangle t) {
-		afficher();
+		//afficher();
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("On passe par le noeud: " + n);
 		if(n.estFeuille()) {
-			if(n.triangles == null) {
-				n.triangles = new ArrayList<Triangle>();
+			if(n.triangles.size() < N) {
 				n.triangles.add(t);
-				return null;
+				return n;
 			}else if(n.triangles.size() == N) {
 				Rectangle [] tab = n.region.division(); // On récupère les 4 sous-régions
 				n.n1 = new Noeud(tab[0]);
@@ -119,28 +124,29 @@ public class QuadTree {
 				n.n3 = new Noeud(tab[2]);
 				n.n4 = new Noeud(tab[3]);
 				ArrayList<Triangle> listr = n.triangles; // On sauvegarde temporairement la liste des triangles
-				n.triangles = new ArrayList<Triangle>(); // 
+				n.triangles = new ArrayList<Triangle>(); 
 				for(Triangle triangle : listr) {
-					inserer(n, triangle);
+					inserer(racine, triangle);
 				}
-				 return inserer(n, t);
-			}else {
-				System.out.println("wtf ");
+				return inserer(racine, t);
+			}
+			else {
+				System.out.println("WTF");
 				n.triangles.add(t);
-				return null;
+				return n;
 			}
 		}else {
 			if(n.n1.region.intersection(t) || n.n1.region.contient(t)) {
-				System.out.println("ON SE DIRIGE EN N1");
+				//System.out.println("ON SE DIRIGE EN N1");
 				return inserer(n.n1, t);
 			}else if(n.n2.region.intersection(t) || n.n2.region.contient(t)) {
-				System.out.println("ON SE DIRIGE EN N2");
+				//System.out.println("ON SE DIRIGE EN N2");
 				return inserer(n.n2, t);
 			}else if(n.n3.region.intersection(t) || n.n3.region.contient(t)) {
-				System.out.println("ON SE DIRIGE EN N3");
+				//System.out.println("ON SE DIRIGE EN N3");
 				return inserer(n.n3, t);
 			}else if(n.n4.region.intersection(t) || n.n4.region.contient(t)) {
-				System.out.println("ON SE DIRIGE EN N4");
+				//System.out.println("ON SE DIRIGE EN N4");
 				return inserer(n.n4, t);
 			}else{
 				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
