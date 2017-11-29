@@ -58,6 +58,18 @@ public class Triangle implements Forme{
 		
 	}
 	
+	public Point getP1() {
+		return this.p1;
+	}
+	
+	public Point getP2() {
+		return this.p2;
+	}
+	
+	public Point getP3() {
+		return this.p3;
+	}
+	
 	/* (non-Javadoc)
 	 * Compléxité: O(1)
 	 * @see java.lang.Object#toString()

@@ -4,11 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.ArrayList;
 import Maths.Polygone;
+import Maths.Triangle;
 
 public class Fenetre extends JFrame {
-	ArrayList<Polygone> lpoly;
+	ArrayList<Triangle> lpoly;
 	
-	public Fenetre(ArrayList<Polygone> lpoly){
+	public Fenetre(ArrayList<Triangle> lpoly){
 	this.lpoly = lpoly;
     this.setTitle("Ma première fenêtre Java");
     this.setSize(810, 810);
@@ -19,7 +20,7 @@ public class Fenetre extends JFrame {
     
     
     JPanel pan = new JPanel();
-    this.setContentPane(new Panneau(this.lpoly));
+    this.setContentPane(new Panneau(this.lpoly, 0));
     
   }
 }

@@ -89,15 +89,14 @@ public class Polygone implements Forme{
 	}
 	
 	private ArrayList<Triangle> triangulation(ArrayList<Point> points, int index){
-		//System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		
-		/*try {
+		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
 		//System.out.println(points);
 		if(points.isEmpty()) {
@@ -106,9 +105,9 @@ public class Polygone implements Forme{
 		if(points.size() == 3) {
 			
 			// Si les trois points sont align�s
-			if((points.get(0).getX() == points.get(1).getX() && points.get(1).getX() == points.get(2).getX()) || 
-					(points.get(0).getY() == points.get(1).getY() && points.get(1).getY() == points.get(2).getY())) {
-				//System.out.println("3 derniers points alignés DUH");
+			Droite d1 = new Droite(points.get(0), points.get(1));
+			if(d1.contient(points.get(2))) {
+				System.out.println("3 derniers points alignés DUH");
 				return triangles;
 			}
 			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2)));
@@ -123,24 +122,27 @@ public class Polygone implements Forme{
 		Segment seg = new Segment(A, C);
 		Point D = seg.transformationDroite().pointenX(11.0f);
 		Segment AD = new Segment(A, D);
-		//System.out.println("Triangle: " + t + " Point D: " + D);
+		System.out.println("Triangle: " + t + " Point D: " + D);
+		
 		for(Point p : this.lstp){
 			if(t.contient(p) && p != A && p != B && p != C){
-				//System.out.println("POINT " + p);
 				ArrayList<Triangle> resultat = new ArrayList<Triangle>();
-				resultat.addAll(triangles);
+				//resultat.addAll(triangles);
 				resultat.addAll(this.triangulation(points, index+1));
 				return resultat;
 			}
 		}
-		//if(this.contient(seg.milieu())) {
-			if(this.intersectionPropre(AD) % 2 != 0) {
+		System.out.println(AD);
+		//System.out.println(this.intersectionPropre(seg));
+		//System.out.println(this.intersectionPropre(AD));
+		if(this.intersectionPropre(AD) % 2 != 0 && this.intersectionPropre(seg) == 0 && this.contient(seg.milieu())) {
+				System.out.println("on trace le Triangle: " + t);
 				triangles.add(t);
 				points.remove(B);
 				//index++;
-			}
+		}
 		else{
-			//System.out.println("ELSE");
+			System.out.println("ELSE");
 			index++;
 		}
 		//index++;
@@ -160,26 +162,26 @@ public class Polygone implements Forme{
 		int compteur = 0;
 		Point prevPoint = null;
 		for(Segment s : this.transformationSegment()) {
-			//System.out.println("Evaluation du segment: "+ s);
+			System.out.println("Evaluation du segment: "+ s);
 			if(seg.intersection(s) && seg.contient(s)) {
 				// On est alors de type C	
-				//System.out.println("Intersection type C." + seg + " " + s);
+				System.out.println("Intersection type C." + seg + " " + s);
 				compteur++;
 			}else if(seg.intersection(s)) {
 				Point p = seg.PointsIntersection(s).get(0);
 				if(p.equals(prevPoint)) {
-					break;
+					continue;
 				}
 				// Si le point d'intersection est un des sommet du segment ferm�
 				if((p.equals(s.p1) || p.equals(s.p2)) && !p.equals(seg.p1) && !p.equals(seg.p2)) {
 					// On est alors de type B
-					//System.out.println("Intersection type B. " + p + " "  + seg + " " + s);
+					System.out.println("Intersection type B. " + p + " "  + seg + " " + s);
 					prevPoint = p;
 					compteur++;
 				}
 				// Si le point d'intersection n'est pas sur un des point du segment ouvert
 				else if(!p.equals(seg.p1) && !p.equals(seg.p2)) {
-					//System.out.println("Intersection type A. " + p + " " + seg + " " + s);
+					System.out.println("Intersection type A. " + p + " " + seg + " " + s);
 					prevPoint = p;
 					compteur++;
 				}
@@ -334,16 +336,10 @@ public class Polygone implements Forme{
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
 			ArrayList<Point> pts = this.PointsIntersection(s1);
-			if(pts.isEmpty()){
-				return true;
-			}else{
-				for(Point p : pts){
-					if(p != s1.p1 || p != s1.p2){
-						return false;
-					}
-				}
+			if(pts.isEmpty() || (pts.contains(s1.p1) && pts.contains(s1.p2))){
 				return true;
 			}
+			return false;
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
 			System.out.println("Triangle: " + t1);

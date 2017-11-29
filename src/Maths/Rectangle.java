@@ -151,7 +151,7 @@ public class Rectangle implements Forme{
 			for(Segment seg : this.transformationSegment()){
 				// Si un des points du triangle est sur les bords du rectangle ICI CA BUGGAIT!!!!
 				if(seg.contient(t1.p1) || seg.contient(t1.p2) || seg.contient(t1.p3)){
-					return true;
+					return false;
 				}
 				//System.out.println("Le segment " + seg + " ne contient aucun point du triangle.");
 				for(Segment seg2 : t1.transformationSegment()){

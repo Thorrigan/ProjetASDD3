@@ -10,26 +10,47 @@ import java.util.ArrayList;
 
 import Maths.Point;
 import Maths.Polygone;
-
+import Maths.Triangle;
 
 import javax.swing.JPanel;
  
 public class Panneau extends JPanel { 
 	  private ArrayList<Polygone> lpoly;
+	  private ArrayList<Triangle> lt;
 	  
 	  public Panneau(ArrayList<Polygone> lpoly) {
 		  this.lpoly = lpoly;
+	  }
+	  
+	  public Panneau(ArrayList<Triangle> lpo, int nb) {
+		  this.lt = lpo;
 	  }
 	  
 	  @Override
 	  public void paintComponent(Graphics g) {
 	        super.paintComponent(g);
 		  Graphics2D g2 = (Graphics2D) g;
-		  int scalaire = 80; //resize ++
+		  int scalaire = 79; //resize ++
 		  g2.translate(0, getHeight());
 		  g2.scale(1.0, -1.0);
 		  
-		  for (int i = 0; i < this.lpoly.size(); i++) {
+		  for(Triangle t : this.lt) {
+			  Path2D path = new Path2D.Float();
+			  double thickness = 2;
+			  Stroke oldStroke = g2.getStroke();
+			  g2.setStroke(new BasicStroke(2.0f));
+			  path.moveTo(t.getP1().getX()*scalaire,t.getP1().getY()*scalaire);
+			  path.lineTo(t.getP2().getX()*scalaire,t.getP2().getY()*scalaire);
+			  path.lineTo(t.getP3().getX()*scalaire,t.getP3().getY()*scalaire);
+			  g2.setColor(new Color(253, 241, 184)); //sable
+			  g2.fill(path);
+			  g2.setColor(Color.black);
+			  g2.draw(path);
+			  path.closePath();
+		  }
+		  
+		  
+		  /*for (int i = 0; i < this.lpoly.size(); i++) {
 			  Path2D path = new Path2D.Float();
 			  double thickness = 2;
 			  Stroke oldStroke = g2.getStroke();
@@ -58,6 +79,6 @@ public class Panneau extends JPanel {
 			  g2.setColor(Color.black);
 			  g2.draw(path);
 			  path.closePath();
-		  }
+		  }*/
 	  }            
 }

@@ -33,7 +33,7 @@ public class QuadTree {
 			}
 		}
 
-		Noeud(Rectangle r){
+		public Noeud(Rectangle r){
 			this.region = r;
 			this.n1 = null;
 			this.n2 = null;

@@ -68,11 +68,27 @@ public class Main {
 		scanner.close();*/
 		//test();
 		
-		Jeu jeu = new Jeu(nomFichier, N);
-		ArrayList<Polygone> lpoly = jeu.getLpoly();
+		/*Lecteur lec = new Lecteur(nomFichier);
+		ArrayList<Triangle> lt = new ArrayList<Triangle>();
+		ArrayList<Polygone> lpoly = lec.getMap();
+		for(Polygone p : lpoly) {
+			lt.addAll(p.triangulation());
+		}
+		for(Triangle t : lt) {
+			System.out.println(t);
+		}
+		JFrame fenetre = new Fenetre(lt);*/
+		
+		
+		//Jeu jeu = new Jeu(nomFichier, N);
+		//ArrayList<Polygone> lpoly = jeu.getLpoly();
 		Lecteur lec = new Lecteur(nomFichier);
 		//ArrayList<Polygone> lpoly = lec.getMap();
-		JFrame fenetre = new Fenetre(lpoly);
+		ArrayList<Triangle> lt = lec.getMap().get(9).triangulation();
+		for(Triangle t : lt) {
+			System.out.println(t);
+		}
+		JFrame fenetre = new Fenetre(lt);
 	}
 	
 	private static void test(){
