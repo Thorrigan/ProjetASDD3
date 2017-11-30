@@ -7,6 +7,7 @@ import Dessin.Fenetre;
 import Maths.Point;
 import Maths.Polygone;
 import Maths.Triangle;
+import Tests.TestsUnitairesMaths;
 
 /**
  * Compl�xit�: Dans ce programme, nous noterons: 
@@ -89,6 +90,7 @@ public class Main {
 			System.out.println(t);
 		}
 		JFrame fenetre = new Fenetre(lt);
+		//TestsUnitairesMaths.menuprincipalMaths();
 	}
 	
 	private static void test(){

@@ -51,12 +51,11 @@ public class Rectangle implements Forme{
 	public int nbIntersection(ArrayList<Triangle> tab) {
 		int compteur = 0;
 		for(Triangle t : tab) {
-			if(PointsIntersection(t) != null) {
-				compteur += PointsIntersection(t).size();
-			}
+			compteur += PointsIntersection(t).size();
 		}
 		return compteur;
 	}
+
 	
 	/**
 	 * Localise le point au centre du rectangle.
@@ -67,6 +66,7 @@ public class Rectangle implements Forme{
 		return (new Segment(p1,p2)).milieu();
 	}
 	
+	//EVENTUELLEMENT A OPTIMISER
 	/**
 	 * @return La valeur de X minimum dans le rectangle
 	 */
@@ -149,18 +149,13 @@ public class Rectangle implements Forme{
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
 			for(Segment seg : this.transformationSegment()){
-				// Si un des points du triangle est sur les bords du rectangle ICI CA BUGGAIT!!!!
-				if(seg.contient(t1.p1) || seg.contient(t1.p2) || seg.contient(t1.p3)){
-					return false;
-				}
-				//System.out.println("Le segment " + seg + " ne contient aucun point du triangle.");
 				for(Segment seg2 : t1.transformationSegment()){
-					if(seg.intersection(seg2)  || seg.contient(seg2) || seg2.contient(seg)){
+					if(seg.intersection(seg2)){
 						return true;
 					}
 				}
 			}
-			System.out.println("PAS D'intersection entre la region: "+ toString() + " et le triangle " + t1);
+			//System.out.println("PAS D'intersection entre la region: "+ toString() + " et le triangle " + t1);
 			return false;
 		}else if(f1 instanceof Rectangle) {
 			Rectangle r1 = (Rectangle) f1;
@@ -189,14 +184,6 @@ public class Rectangle implements Forme{
 		if(p.getX()>= minX() && p.getX() <= maxX() && p.getY() >= minY() && p.getY() <= maxY()){
 			return true;
 		}
-		
-		/*if(this.p1.getY() < this.p2.getY() && this.p1.getX() <= p.getX() &&  this.p2.getX() >= p.getX() && p.getY() <= this.p2.getY() && p.getY() >= this.p1.getY()) {
-			return true;
-		}else if(this.p1.getY() > this.p2.getY() && this.p1.getX() <= p.getX() && p.getY() >= this.p2.getY() && p.getY() <= this.p1.getY() && p.getX() <= this.p2.getX()) {
-			return true;
-		}else if(this.p1.getY() == this.p2.getY() && this.p1.getX() <= p.getX() && p.getX() <= this.p2.getX() && p.getY() == this.p1.getY()) {
-			return true;
-		}*/
 		return false;
 	}
 	
@@ -234,7 +221,7 @@ public class Rectangle implements Forme{
 			Triangle t1 = (Triangle) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg2 : t1.transformationSegment()) {
-					if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
+					if(seg.intersection(seg2)) { //eventuellement  && !lstp.contains(seg.PointsIntersection(seg2).get(0))
 						lstp.add(seg.PointsIntersection(seg2).get(0));
 					}
 				}
@@ -243,7 +230,7 @@ public class Rectangle implements Forme{
 			Rectangle r1 = (Rectangle) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg2 : r1.transformationSegment()) {
-					if(seg.intersection(seg2) && !lstp.contains(seg.PointsIntersection(seg2).get(0))) {
+					if(seg.intersection(seg2)) { // same
 						lstp.add(seg.PointsIntersection(seg2).get(0));
 					}
 				}
@@ -254,6 +241,12 @@ public class Rectangle implements Forme{
 		return lstp;
 	}
 	
+	public Point getP1() {
+		return p1;
+	}
+	public Point getP2() {
+		return p2;
+	}
 	/* (non-Javadoc)
 	 * Compléxité: O(1) en meilleur cas, O(1) en pire cas ou si f1 est un polygone voir la classe polygone
 	 * @see Forme#contient(Forme)

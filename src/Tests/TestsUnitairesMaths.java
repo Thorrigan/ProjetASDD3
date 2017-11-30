@@ -43,6 +43,12 @@ public class TestsUnitairesMaths {
 		testSegment4();
 		System.out.println();
 		testSegment5();
+		System.out.println();
+		testSegment6();
+		System.out.println();
+		testSegment7();
+		System.out.println();
+		testSegment8();
 		System.out.println("//////// FIN DES TESTS SUR LES SEGMENTS ////////");
 		System.out.println();
 		System.out.println();
@@ -274,6 +280,47 @@ public class TestsUnitairesMaths {
 		Point p2 = new Point(4,1);
 		Point p3 = new Point(3,1);
 		Point p4 = new Point(3,3);
+		System.out.println("Nos points: A" + p1 + ", B" + p2 + ", C" + p3 + ", D" + p4);
+		Segment s1 = new Segment(p1, p2);
+		Segment s2 = new Segment(p3, p4);
+		System.out.println("Nos segments: S1" + s1 + " S2" + s2);
+		testFormes(s1, s2);
+	}
+	
+	private static void  testSegment6() {
+		System.out.println("--- Deux segments l'un sur l'autre");
+		Point p1 = new Point(1,1);
+		Point p2 = new Point(4,4);
+		Point p3 = new Point(2,2);
+		Point p4 = new Point(3,3);
+		System.out.println("Nos points: A" + p1 + ", B" + p2 + ", C" + p3 + ", D" + p4);
+		Segment s1 = new Segment(p1, p2);
+		Segment s2 = new Segment(p3, p4);
+		System.out.println("Nos segments: S1" + s1 + " S2" + s2);
+		testFormes(s1, s2);
+	}
+	
+	private static void  testSegment7() {
+		System.out.println("--- Un segment sur les arrete d'un polygone");
+		Point p1 = new Point(1,1);
+		Point p2 = new Point(3,1);
+		ArrayList<Point> tab1 = new ArrayList<Point>();
+		tab1.add(new Point(1,1));
+		tab1.add(new Point(3,1));
+		tab1.add(new Point(2,3));
+		tab1.add(new Point(0,3));		
+		Polygone p = new Polygone(tab1);
+		System.out.println("Nos points: A" + p1 + ", B" + p2 + " notre tableau: " + p);
+		Segment s1 = new Segment(p1, p2);
+		testFormes(s1, p);
+	}
+	
+	private static void  testSegment8() {
+		System.out.println("--- Deux segments l'un sur l'autre");
+		Point p1 = new Point(1,1);
+		Point p2 = new Point(4,4);
+		Point p3 = new Point(1,1);
+		Point p4 = new Point(4,4);
 		System.out.println("Nos points: A" + p1 + ", B" + p2 + ", C" + p3 + ", D" + p4);
 		Segment s1 = new Segment(p1, p2);
 		Segment s2 = new Segment(p3, p4);

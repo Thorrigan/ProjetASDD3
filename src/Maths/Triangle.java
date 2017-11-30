@@ -102,7 +102,7 @@ public class Triangle implements Forme{
 			}
 			return false;
 		}else if(f1 instanceof Triangle) {
-			Triangle t1 = (Triangle) f1;
+			Triangle t1 = (Triangle) f1;					
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg2 : t1.transformationSegment()) {
 					if(seg.intersection(seg2)) {
@@ -153,7 +153,6 @@ public class Triangle implements Forme{
 					lstp.add(seg.PointsIntersection(d1).get(0));
 				}
 			}
-			
 			return lstp;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
@@ -161,13 +160,11 @@ public class Triangle implements Forme{
 			if(!intersection(s1)) {
 				return lstp;
 			}
-			
 			for(Segment seg : this.transformationSegment()) {
 				if(seg.intersection(s1) && !lstp.contains(seg.PointsIntersection(s1).get(0))) {
 					lstp.add(seg.PointsIntersection(s1).get(0));
 				}
 			}
-			
 			return lstp;
 		}else if(f1 instanceof Triangle) {
 			Triangle t1 = (Triangle) f1;
@@ -182,8 +179,7 @@ public class Triangle implements Forme{
 						lstp.add(seg.PointsIntersection(seg2).get(0));
 					}
 				}
-			}
-			
+			}			
 			return lstp;
 		}else {
 			return f1.PointsIntersection(this);

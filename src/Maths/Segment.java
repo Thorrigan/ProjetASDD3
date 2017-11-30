@@ -37,34 +37,6 @@ public class Segment implements Forme{
 	}
 	
 	/**
-	 * Permet d'agrandir un segment dans le même axe.
-	 * Compléxité: O(n)
-	 * @param p Le point du segment que l'on veut prolonger
-	 * @return Le point qui prolonge le segment
-	 */
-	public Point pointSuivant(Point p) {
-		if(this.p1.getX() < this.p2.getX()){
-			if(this.transformationDroite().estOrdinaire()) {
-				return new Point(p.getX()+1, p.getY()+(p2.getY()-p1.getY())/(p2.getX()-p1.getX()));
-			}else if(this.transformationDroite().estHorizontale()) {
-				return new Point(p.getX()+1, p.getY());
-			}else if(this.transformationDroite().estVerticale()) {
-				return new Point(p.getX(), p.getY()+1);
-			}
-		}
-		else{
-			if(this.transformationDroite().estOrdinaire()) {
-				return new Point(p.getX()+1, p.getY()+(p1.getY()-p2.getY())/(p1.getX()-p2.getX()));
-			}else if(this.transformationDroite().estHorizontale()) {
-				return new Point(p.getX()+1, p.getY());
-			}else if(this.transformationDroite().estVerticale()) {
-				return new Point(p.getX(), p.getY()+1);
-			}
-		}
-		return null;
-	}
-	
-	/**
 	 * Cherche si un point p est contenu dans le rectangle 
 	 * NB: si un point est sur la droite du segment et qu'il est dans le rectangle du segment,
 	 * alors il est forcément sur le segment.
@@ -99,6 +71,10 @@ public class Segment implements Forme{
 			return false;
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
+			// SI les deux segment ont au moins un point en commun
+			if(this.p1 == s1.p1 || this.p2 == s1.p2 || this.p1 == s1.p2 || this.p2 == s1.p1) {
+				return false;
+			}
 			if(this.contient(s1)) {
 				return false;
 			}
@@ -141,7 +117,7 @@ public class Segment implements Forme{
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
 			if(this.contient(s1)) {
-				return null;
+				return lstp; //ici yavait null
 			}
 			if(!intersection(s1)) {
 				return lstp;
