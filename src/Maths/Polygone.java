@@ -84,19 +84,23 @@ public class Polygone implements Forme{
 	 * @return La liste des triangles qui composent le polygone
 	 */
 	public ArrayList<Triangle> triangulation(){
-		//System.out.println("Debut triangulation");
-		return this.triangulation(this.lstp, 0);
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+		System.out.println("Debut triangulation");
+		ArrayList<Point> lp = new ArrayList<Point>(this.lstp);
+		return this.triangulation(lp, 0);
 	}
 	
 	private ArrayList<Triangle> triangulation(ArrayList<Point> points, int index){
-		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(index > points.size()-3) {
+			index = 0;
 		}
+		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+		System.out.println(points);
+		System.out.println("Index: " + index + " Taille tableau: " + points.size());
+
 		if(points.isEmpty()) {
 			return triangles;
 		}
@@ -105,7 +109,7 @@ public class Polygone implements Forme{
 			// Si les trois points sont align�s
 			Droite d1 = new Droite(points.get(0), points.get(1));
 			if(d1.contient(points.get(2))) {
-				System.out.println("3 derniers points alignés DUH");
+				//System.out.println("3 derniers points alignés DUH");
 				return triangles;
 			}
 			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2)));
@@ -115,13 +119,10 @@ public class Polygone implements Forme{
 		Point A = points.get(0+index);
 		Point B = points.get(1+index);
 		Point C = points.get(2+index);
-		//System.out.println("A " + A + " B " + B + " C " + C);
 		Triangle t = new Triangle(A, B, C);
 		Segment seg = new Segment(A, C);
 		Point D = seg.transformationDroite().pointenX(11.0f);
 		Segment AD = new Segment(A, D);
-		System.out.println("Triangle: " + t + " Point D: " + D);
-		//pas d'autre point dans le triangle
 		for(Point p : this.lstp){
 			if(t.contient(p) && p != A && p != B && p != C){
 				ArrayList<Triangle> resultat = new ArrayList<Triangle>();
@@ -131,20 +132,13 @@ public class Polygone implements Forme{
 			}
 		}
 		System.out.println(this.contient(seg));
-		if(this.intersectionPropre(AD) % 2 != 0) {
-				System.out.println("on trace le Triangle: " + t);
-				triangles.add(t);
-				points.remove(B);
-				//index++;
+		if(!this.intersection(seg) && this.contient(seg.milieu())) {
+			System.out.println("On trace le triangle: " + t);
+			triangles.add(t);
+			points.remove(B);
 		}
 		else{
-			//System.out.println("ELSE");
 			index++;
-		}
-		//index++;
-		
-		if(index > points.size()-3) {
-			index = 0;
 		}
 		
 		// On retourne la liste des triangles actuels + la liste des triangles restants
@@ -171,30 +165,31 @@ public class Polygone implements Forme{
 				if(lp.contains(p)) {
 					continue;
 				}
-				// type A
-					
+				// type A		
 				if(seg.contient(p) && !p.equals(seg.p1) && !p.equals(seg.p2)) {
 					System.out.println("Intersection type A. "+ p + " " + seg + " " + s);
 					lp.add(p);
-				}
-			}else if((seg.contient(s.p1) || seg.contient(s.p2)) && !s.p1.equals(seg.p1) && !s.p1.equals(seg.p2) && !s.p2.equals(seg.p1) && !s.p2.equals(seg.p2)){
-				Point p;
-				if(seg.contient(s.p1)) {
-					p = s.p1;
-					if(lp.contains(p)) {
-						continue;
-					}
-					lp.add(p);
 				}else {
-					p = s.p2;
-					if(lp.contains(p)) {
-						continue;
-					}
-					lp.add(p);
+					System.out.println("Point intersection sur un sommet");
 				}
-				System.out.println("Intersection type B. "+ p + " " + seg + " " + s);
+			}else if(seg.contient(s.p1) && !seg.p1.equals(s.p1) && !seg.p2.equals(s.p1)){
+				if(lp.contains(s.p1)) {
+					continue;
+				}
+				lp.add(s.p1);
+				System.out.println("Intersection type B. "+ s.p1 + " " + seg + " " + s);
+			}
+			else if (seg.contient(s.p2) && !seg.p1.equals(s.p2) && !seg.p2.equals(s.p2)){
+				if(lp.contains(s.p2)) {
+					continue;
+				}
+				lp.add(s.p2);
+				System.out.println("Intersection type B. "+ s.p2 + " " + seg + " " + s);
+			}else {
+				System.out.println("Aucune intersection");
 			}
 		}
+		System.out.println("Nombre d'intersection Propre: "+ (compteur+ lp.size()));
 		return compteur + lp.size();
 	}
 	
@@ -279,15 +274,14 @@ public class Polygone implements Forme{
 		if(f1 instanceof Droite) {
 			Droite d1 = (Droite) f1;
 			for(Segment seg : this.transformationSegment()) {
-				if(seg.intersection(d1)) { // eventuellement pts.contains(seg.PointsIntersection(d1).get(0))
+				if(seg.intersection(d1)) {
 					pts.add(seg.PointsIntersection(d1).get(0));
 				}
 			}
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
 			for(Segment seg : this.transformationSegment()) {
-				if(seg.intersection(s1)) { // eventuellement pts.contains(seg.PointsIntersection(d1).get(0))
-					System.out.println("AAAAAAAAAAAAAAA");
+				if(seg.intersection(s1)) {
 					pts.add(seg.PointsIntersection(s1).get(0));
 				}
 			}
@@ -295,7 +289,7 @@ public class Polygone implements Forme{
 			Triangle t1 = (Triangle) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg1 : t1.transformationSegment()) {
-					if(seg.intersection(seg1)) { // eventuellement pts.contains(seg.PointsIntersection(d1).get(0))
+					if(seg.intersection(seg1)) {
 						pts.add(seg.PointsIntersection(seg1).get(0));
 					}
 				}
@@ -304,7 +298,7 @@ public class Polygone implements Forme{
 			Rectangle r1 = (Rectangle) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg1 : r1.transformationSegment()) {
-					if(seg.intersection(seg1)) { // eventuellement pts.contains(seg.PointsIntersection(d1).get(0))
+					if(seg.intersection(seg1)) { 
 						pts.add(seg.PointsIntersection(seg1).get(0));
 					}
 				}
@@ -313,7 +307,7 @@ public class Polygone implements Forme{
 			Polygone pg1 = (Polygone) f1;
 			for(Segment seg : this.transformationSegment()) {
 				for(Segment seg1 : pg1.transformationSegment()) {
-					if(seg.intersection(seg1)) { // eventuellement pts.contains(seg.PointsIntersection(d1).get(0))
+					if(seg.intersection(seg1)) {
 						pts.add(seg.PointsIntersection(seg1).get(0));
 					}
 				}

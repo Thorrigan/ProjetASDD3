@@ -81,15 +81,21 @@ public class Main {
 		JFrame fenetre = new Fenetre(lt);*/
 		
 		
-		//Jeu jeu = new Jeu(nomFichier, N);
-		//ArrayList<Polygone> lpoly = jeu.getLpoly();
 		Lecteur lec = new Lecteur(nomFichier);
-		//ArrayList<Polygone> lpoly = lec.getMap();
-		ArrayList<Triangle> lt = lec.getMap().get(10).triangulation();
+		ArrayList<Triangle> lt = new ArrayList<Triangle>();
+		ArrayList<Polygone> lpoly = lec.getMap();
+		//lpoly.remove(lpoly.size()-2);
+		for(Polygone p : lpoly) {
+		//Polygone p = lpoly.get(10);
+			lt.addAll(p.triangulation());
+		}
 		for(Triangle t : lt) {
 			System.out.println(t);
 		}
+		System.out.println(lt.size());
 		JFrame fenetre = new Fenetre(lt);
+		//Jeu jeu = new Jeu(nomFichier, N);
+		//jeu.JeuConsole();
 		//TestsUnitairesMaths.menuprincipalMaths();
 	}
 	

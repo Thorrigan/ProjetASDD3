@@ -33,6 +33,7 @@ public class Jeu {
 		// Creation du QuadTree
 		this.map = new QuadTree(0,10,0,10,N);
 		this.lpoly = lec.getMap();
+		lpoly.remove(lpoly.size()-2);
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		
 		
