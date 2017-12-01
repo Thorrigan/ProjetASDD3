@@ -85,7 +85,7 @@ public class Main {
 		//ArrayList<Polygone> lpoly = jeu.getLpoly();
 		Lecteur lec = new Lecteur(nomFichier);
 		//ArrayList<Polygone> lpoly = lec.getMap();
-		ArrayList<Triangle> lt = lec.getMap().get(9).triangulation();
+		ArrayList<Triangle> lt = lec.getMap().get(10).triangulation();
 		for(Triangle t : lt) {
 			System.out.println(t);
 		}

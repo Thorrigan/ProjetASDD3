@@ -72,20 +72,22 @@ public class Segment implements Forme{
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
 			// SI les deux segment ont au moins un point en commun
-			if(this.p1 == s1.p1 || this.p2 == s1.p2 || this.p1 == s1.p2 || this.p2 == s1.p1) {
+			if(this.p1.equals(s1.p1) || this.p2.equals(s1.p2) || this.p1.equals(s1.p2) || this.p2.equals(s1.p1)) {
 				return false;
 			}
-			if(this.contient(s1)) {
+			if(this.contient(s1)) {				
 				return false;
 			}
 			if(this.transformationDroite().intersection(s1.transformationDroite())) {
 				if(this.estDansRectangle(this.PointsIntersection(s1.transformationDroite()).get(0)) && s1.estDansRectangle(s1.PointsIntersection(this.transformationDroite()).get(0))){
+					//parfois là
 					return true;
 				}
 				return false;
 			}
 			return false;
 		}else {
+			//parfois là
 			return f1.intersection(this);
 		}
 	}
@@ -117,12 +119,15 @@ public class Segment implements Forme{
 		}else if(f1 instanceof Segment) {
 			Segment s1 = (Segment) f1;
 			if(this.contient(s1)) {
+				//never here
 				return lstp; //ici yavait null
 			}
-			if(!intersection(s1)) {
+			if(!this.intersection(s1)) {
+				//never here
 				return lstp;
-			}			
+			}	
 			lstp.add(this.transformationDroite().PointsIntersection(s1.transformationDroite()).get(0));
+			System.out.println("LSTP STP AFFICHE QQCH : " + lstp);
 		}else {
 			return f1.PointsIntersection(this);
 		}		
