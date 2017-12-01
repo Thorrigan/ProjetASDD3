@@ -2,6 +2,7 @@ package main;
 import java.util.ArrayList;
 
 import Maths.Point;
+import Maths.Polygone;
 import Maths.Rectangle;
 import Maths.Triangle;
 
@@ -111,13 +112,16 @@ public class QuadTree {
 	}
 	
 	private Noeud inserer(Noeud n, Triangle t) {
-		System.out.println("On passe par le noeud: " + n);
+		//System.out.println("On passe par le noeud: " + n);
 		if(n.estFeuille()) {
+			//System.out.println("feuille");
 			if(n.triangles.size() < N) {
 				n.triangles.add(t);
 				return n;
 			}else if(n.triangles.size() == N) {
 				Rectangle [] tab = n.region.division(); // On récupère les 4 sous-régions
+				//System.out.println(" triangle size  ! " + n.triangles.size() + " aaaaaaaaaaaaaaa");
+				//System.out.println("triangles : " + n.triangles);
 				n.n1 = new Noeud(tab[0]);
 				n.n2 = new Noeud(tab[1]);
 				n.n3 = new Noeud(tab[2]);
@@ -130,27 +134,33 @@ public class QuadTree {
 				return inserer(racine, t);
 			}
 			else {
-				System.out.println("WTF");
+				//System.out.println("WTF");
 				n.triangles.add(t);
 				return n;
 			}
-		}else {
-			if(n.n1.region.intersection(t) || n.n1.region.contient(t)) {
-				//System.out.println("ON SE DIRIGE EN N1");
+		}
+		else {
+			// On teste 
+			//System.out.println("NOEUD");
+			//System.out.println("intersection "  + n.n1.region.intersection(t));
+			if(n.n1.region.contient(t.getP1()) && n.n1.region.contient(t.getP2()) && n.n1.region.contient(t.getP3()) || ( n.n1.region.intersection(t))) {
 				return inserer(n.n1, t);
-			}else if(n.n2.region.intersection(t) || n.n2.region.contient(t)) {
-				//System.out.println("ON SE DIRIGE EN N2");
+			}
+			else if(n.n2.region.contient(t.getP1()) && n.n2.region.contient(t.getP2()) && n.n2.region.contient(t.getP3()) || n.n2.region.intersection(t)) {
 				return inserer(n.n2, t);
-			}else if(n.n3.region.intersection(t) || n.n3.region.contient(t)) {
-				//System.out.println("ON SE DIRIGE EN N3");
+			}
+			else if(n.n3.region.contient(t.getP1()) && n.n3.region.contient(t.getP2()) && n.n3.region.contient(t.getP3()) || n.n3.region.intersection(t)) {
 				return inserer(n.n3, t);
-			}else if(n.n4.region.intersection(t) || n.n4.region.contient(t)) {
-				//System.out.println("ON SE DIRIGE EN N4");
+			}
+			else if(n.n4.region.contient(t.getP1()) && n.n4.region.contient(t.getP2()) && n.n4.region.contient(t.getP3()) || n.n4.region.intersection(t)) {
 				return inserer(n.n4, t);
-			}else{
+			}
+			else{
 				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
+				System.out.println("\n\n\n");
+				System.out.println("R�gions : " + n.region);
 				this.erreur++;
-				System.out.println(this.erreur);
+				System.out.println(t);
 				return null;
 			}
 		}
@@ -184,8 +194,16 @@ public class QuadTree {
 	}
 	
 	
-	public QuadTree ConstructionQT() {
-		return null;
+	public static  QuadTree ConstructionQT(ArrayList<Polygone> plg, float min_x,float max_x, float min_y, float max_y, int nbIntersec) {
+		ArrayList<Triangle> lst = new ArrayList<Triangle>();
+		QuadTree QT = new QuadTree( min_x, max_x, min_y, max_y, nbIntersec);
+		for(Polygone p : plg) {
+			lst.addAll(p.triangulation());
+		}
+		for(Triangle t : lst) {
+			QT.inserer(t);
+		}
+		return QT;
 		
 	}
 }

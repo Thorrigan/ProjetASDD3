@@ -67,26 +67,12 @@ public class Main {
 			}
 		}
 		scanner.close();*/
-		//test();
-		
-		/*Lecteur lec = new Lecteur(nomFichier);
-		ArrayList<Triangle> lt = new ArrayList<Triangle>();
-		ArrayList<Polygone> lpoly = lec.getMap();
-		for(Polygone p : lpoly) {
-			lt.addAll(p.triangulation());
-		}
-		for(Triangle t : lt) {
-			System.out.println(t);
-		}
-		JFrame fenetre = new Fenetre(lt);*/
 		
 		
 		Lecteur lec = new Lecteur(nomFichier);
 		ArrayList<Triangle> lt = new ArrayList<Triangle>();
 		ArrayList<Polygone> lpoly = lec.getMap();
-		//lpoly.remove(lpoly.size()-2);
 		for(Polygone p : lpoly) {
-		//Polygone p = lpoly.get(10);
 			lt.addAll(p.triangulation());
 		}
 		for(Triangle t : lt) {
@@ -94,8 +80,8 @@ public class Main {
 		}
 		System.out.println(lt.size());
 		JFrame fenetre = new Fenetre(lt);
-		//Jeu jeu = new Jeu(nomFichier, N);
-		//jeu.JeuConsole();
+		Jeu jeu = new Jeu(nomFichier, 3);
+		jeu.JeuGraphique();
 		//TestsUnitairesMaths.menuprincipalMaths();
 	}
 	

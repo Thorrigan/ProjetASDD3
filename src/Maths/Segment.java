@@ -127,7 +127,6 @@ public class Segment implements Forme{
 				return lstp;
 			}	
 			lstp.add(this.transformationDroite().PointsIntersection(s1.transformationDroite()).get(0));
-			System.out.println("LSTP STP AFFICHE QQCH : " + lstp);
 		}else {
 			return f1.PointsIntersection(this);
 		}		

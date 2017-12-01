@@ -42,7 +42,19 @@ public class Panneau extends JPanel {
 			  path.moveTo(t.getP1().getX()*scalaire,t.getP1().getY()*scalaire);
 			  path.lineTo(t.getP2().getX()*scalaire,t.getP2().getY()*scalaire);
 			  path.lineTo(t.getP3().getX()*scalaire,t.getP3().getY()*scalaire);
-			  g2.setColor(new Color(253, 241, 184)); //sable
+			  if (t.getType() == 'B')//eau
+				  g2.setColor(new Color(115, 194, 251));
+			  else if(t.getType() == 'C') //vertclair
+				  g2.setColor(new Color(159, 232, 85));
+			  else if(t.getType() == 'V') //vert
+				  g2.setColor(new Color(1, 215, 88));
+			  else if(t.getType() == 'S') //vertsapin
+				  g2.setColor(new Color(9, 106, 9));
+			  else //
+				  g2.setColor(new Color(253, 241, 184)); //sable
+			  
+			  //g2.setColor(new Color(253, 241, 184)); //sable
+		  
 			  g2.fill(path);
 			  g2.setColor(Color.black);
 			  g2.draw(path);

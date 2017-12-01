@@ -2,6 +2,9 @@ package main;
 import Maths.Point;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
+import Dessin.Fenetre;
 import Maths.Droite;
 import Maths.Point;
 import Maths.Polygone;
@@ -31,31 +34,21 @@ public class Jeu {
 		// On lit le fichier
 		Lecteur lec = new Lecteur(nomFichier);
 		// Creation du QuadTree
-		this.map = new QuadTree(0,10,0,10,N);
 		this.lpoly = lec.getMap();
-		lpoly.remove(lpoly.size()-2);
-		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		
-		
-		for(Polygone p : this.lpoly){
-			triangles.addAll(p.triangulation());
-		}
-		for(Triangle t : triangles){
-			map.inserer(t);
-		}
+		this.map = QuadTree.ConstructionQT(lpoly, 0, 10, 0, 10, 3);
 		map.afficher();
-		System.out.println("Il doit y avoir " +  triangles.size() + " triangles dans le QT.");
-		System.out.println("il y a " + this.map.getErreur() + "  erreurs");
 		// Definition point depart et arrivee
 		this.balle = lec.depart();
 		this.arrive = lec.arrivee();
-		
-		
 		this.score += this.scoretrace;
 	}
 	
 	public void JeuGraphique(){
-		
+		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+		for(Polygone p : this.lpoly){
+			triangles.addAll(p.triangulation());
+		}
+		JFrame fenetre = new Fenetre(triangles);
 	}
 	
 	public void JeuConsole(){

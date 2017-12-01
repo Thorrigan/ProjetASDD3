@@ -70,6 +70,17 @@ public class Triangle implements Forme{
 		return this.p3;
 	}
 	
+	public Point centre() {
+		Segment AB = new Segment(this.p1, this.p2);
+		Segment BC = new Segment(this.p2, this.p3);
+		Segment AC = new Segment(this.p1, this.p3);
+		Point centreAB = AB.milieu();
+		Point centreAC = AC.milieu();
+		Segment MB = new Segment(centreAC, this.p2);
+		Segment MC = new Segment(centreAB, this.p3);
+		return MB.PointsIntersection(MC).get(0);
+	}
+	
 	/* (non-Javadoc)
 	 * Compléxité: O(1)
 	 * @see java.lang.Object#toString()

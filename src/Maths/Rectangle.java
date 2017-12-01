@@ -151,6 +151,11 @@ public class Rectangle implements Forme{
 			for(Segment seg : this.transformationSegment()){
 				for(Segment seg2 : t1.transformationSegment()){
 					if(seg.intersection(seg2)){
+						Point p = seg.PointsIntersection(seg2).get(0);
+						if(p.equals(seg2.p1) ||p.equals(seg2.p2) ) {
+							continue;
+						}
+						System.out.println("INTERSECTION SEGMENT : " + seg + " " + seg2);
 						return true;
 					}
 				}

@@ -84,11 +84,6 @@ public class Polygone implements Forme{
 	 * @return La liste des triangles qui composent le polygone
 	 */
 	public ArrayList<Triangle> triangulation(){
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("");
-		System.out.println("Debut triangulation");
 		ArrayList<Point> lp = new ArrayList<Point>(this.lstp);
 		return this.triangulation(lp, 0);
 	}
@@ -98,28 +93,25 @@ public class Polygone implements Forme{
 			index = 0;
 		}
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		System.out.println(points);
-		System.out.println("Index: " + index + " Taille tableau: " + points.size());
 
 		if(points.isEmpty()) {
 			return triangles;
 		}
 		if(points.size() == 3) {
-			System.out.println(points.get(0) + " " + points.get(1) + " " + points.get(2) + " ");
 			// Si les trois points sont align�s
 			Droite d1 = new Droite(points.get(0), points.get(1));
 			if(d1.contient(points.get(2))) {
 				//System.out.println("3 derniers points alignés DUH");
 				return triangles;
 			}
-			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2)));
+			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2), this.type));
 			return triangles;
 		}
 	
 		Point A = points.get(0+index);
 		Point B = points.get(1+index);
 		Point C = points.get(2+index);
-		Triangle t = new Triangle(A, B, C);
+		Triangle t = new Triangle(A, B, C, this.type);
 		Segment seg = new Segment(A, C);
 		Point D = seg.transformationDroite().pointenX(11.0f);
 		Segment AD = new Segment(A, D);
@@ -131,9 +123,7 @@ public class Polygone implements Forme{
 				return resultat;
 			}
 		}
-		System.out.println(this.contient(seg));
 		if(!this.intersection(seg) && this.contient(seg.milieu())) {
-			System.out.println("On trace le triangle: " + t);
 			triangles.add(t);
 			points.remove(B);
 		}
