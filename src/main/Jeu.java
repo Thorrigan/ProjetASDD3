@@ -21,6 +21,7 @@ public class Jeu {
 	private int par;
 	private int tour;
 	private ArrayList<Polygone> lpoly;
+	private ArrayList<Polygone> parpoly;
 	
 	
 	/*STATE A CHOISIR
@@ -30,7 +31,7 @@ public class Jeu {
 	3 
 	*/
 	
-	public Jeu(Point depart, Point arrive, ArrayList<Polygone> lst, float min_x, float max_x, float min_y, float max_y, int N) {
+	public Jeu(Point depart, Point arrive, ArrayList<Polygone> lst, float min_x, float max_x, float min_y, float max_y, int N, ArrayList<Polygone> parpoly) {
 		// Creation du QuadTree
 		this.lpoly = lst;
 		this.map = QuadTree.ConstructionQT(lpoly, 0, 10, 0, 10, N);
@@ -38,6 +39,7 @@ public class Jeu {
 		// Definition point depart et arrivee
 		this.balle = depart;
 		this.arrive = arrive;
+		this.parpoly = parpoly;
 	}
 	
 	public void JeuGraphique(){

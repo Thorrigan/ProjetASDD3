@@ -21,6 +21,7 @@ public class Lecteur {
 	public Jeu creationJeu(float min_x, float max_x, float min_y, float max_y, int N) {
 		File f = new File(nomFichier);
 		ArrayList<Polygone> map = new ArrayList<Polygone>();
+		ArrayList<Polygone> par = new ArrayList<Polygone>();
 		Point depart = null;
 		Point arrive = null;
 		//si existe
@@ -66,8 +67,59 @@ public class Lecteur {
 					Polygone s = new Polygone(lp, type);
 					map.add(s);
 				}
+				if (compteur == nbsurfaces + 2) {
+					int i = 0;
+					String s = "";
+					float X = 0.0f;
+					float Y = 0.0f;
+					//passage du par
+					while (ligne.charAt(i) != '(') {
+						while (ligne.charAt(i) != ',') {
+							s += ligne.charAt(i);
+							i++;
+						}
+						i++;
+						int tracenb = Integer.parseInt(s);
+						System.out.println("tracenb :" + tracenb);
+						par.add(map.get(tracenb - 1));
+						s = "";
+					}
+					i++;
+					//passage point départ
+					while(ligne.charAt(i) != ','){
+						s += ligne.charAt(i);
+						i++;
+					}
+					X = Float.parseFloat(s);
+					i++;
+					s = "";
+					while(ligne.charAt(i) != ')'){
+						s += ligne.charAt(i);
+						i++;
+					}
+					Y = Float.parseFloat(s);
+					depart = new Point(X, Y);
+					System.out.println("départ : " + depart);
+					i = i + 3; //fermante virgule ouvrante 
+					s = "";
+					while(ligne.charAt(i) != ','){
+						s += ligne.charAt(i);
+						i++;
+					}
+					i++;
+					X = Float.parseFloat(s);
+					s = "";
+					while(ligne.charAt(i) != ')'){
+						s += ligne.charAt(i);
+						i++;
+					}
+					Y = Float.parseFloat(s);
+					arrive = new Point(X, Y);
+					System.out.println("arrivee : " + arrive);
+				}
 				compteur ++;
 			}
+			
 			for(Polygone sf : map){
 				System.out.println(sf.toString());
 			}
@@ -79,6 +131,7 @@ public class Lecteur {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new Jeu(depart, arrive, map, min_x, max_x, min_y, max_y, N);
+		System.out.println("par : " + par);
+		return new Jeu(depart, arrive, map, min_x, max_x, min_y, max_y, N, par);
 	}
 }
