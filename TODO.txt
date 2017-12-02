@@ -1,6 +1,34 @@
-- Triangulation (Matt)
 - ConstructionQT (Matt)
 - CalculPointAtterissageBalle (DONE BITCH) A tester
 - CalculPointDepartBalle (KC COMME JAJA) A tester
 - CalculeScore (done?)
 - fonction jeu !! genre tour loop
+
+
+
+
+// On teste 
+			if(n.n1.region.contient(t.getP1()) && n.n1.region.contient(t.getP2()) && n.n1.region.contient(t.getP3()) || ( n.n1.region.intersection(t))) {
+				inserer(n.n1, t);
+				return;
+			}
+			else if(n.n2.region.contient(t.getP1()) && n.n2.region.contient(t.getP2()) && n.n2.region.contient(t.getP3()) || n.n2.region.intersection(t)) {
+				inserer(n.n2, t);
+				return;
+			}
+			else if(n.n3.region.contient(t.getP1()) && n.n3.region.contient(t.getP2()) && n.n3.region.contient(t.getP3()) || n.n3.region.intersection(t)) {
+				inserer(n.n3, t);
+				return;
+			}
+			else if(n.n4.region.contient(t.getP1()) && n.n4.region.contient(t.getP2()) && n.n4.region.contient(t.getP3()) || n.n4.region.intersection(t)) {
+				inserer(n.n4, t);
+				return;
+			}
+			else{
+				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
+				System.out.println("\n\n\n");
+				System.out.println("Régions : " + n.region);
+				this.erreur++;
+				System.out.println(t);
+				return;
+			}

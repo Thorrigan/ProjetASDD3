@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 public class Panneau extends JPanel { 
 	  private ArrayList<Polygone> lpoly;
 	  private ArrayList<Triangle> lt;
+	  private int scalaire = 79; //resize ++
 	  
 	  public Panneau(ArrayList<Polygone> lpoly) {
 		  this.lpoly = lpoly;
@@ -24,13 +27,17 @@ public class Panneau extends JPanel {
 	  
 	  public Panneau(ArrayList<Triangle> lpo, int nb) {
 		  this.lt = lpo;
+		  this.addMouseListener(new MouseAdapter() {
+		    	public void mousePressed(MouseEvent e) {
+		    		System.out.println(e.getX()/scalaire + "," + e.getY()/scalaire);
+		    	}
+		    });
 	  }
 	  
 	  @Override
 	  public void paintComponent(Graphics g) {
 	        super.paintComponent(g);
 		  Graphics2D g2 = (Graphics2D) g;
-		  int scalaire = 79; //resize ++
 		  g2.translate(0, getHeight());
 		  g2.scale(1.0, -1.0);
 		  

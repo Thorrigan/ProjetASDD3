@@ -70,24 +70,8 @@ public class Main {
 		
 		
 		Lecteur lec = new Lecteur(nomFichier);
-		ArrayList<Triangle> lt = new ArrayList<Triangle>();
-		ArrayList<Polygone> lpoly = lec.getMap();
-		for(Polygone p : lpoly) {
-			lt.addAll(p.triangulation());
-		}
-		for(Triangle t : lt) {
-			System.out.println(t);
-		}
-		System.out.println(lt.size());
-		JFrame fenetre = new Fenetre(lt);
-		Jeu jeu = new Jeu(nomFichier, 3);
+		Jeu jeu = lec.creationJeu(0, 10, 0, 10, N);
 		jeu.JeuGraphique();
 		//TestsUnitairesMaths.menuprincipalMaths();
-	}
-	
-	private static void test(){
-		QuadTree qt = new QuadTree(0,10,0,10,3);
-		qt.inserer(new Triangle(new Point(5.5f, 10.0f), new Point(10.0f,5.0f), new Point(10.0f,10.0f)));
-		qt.afficher();
 	}
 }

@@ -18,9 +18,11 @@ public class Lecteur {
 		this.nomFichier = nomFichier;	
 	}
 
-	public ArrayList<Polygone> getMap() {
+	public Jeu creationJeu(float min_x, float max_x, float min_y, float max_y, int N) {
 		File f = new File(nomFichier);
 		ArrayList<Polygone> map = new ArrayList<Polygone>();
+		Point depart = null;
+		Point arrive = null;
 		//si existe
 		BufferedReader br;
 		try {
@@ -77,15 +79,6 @@ public class Lecteur {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return map;
+		return new Jeu(depart, arrive, map, min_x, max_x, min_y, max_y, N);
 	}
-	
-	public Point depart(){
-		return null;
-	}
-	
-	public Point arrivee(){
-		return null;
-	}
-
 }

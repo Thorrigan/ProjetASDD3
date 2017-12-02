@@ -70,7 +70,7 @@ public class Rectangle implements Forme{
 	/**
 	 * @return La valeur de X minimum dans le rectangle
 	 */
-	private float minX() {
+	public float minX() {
 		if(p1.getX() <= p2.getX()) {
 			return p1.getX();
 		}
@@ -80,7 +80,7 @@ public class Rectangle implements Forme{
 	/**
 	 * @return La valeur de X maximum dans le rectangle
 	 */
-	private float maxX() {
+	public float maxX() {
 		if(p1.getX() < p2.getX()) {
 			return p2.getX();
 		}
@@ -90,7 +90,7 @@ public class Rectangle implements Forme{
 	/**
 	 * @return La valeur de Y minimum dans le rectangle
 	 */
-	private float minY() {
+	public float minY() {
 		if(p1.getY() <= p2.getY()) {
 			return p1.getY();
 		}
@@ -100,7 +100,7 @@ public class Rectangle implements Forme{
 	/**
 	 * @return La valeur de Y maximum dans le rectangle
 	 */
-	private float maxY() {
+	public float maxY() {
 		if(p1.getY() < p2.getY()) {
 			return p2.getY();
 		}
@@ -155,7 +155,6 @@ public class Rectangle implements Forme{
 						if(p.equals(seg2.p1) ||p.equals(seg2.p2) ) {
 							continue;
 						}
-						System.out.println("INTERSECTION SEGMENT : " + seg + " " + seg2);
 						return true;
 					}
 				}

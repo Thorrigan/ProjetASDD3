@@ -52,7 +52,10 @@ public class QuadTree {
 	}
 	
 	public void inserer(Triangle t) {
-		System.out.println("Debut insertion du triangle: " + t);
+		if(!racine.region.contient(t.getP1()) || !racine.region.contient(t.getP2()) || !racine.region.contient(t.getP3())) {
+			System.out.println("On ne peut pas insérer le triangle car il n'est pas dans la region de départ.");
+			return;
+		}
 		inserer(racine, t);
 	}
 	
@@ -111,17 +114,13 @@ public class QuadTree {
 		}
 	}
 	
-	private Noeud inserer(Noeud n, Triangle t) {
-		//System.out.println("On passe par le noeud: " + n);
+	private void inserer(Noeud n, Triangle t) {
 		if(n.estFeuille()) {
-			//System.out.println("feuille");
 			if(n.triangles.size() < N) {
 				n.triangles.add(t);
-				return n;
+				return;
 			}else if(n.triangles.size() == N) {
 				Rectangle [] tab = n.region.division(); // On rÃ©cupÃ¨re les 4 sous-rÃ©gions
-				//System.out.println(" triangle size  ! " + n.triangles.size() + " aaaaaaaaaaaaaaa");
-				//System.out.println("triangles : " + n.triangles);
 				n.n1 = new Noeud(tab[0]);
 				n.n2 = new Noeud(tab[1]);
 				n.n3 = new Noeud(tab[2]);
@@ -131,29 +130,31 @@ public class QuadTree {
 				for(Triangle triangle : listr) {
 					inserer(racine, triangle);
 				}
-				return inserer(racine, t);
+				inserer(racine, t);
+				return;
 			}
 			else {
-				//System.out.println("WTF");
 				n.triangles.add(t);
-				return n;
+				return;
 			}
 		}
 		else {
 			// On teste 
-			//System.out.println("NOEUD");
-			//System.out.println("intersection "  + n.n1.region.intersection(t));
 			if(n.n1.region.contient(t.getP1()) && n.n1.region.contient(t.getP2()) && n.n1.region.contient(t.getP3()) || ( n.n1.region.intersection(t))) {
-				return inserer(n.n1, t);
+				inserer(n.n1, t);
+				return;
 			}
-			else if(n.n2.region.contient(t.getP1()) && n.n2.region.contient(t.getP2()) && n.n2.region.contient(t.getP3()) || n.n2.region.intersection(t)) {
-				return inserer(n.n2, t);
+			if(n.n2.region.contient(t.getP1()) && n.n2.region.contient(t.getP2()) && n.n2.region.contient(t.getP3()) || n.n2.region.intersection(t)) {
+				inserer(n.n2, t);
+				return;
 			}
-			else if(n.n3.region.contient(t.getP1()) && n.n3.region.contient(t.getP2()) && n.n3.region.contient(t.getP3()) || n.n3.region.intersection(t)) {
-				return inserer(n.n3, t);
+			if(n.n3.region.contient(t.getP1()) && n.n3.region.contient(t.getP2()) && n.n3.region.contient(t.getP3()) || n.n3.region.intersection(t)) {
+				inserer(n.n3, t);
+				return;
 			}
-			else if(n.n4.region.contient(t.getP1()) && n.n4.region.contient(t.getP2()) && n.n4.region.contient(t.getP3()) || n.n4.region.intersection(t)) {
-				return inserer(n.n4, t);
+			if(n.n4.region.contient(t.getP1()) && n.n4.region.contient(t.getP2()) && n.n4.region.contient(t.getP3()) || n.n4.region.intersection(t)) {
+				inserer(n.n4, t);
+				return;
 			}
 			else{
 				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
@@ -161,12 +162,16 @@ public class QuadTree {
 				System.out.println("Régions : " + n.region);
 				this.erreur++;
 				System.out.println(t);
-				return null;
+				return;
 			}
 		}
 	}
 	
 	public Triangle recherche(Point p) {
+		if(!racine.region.contient(p)) {
+			System.out.println("Le point n'est pas dans la région de départ.");
+			return null;
+		}	
 		return recherche(racine, p);
 	}
 	
@@ -176,6 +181,19 @@ public class QuadTree {
 				if(t.contient(p)) {
 					return t;
 				}
+			}
+		}else if(n.n1.estFeuille() && n.n2.estFeuille() && n.n3.estFeuille() && n.n4.estFeuille()) {
+			if(recherche(n.n1, p) != null) {
+				return recherche(n.n1, p);
+			}
+			if(recherche(n.n2, p) != null) {
+				return recherche(n.n2, p);
+			}
+			if(recherche(n.n3, p) != null) {
+				return recherche(n.n3, p);
+			}
+			if(recherche(n.n4, p) != null) {
+				return recherche(n.n4, p);
 			}
 		}else {
 			float x = n.region.centre().getX();

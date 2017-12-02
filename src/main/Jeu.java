@@ -30,17 +30,14 @@ public class Jeu {
 	3 
 	*/
 	
-	public Jeu(String nomFichier, int N) {
-		// On lit le fichier
-		Lecteur lec = new Lecteur(nomFichier);
+	public Jeu(Point depart, Point arrive, ArrayList<Polygone> lst, float min_x, float max_x, float min_y, float max_y, int N) {
 		// Creation du QuadTree
-		this.lpoly = lec.getMap();
-		this.map = QuadTree.ConstructionQT(lpoly, 0, 10, 0, 10, 3);
+		this.lpoly = lst;
+		this.map = QuadTree.ConstructionQT(lpoly, 0, 10, 0, 10, N);
 		map.afficher();
 		// Definition point depart et arrivee
-		this.balle = lec.depart();
-		this.arrive = lec.arrivee();
-		this.score += this.scoretrace;
+		this.balle = depart;
+		this.arrive = arrive;
 	}
 	
 	public void JeuGraphique(){
@@ -49,6 +46,7 @@ public class Jeu {
 			triangles.addAll(p.triangulation());
 		}
 		JFrame fenetre = new Fenetre(triangles);
+		System.out.println(map.recherche(new Point(9.0f,5.5f)));
 	}
 	
 	public void JeuConsole(){
@@ -101,10 +99,17 @@ public class Jeu {
 				ArrayList<Point> points;
 				this.scoretrace++;
 				//trouver le polygone qui contient le point
+				
+				
+				// PAS BON DE CHERCHE DANS LA LISTE DES POLYGONES, UTILISER QUADTREE ?????
 				while (lpoly.get(i).contient(cible) == false)
 					i++;
 				//obtention point intersection
 				points = lpoly.get(i).PointsIntersection(d);
+				
+				
+				
+				
 				Point min = new Point(1555.0f, 1555.0f);
 				//calcul distance mini
 				for (Point p : points) {
@@ -135,10 +140,4 @@ public class Jeu {
 	public int CalculeScore() {
 		return score;
 	}
-
-	public ArrayList<Polygone> getLpoly() {
-		return lpoly;
-	}
-	
-	
 }
