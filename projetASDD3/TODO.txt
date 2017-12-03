@@ -1,0 +1,67 @@
+- ConstructionQT (Matt)
+- CalculPointAtterissageBalle (DONE BITCH) A tester
+- CalculPointDepartBalle (KC COMME JAJA) A tester
+- CalculeScore (done?)
+- fonction jeu !! genre tour loop
+
+
+if(n.estFeuille()) {
+			if(n.triangles.size() < N) {
+				n.triangles.add(t);
+				return;
+			}else if(n.triangles.size() == N) {
+				Rectangle [] tab = n.region.division(); // On récupère les 4 sous-régions
+				n.n1 = new Noeud(tab[0]);
+				n.n2 = new Noeud(tab[1]);
+				n.n3 = new Noeud(tab[2]);
+				n.n4 = new Noeud(tab[3]);
+				ArrayList<Triangle> listr = n.triangles; // On sauvegarde temporairement la liste des triangles
+				n.triangles = new ArrayList<Triangle>(); 
+				for(Triangle triangle : listr) {
+					inserer(racine, triangle);
+				}
+				inserer(racine, t);
+				return;
+			}
+			else {
+				n.triangles.add(t);
+				return;
+			}
+		}
+		else {
+			// On teste 
+			if(n.n1.region.contient(t.getP1()) && n.n1.region.contient(t.getP2()) && n.n1.region.contient(t.getP3()) || ( n.n1.region.intersection(t))) {
+				inserer(n.n1, t);
+				return;
+			}
+			if(n.n2.region.contient(t.getP1()) && n.n2.region.contient(t.getP2()) && n.n2.region.contient(t.getP3()) || n.n2.region.intersection(t)) {
+				inserer(n.n2, t);
+				return;
+			}
+			if(n.n3.region.contient(t.getP1()) && n.n3.region.contient(t.getP2()) && n.n3.region.contient(t.getP3()) || n.n3.region.intersection(t)) {
+				inserer(n.n3, t);
+				return;
+			}
+			if(n.n4.region.contient(t.getP1()) && n.n4.region.contient(t.getP2()) && n.n4.region.contient(t.getP3()) || n.n4.region.intersection(t)) {
+				inserer(n.n4, t);
+				return;
+			}
+		}
+		
+		
+	public Point pointenX(float x) {
+		if(this.estOrdinaire() && p1.getX() < p2.getX()) {
+			return new Point(x, (this.a*x)+c);
+		}else if(this.estOrdinaire() && p1.getX() > p2.getX()){
+			return new Point(-1, (-this.a)+c);
+		}else if(this.estHorizontale() && p1.getX() < p2.getX()) {
+			return new Point(x, this.p1.getY());
+		}else if(this.estHorizontale() && p1.getX() > p2.getX()) {
+			return new Point(-1, this.p1.getY());
+		}else if(this.estVerticale() && p1.getY() > p2.getY()) {
+			return new Point(p1.getX(), -1);
+		}else if(this.estVerticale() && p1.getY() < p2.getY()) {
+			return new Point(p1.getX(), x);
+		}
+		return null;
+	}
