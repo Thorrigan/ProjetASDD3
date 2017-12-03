@@ -43,7 +43,7 @@ public class Droite implements Forme{
 		//Droite ordinaire
 		else {
 			a = (p2.getY() - p1.getY())/(p2.getX() - p1.getX());		
-			b = -1;
+			b = - 1;
 			c = p1.getY() - a*p1.getX();
 		}
 		// On affecte les bonnes valeurs aux bonnes variables.
@@ -62,24 +62,6 @@ public class Droite implements Forme{
 		return this.a*p1.getX() + this.b*p1.getY() + this.c == 0;
 	}
 	
-	
-	public Point pointenX(float x) {
-		if(this.estOrdinaire() && p1.getX() < p2.getX()) {
-			return new Point(x, (this.a*x)+c);
-		}else if(this.estOrdinaire() && p1.getX() > p2.getX()){
-			return new Point(-1, (-this.a)+c);
-		}else if(this.estHorizontale() && p1.getX() < p2.getX()) {
-			return new Point(x, this.p1.getY());
-		}else if(this.estHorizontale() && p1.getX() > p2.getX()) {
-			return new Point(-1, this.p1.getY());
-		}else if(this.estVerticale() && p1.getY() > p2.getY()) {
-			return new Point(p1.getX(), -1);
-		}else if(this.estVerticale() && p1.getY() < p2.getY()) {
-			return new Point(p1.getX(), x);
-		}
-		return null;
-	}
-	
 	/**
 	 * Permet de localiser un point par rapport à une droite.
 	 * Compléxité: O(1)
@@ -89,11 +71,29 @@ public class Droite implements Forme{
 	public int demiPlan(Point p) {
 		if(contient(p)) {
 			return 0;
-		}else if(p.getY() > this.a*p.getX() + this.c) {
-			return 1;
 		}
-		else {
-			return -1;
+		if(this.estOrdinaire()){
+			if(0 <= this.a*p.getX() + this.b*p.getY() + this.c) {
+				return 1;
+			}
+			else {
+				return -1;
+			}
+		}else if(this.estHorizontale()){
+			if(p.getY() > this.p1.getY()) {
+				return 1;
+			}else {
+				return -1;
+			}
+		}else if(this.estVerticale()){
+			if(p.getX() > this.p1.getX()) {
+				return 1;
+			}else {
+				return -1;
+			}
+		}else{
+			System.out.println("EREUR DEMI PLAN");
+			return 0;
 		}
 	}
 	

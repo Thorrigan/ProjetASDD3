@@ -57,7 +57,7 @@ public class Triangle implements Forme{
 		return tab;
 		
 	}
-	
+
 	public Point getP1() {
 		return this.p1;
 	}
@@ -72,7 +72,6 @@ public class Triangle implements Forme{
 	
 	public Point centre() {
 		Segment AB = new Segment(this.p1, this.p2);
-		Segment BC = new Segment(this.p2, this.p3);
 		Segment AC = new Segment(this.p1, this.p3);
 		Point centreAB = AB.milieu();
 		Point centreAC = AC.milieu();
@@ -121,7 +120,7 @@ public class Triangle implements Forme{
 					}
 				}
 			}
-			return false;
+		return false;
 		}else {
 			return f1.intersection(this);
 		}
@@ -132,17 +131,72 @@ public class Triangle implements Forme{
 	 * @see Forme#contient(Point)
 	 */
 	public boolean contient(Point p) {
+		if(p.equals(this.p1) || p.equals(this.p2) || p.equals(this.p3)){
+			return true;
+		}
+		
 		for(Segment s : this.transformationSegment()) {
 			if(s.contient(p)) {
 				return true;
 			}
 		}
 		
-		float ABC = Math.abs (p1.getX() * (p2.getY() - p3.getY()) + p2.getX() * (p3.getY() - p1.getY()) + p3.getX() * (p1.getY() - p2.getY()));
-		float ABP = Math.abs (p1.getX() * (p2.getY() - p.getY()) + p2.getX() * (p.getY() - p1.getY()) + p.getX() * (p1.getY() - p2.getY()));
-		float APC = Math.abs (p1.getX() * (p.getY() - p3.getY()) + p.getX() * (p3.getY() - p1.getY()) + p3.getX() * (p1.getY() - p.getY()));
-		float PBC = Math.abs (p.getX() * (p2.getY() - p3.getY()) + p2.getX() * (p3.getY() - p.getY()) + p3.getX() * (p.getY() - p2.getY()));
-		return (ABP + APC + PBC) == ABC;
+
+		Droite AB = new Droite(p1, p2);
+		Droite BC = new Droite(p2, p3);
+		Droite AC = new Droite(p1, p3);
+		//System.out.println("Droite AB: " + AB + " demi plan p: " + AB.demiPlan(p) + " demi plan p3: " + AB.demiPlan(this.p3));
+		//System.out.println("Droite BC: " + BC + " demi plan p: " + BC.demiPlan(p) + " demi plan p1: " + BC.demiPlan(this.p1));
+		//System.out.println("Droite AC: " + AC + " demi plan p: " + AC.demiPlan(p) + " demi plan p2: " + AC.demiPlan(this.p2));
+		if(AB.demiPlan(p) == AB.demiPlan(this.p3) && BC.demiPlan(p) == BC.demiPlan(this.p1) && AC.demiPlan(p) == AC.demiPlan(this.p2)){
+			return true;
+		}
+		return false;
+		/*
+		 * double ABC = Math.abs (p1.getX() * (p2.getY() - p3.getY()) + p2.getX() * (p3.getY() - p1.getY()) + p3.getX() * (p1.getY() - p2.getY()));
+		double ABP = Math.abs (p1.getX() * (p2.getY() - p.getY()) + p2.getX() * (p.getY() - p1.getY()) + p.getX() * (p1.getY() - p2.getY()));
+		double APC = Math.abs (p1.getX() * (p.getY() - p3.getY()) + p.getX() * (p3.getY() - p1.getY()) + p3.getX() * (p1.getY() - p.getY()));
+		double PBC = Math.abs (p.getX() * (p2.getY() - p3.getY()) + p2.getX() * (p3.getY() - p.getY()) + p3.getX() * (p.getY() - p2.getY()));
+		System.out.println(ABP+APC+PBC);
+		System.out.println("issou : " +ABC);
+		return Math.abs((ABP + APC + PBC)- ABC) < 0.1;
+		 */
+	}
+	
+	private int demiPlanCorrige(Droite d, Point pcorrige, Point p){
+		int compteur = 0;
+		if(d.estOrdinaire()){
+			compteur += d.demiPlan(p);
+		}
+		if(d.estHorizontale() && pcorrige.getY() > d.p1.getY()){
+			if(p.getY() > d.p1.getY()){
+				compteur += 1;
+			}else{
+				compteur += 0;
+			}
+		}
+		if(d.estHorizontale() && pcorrige.getY() < d.p1.getY()){
+			if(p.getY() < d.p1.getY()){
+				compteur -= 1;
+			}else{
+				compteur -= 0;
+			}
+		}
+		if(d.estVerticale() && pcorrige.getX() > d.p1.getX()){
+			if(p.getX() > d.p1.getX()){
+				compteur += 1;
+			}else{
+				compteur -= 0;
+			}
+		}
+		if(d.estVerticale() && pcorrige.getX() < d.p1.getX()){
+			if(p.getX() < d.p1.getX()){
+				compteur -= 1;
+			}else{
+				compteur += 0;
+			}
+		}
+		return compteur;
 	}
 
 	/* (non-Javadoc)

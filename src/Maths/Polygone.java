@@ -113,8 +113,6 @@ public class Polygone implements Forme{
 		Point C = points.get(2+index);
 		Triangle t = new Triangle(A, B, C, this.type);
 		Segment seg = new Segment(A, C);
-		Point D = seg.transformationDroite().pointenX(11.0f);
-		Segment AD = new Segment(A, D);
 		for(Point p : this.lstp){
 			if(t.contient(p) && p != A && p != B && p != C){
 				ArrayList<Triangle> resultat = new ArrayList<Triangle>();
@@ -136,51 +134,6 @@ public class Polygone implements Forme{
 		resultat.addAll(triangles);
 		resultat.addAll(this.triangulation(points, index));
 		return resultat;
-	}
-	
-	private int intersectionPropre(Segment seg) {
-		int compteur = 0;
-		ArrayList<Point> lp = new ArrayList<Point>();
-		//Point prevPoint = null;
-		
-		for(Segment s : this.transformationSegment()) {
-			System.out.println("Evaluation du segment: "+ s);
-			if(seg.contient(s)) {
-				// On est alors de type C	
-				System.out.println("Intersection type C." + seg + " " + s);
-				compteur++;
-			}
-			else if(seg.intersection(s)) {
-				Point p = seg.PointsIntersection(s).get(0);
-				if(lp.contains(p)) {
-					continue;
-				}
-				// type A		
-				if(seg.contient(p) && !p.equals(seg.p1) && !p.equals(seg.p2)) {
-					System.out.println("Intersection type A. "+ p + " " + seg + " " + s);
-					lp.add(p);
-				}else {
-					System.out.println("Point intersection sur un sommet");
-				}
-			}else if(seg.contient(s.p1) && !seg.p1.equals(s.p1) && !seg.p2.equals(s.p1)){
-				if(lp.contains(s.p1)) {
-					continue;
-				}
-				lp.add(s.p1);
-				System.out.println("Intersection type B. "+ s.p1 + " " + seg + " " + s);
-			}
-			else if (seg.contient(s.p2) && !seg.p1.equals(s.p2) && !seg.p2.equals(s.p2)){
-				if(lp.contains(s.p2)) {
-					continue;
-				}
-				lp.add(s.p2);
-				System.out.println("Intersection type B. "+ s.p2 + " " + seg + " " + s);
-			}else {
-				System.out.println("Aucune intersection");
-			}
-		}
-		System.out.println("Nombre d'intersection Propre: "+ (compteur+ lp.size()));
-		return compteur + lp.size();
 	}
 	
 	/**

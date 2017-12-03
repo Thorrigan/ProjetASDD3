@@ -1,6 +1,7 @@
 package main;
 import Maths.Point;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
@@ -22,7 +23,7 @@ public class Jeu {
 	private int tour;
 	private ArrayList<Polygone> lpoly;
 	private ArrayList<Polygone> parpoly;
-	
+
 	
 	/*STATE A CHOISIR
 	0 default
@@ -40,6 +41,16 @@ public class Jeu {
 		this.balle = depart;
 		this.arrive = arrive;
 		this.parpoly = parpoly;
+		this.state = 0;
+		Point cible = new Point(0.0f,0.0f);
+		
+		//while (this.balle.equals(arrive)) {
+			System.out.println("TESTUUU : ");
+			/*cible = SaisiePoint();
+			System.out.println("cible :" + cible);
+			cible = this.CalculePointAtterrissageBalle(cible);
+			System.out.println("cible post aterrisage5:" + cible);*/
+		//}
 	}
 	
 	public void JeuGraphique(){
@@ -47,8 +58,7 @@ public class Jeu {
 		for(Polygone p : this.lpoly){
 			triangles.addAll(p.triangulation());
 		}
-		JFrame fenetre = new Fenetre(triangles);
-		System.out.println(map.recherche(new Point(9.0f,5.5f)));
+		JFrame fenetre = new Fenetre(triangles);		
 	}
 	
 	public void JeuConsole(){
@@ -65,11 +75,13 @@ public class Jeu {
 		System.out.println(signe);
 		b = (float) (Math.random() *(40));
 		moda = (float) (Math.random() *(40));
+		System.out.println("moda " + moda + "   b : " + b);
 		if (signe == 1)
 			angler = angle + moda;
 		else
 			angler = angle - moda;
 		signe = (int) Math.random();
+		System.out.println("signe : " + signe + "   angle : " + angler);
 		if (signe == 1)
 			distr = (1+(b/100)) * balle.distance(cible);
 		else if (state == 2)
@@ -130,6 +142,25 @@ public class Jeu {
 				return cible;
 			}
 		}
+	}
+	
+	private Point SaisiePoint() {
+		System.out.println("Saisissez un point : (Entrer n pour annuler)");
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("X: ");
+		if(scanner.hasNextFloat()) {
+			float x = scanner.nextFloat();
+			System.out.print("Y: ");
+			if(scanner.hasNextFloat()) {
+				float y = scanner.nextFloat();
+				scanner.close();
+				return new Point(x, y);
+			}
+			scanner.close();
+			return null;
+		}
+		scanner.close();
+		return null;
 	}
 	
 	public int Calculescoretrace() {
