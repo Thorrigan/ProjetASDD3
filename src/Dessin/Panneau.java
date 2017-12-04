@@ -1,103 +1,82 @@
 package Dessin;
+import main.Jeu;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Stroke;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Path2D;
-import java.util.ArrayList;
-
-import Maths.Point;
-import Maths.Polygone;
-import Maths.Triangle;
-
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.Label;
+import java.awt.Font;
+import java.awt.Panel;
+import java.awt.Button;
+import javax.swing.JTextField;
  
-public class Panneau extends JPanel { 
-	  private ArrayList<Polygone> lpoly;
-	  private ArrayList<Triangle> lt;
-	  private int scalaire = 79; //resize ++
-	  
-	  public Panneau(ArrayList<Polygone> lpoly) {
-		  this.lpoly = lpoly;
-	  }
-	  
-	  public Panneau(ArrayList<Triangle> lpo, int nb) {
-		  this.lt = lpo;
-		  this.addMouseListener(new MouseAdapter() {
-		    	public void mousePressed(MouseEvent e) {
-		    		System.out.println(e.getX()/scalaire + "," + e.getY()/scalaire);
-		    	}
-		    });
-	  }
-	  
-	  @Override
-	  public void paintComponent(Graphics g) {
-	        super.paintComponent(g);
-		  Graphics2D g2 = (Graphics2D) g;
-		  g2.translate(0, getHeight());
-		  g2.scale(1.0, -1.0);
-		  
-		  for(Triangle t : this.lt) {
-			  Path2D path = new Path2D.Float();
-			  double thickness = 2;
-			  Stroke oldStroke = g2.getStroke();
-			  g2.setStroke(new BasicStroke(2.0f));
-			  path.moveTo(t.getP1().getX()*scalaire,t.getP1().getY()*scalaire);
-			  path.lineTo(t.getP2().getX()*scalaire,t.getP2().getY()*scalaire);
-			  path.lineTo(t.getP3().getX()*scalaire,t.getP3().getY()*scalaire);
-			  if (t.getType() == 'B')//eau
-				  g2.setColor(new Color(115, 194, 251));
-			  else if(t.getType() == 'C') //vertclair
-				  g2.setColor(new Color(159, 232, 85));
-			  else if(t.getType() == 'V') //vert
-				  g2.setColor(new Color(1, 215, 88));
-			  else if(t.getType() == 'S') //vertsapin
-				  g2.setColor(new Color(9, 106, 9));
-			  else //
-				  g2.setColor(new Color(253, 241, 184)); //sable
-			  
-			  //g2.setColor(new Color(253, 241, 184)); //sable
-		  
-			  g2.fill(path);
-			  g2.setColor(Color.black);
-			  g2.draw(path);
-			  path.closePath();
-		  }
-		  
-		  
-		  /*for (int i = 0; i < this.lpoly.size(); i++) {
-			  Path2D path = new Path2D.Float();
-			  double thickness = 2;
-			  Stroke oldStroke = g2.getStroke();
-			  g2.setStroke(new BasicStroke(2.0f));
-			  for (int j = 0; j < this.lpoly.get(i).getLstp().size(); j++) {
-				  float[] x = new float[this.lpoly.get(i).getLstp().size()];
-				  float[] y = new float[this.lpoly.get(i).getLstp().size()];
-				  x[j] = ((this.lpoly.get(i).getLstp().get(j).getX())*80.0f);
-				  y[j] = ((this.lpoly.get(i).getLstp().get(j).getY()) *80.0f);
-				  if (j == 0)
-					  path.moveTo(x[j], y[j]);
-				  else
-					  path.lineTo(x[j], y[j]);
-			  }
-			  if (this.lpoly.get(i).getType() == 'B')//eau
-				  g2.setColor(new Color(115, 194, 251));
-			  else if(this.lpoly.get(i).getType() == 'C') //vertclair
-				  g2.setColor(new Color(159, 232, 85));
-			  else if(this.lpoly.get(i).getType() == 'V') //vert
-				  g2.setColor(new Color(1, 215, 88));
-			  else if(this.lpoly.get(i).getType() == 'S') //vertsapin
-				  g2.setColor(new Color(9, 106, 9));
-			  else //
-				  g2.setColor(new Color(253, 241, 184)); //sable
-			  g2.fill(path);
-			  g2.setColor(Color.black);
-			  g2.draw(path);
-			  path.closePath();
-		  }*/
-	  }            
+public class Panneau extends JPanel {
+	private JTextField textField;
+	private JTextField textField_1;
+	public Panneau(Jeu jeu) {
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		
+		Panel panel_6 = new Panel();
+		add(panel_6);
+		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
+		
+		JPanel panel_7 = new JPanel();
+		panel_6.add(panel_7);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
+		
+		JPanel panel_8 = new JPanel();
+		panel_7.add(panel_8);
+		
+		JLabel lblTrouActuel = new JLabel("Trou actuel :");
+		panel_8.add(lblTrouActuel);
+		
+		JLabel lblScoreActuel = new JLabel("Score Actuel :");
+		panel_8.add(lblScoreActuel);
+		
+		JPanel panel_9 = new JPanel();
+		panel_7.add(panel_9);
+		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.X_AXIS));
+		
+		JLabel lblScoreTotal = new JLabel("Score Total :");
+		panel_9.add(lblScoreTotal);
+		
+		JLabel lblParTotal = new JLabel("Par Total :");
+		panel_9.add(lblParTotal);
+		
+		Panel panel_3 = new Panel();
+		panel_6.add(panel_3);
+		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
+		
+		Panel panel_4 = new Panel();
+		panel_3.add(panel_4);
+		
+		Label label_1 = new Label("X :");
+		panel_4.add(label_1);
+		
+		textField = new JTextField();
+		panel_4.add(textField);
+		textField.setColumns(10);
+		
+		Panel panel_5 = new Panel();
+		panel_3.add(panel_5);
+		
+		Label label_2 = new Label("Y :");
+		panel_5.add(label_2);
+		
+		textField_1 = new JTextField();
+		panel_5.add(textField_1);
+		textField_1.setColumns(10);
+		
+		Button button = new Button("Tirer !");
+		panel_3.add(button);
+		
+		JLabel lblAstuce = new JLabel("Astuces :");
+		panel_6.add(lblAstuce);
+		
+		JLabel lblDistanceAuProchain = new JLabel("Distance au prochain Trou:");
+		panel_6.add(lblDistanceAuProchain);
+		
+		JLabel lblDegrParRapport = new JLabel("Degr\u00E9 par rapport au prochain trou :");
+		panel_6.add(lblDegrParRapport);
+	} 		          
 }
