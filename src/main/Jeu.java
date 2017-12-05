@@ -46,6 +46,7 @@ public class Jeu {
 		this.scoretot = 0;
 		this.scoreact = 0;
 		this.state = 0;
+		
 	}
 	
 	public int parAct() {
