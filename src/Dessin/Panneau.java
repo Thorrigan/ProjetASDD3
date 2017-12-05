@@ -11,6 +11,9 @@ import java.awt.Button;
 import java.awt.Dimension;
 
 import javax.swing.JTextField;
+
+import Maths.Point;
+
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -20,25 +23,25 @@ public class Panneau extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	public Panneau(Jeu jeu) {
+	public Panneau(final Jeu jeu) {
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(280,600));
 		setLayout(null);
 		
-		JLabel lblTrouActuel = new JLabel("Trou actuel :");
+		JLabel lblTrouActuel = new JLabel("Trou actuel: " + jeu.trouActuel());
 		lblTrouActuel.setBounds(134, 81, 80, 14);
 		add(lblTrouActuel);
 		
-		JLabel lblScoreActuel = new JLabel("Score Actuel :");
+		JLabel lblScoreActuel = new JLabel("Score Actuel: " + jeu.scoreactuel());
 		lblScoreActuel.setBounds(134, 49, 86, 14);
 		add(lblScoreActuel);
 		
-		JLabel lblScoreTotal = new JLabel("Score Total :");
+		JLabel lblScoreTotal = new JLabel("Score Total: " + jeu.scoretotal());
 		lblScoreTotal.setBounds(10, 49, 79, 14);
 		add(lblScoreTotal);
 		
-		JLabel lblParTotal = new JLabel("Par Total :");
-		lblParTotal.setBounds(10, 81, 61, 14);
+		JLabel lblParTotal = new JLabel("Par Total: " + jeu.partotal());
+		lblParTotal.setBounds(10, 81, 79, 14);
 		add(lblParTotal);
 		
 		Label label_1 = new Label("X :");
@@ -93,7 +96,6 @@ public class Panneau extends JPanel {
 		JButton btnTirer = new JButton("Tirer !");
 		btnTirer.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("CLICK"); 
 				if(!textField_2.getText().isEmpty() && !textField_3.getText().isEmpty()) {
 					float angle = 0.0f;
 					float distance = 0.0f;
@@ -101,7 +103,8 @@ public class Panneau extends JPanel {
 						angle = Float.parseFloat(textField_2.getText());
 						distance = Float.parseFloat(textField_3.getText());
 						if(angle >= 0 && angle <= 360 && distance > 0) {
-							System.out.println("Vous avez tapé un angle de: " + angle + " et une distance " + distance);
+							//System.out.println("Vous avez tapé un angle de: " + angle + " et une distance " + distance);
+							jeu.JouerCoup(angle, distance);
 							textField_2.setText("");
 							textField_3.setText("");
 						}else {
@@ -120,7 +123,6 @@ public class Panneau extends JPanel {
 		JButton btnTirer_1 = new JButton("Tirer !");
 		btnTirer_1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("CLICK"); 
 				if(!textField.getText().isEmpty() && !textField_1.getText().isEmpty()) {
 					float x = 0.0f;
 					float y = 0.0f;
@@ -128,7 +130,8 @@ public class Panneau extends JPanel {
 					x = Float.parseFloat(textField_1.getText());
 					y = Float.parseFloat(textField.getText());
 					if(x >= 0.0f && x <= 10.0f && y >= 0.0f && y <= 10.0f) {
-						System.out.println("Vous avez tapé: " + x + " " + y);
+						Point dest = new Point(x,y);
+						jeu.JouerCoup(dest);
 						textField.setText("");
 						textField_1.setText("");
 					}else {
@@ -143,7 +146,7 @@ public class Panneau extends JPanel {
 		btnTirer_1.setBounds(65, 365, 89, 23);
 		add(btnTirer_1);
 		
-		JLabel lblParDuTrou = new JLabel("Par du trou actuel :");
+		JLabel lblParDuTrou = new JLabel("Par du trou actuel: " + jeu.parAct());
 		lblParDuTrou.setBounds(59, 11, 116, 14);
 		add(lblParDuTrou);
 	} 		          

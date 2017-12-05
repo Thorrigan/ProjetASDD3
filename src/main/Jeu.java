@@ -19,6 +19,7 @@ public class Jeu {
 	private int scoretot;
 	private int scoreact;
 	private int state;
+	
 	/*
 	 * private Point arrive;
 	private int score;
@@ -73,24 +74,36 @@ public class Jeu {
 		return this.trouAct;
 	}
 	
-	private Point ptDepart() {
+	public Point ptDepart() {
 		return this.traces.get(trouAct).getDepart();
 	}
 	
-	private Point ptArrive() {
+	public Point ptArrive() {
 		return this.traces.get(trouAct).getArrivee();
 	}
 	
 	public void JeuGraphique(){
+		// Initialisation du jeu
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		for(Polygone p : this.lpoly){
 			triangles.addAll(p.triangulation());
 		}
-		JFrame fenetre = new Fenetre(triangles);
+		JFrame fenetre = new Fenetre(this);
+		
+		// Deroulement du jeu
+		
 	}
 	
 	public void JeuConsole(){
 		
+	}
+	
+	public void JouerCoup(Point dest) {
+		System.out.println("On tire vers le point " + dest);
+	}
+	
+	public void JouerCoup(float angle, float distance) {
+		System.out.println("On tire avec un angle de " + angle + " degres et une distance de " + distance);
 	}
 	
 	public ArrayList<Polygone> getPolygones(){

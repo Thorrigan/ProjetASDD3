@@ -27,13 +27,32 @@ public class Main {
 	public static void main(String[] args) {
 		// Initialisation du programme avec les valeurs par d�fault
 		// ou les valeurs entree en ligne de commande
-		String nomFichier = "map.txt";
-		int N = 3;
-		if(args.length >= 1) {
+		String nomFichier = "";
+		int N = 0;
+		float min_X = 0;
+		float min_Y = 0;
+		float max_X = 10;
+		float max_Y = 10;
+		if(args.length == 0) {
+			nomFichier = "map.txt";
+			N = 3;
+		}
+		else if(args.length == 1) {
 			nomFichier = args[0];
 		}
-		if(args.length >= 2){
+		else if(args.length == 2){
+			nomFichier = args[0];
 			N = Integer.parseInt(args[1]);
+		}else if(args.length == 6) {
+			nomFichier = args[0];
+			N = Integer.parseInt(args[1]);
+			min_X = Float.parseFloat(args[2]);
+			min_Y = Float.parseFloat(args[3]);
+			max_X = Float.parseFloat(args[4]);
+			max_Y = Float.parseFloat(args[5]);
+		}else {
+			System.out.println("Erreur dans la lecture de la commande d'execution.");
+			System.exit(1);
 		}
 		/*
 		// Variables pour le menu principal du programme
@@ -70,7 +89,7 @@ public class Main {
 		
 		
 		Lecteur lec = new Lecteur(nomFichier);
-		Jeu jeu = lec.creationJeu(0, 10, 0, 10, N);
+		Jeu jeu = lec.creationJeu(min_X, max_X, min_Y, max_Y, N);
 		jeu.JeuGraphique();
 	}
 }
