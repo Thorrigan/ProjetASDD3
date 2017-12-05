@@ -21,6 +21,7 @@ public class Lecteur {
 	public Jeu creationJeu(float min_x, float max_x, float min_y, float max_y, int N) {
 		File f = new File(nomFichier);
 		ArrayList<Polygone> map = new ArrayList<Polygone>();
+		ArrayList<Trace> traces = new ArrayList<Trace>(); 
 		Point depart = null;
 		Point arrive = null;
 		//si existe
@@ -30,6 +31,7 @@ public class Lecteur {
 			String ligne;
 			int compteur = 0;
 			int nbsurfaces = 0;
+			int nbtraces = 0;
 			while((ligne = br.readLine()) != null){
 				System.out.println(ligne);				
 				if(compteur == 0){
@@ -56,29 +58,28 @@ public class Lecteur {
 								i++;
 							}
 							Y = Float.parseFloat(s);
-							//System.out.println("X: " + X + " Y: " + Y);
 							Point p = new Point(X, Y);
 							lp.add(p);
 						}		
 					}
 					char type = ligne.charAt(ligne.length()-1);
-					//System.out.println("Type: " + type);
 					Polygone s = new Polygone(lp, type);
 					map.add(s);
+				}else if(compteur == nbsurfaces +1) {
+					nbtraces = Integer.parseInt(ligne);
+				}else if(compteur >= nbsurfaces + nbtraces + 1) {
+					traces.add(Trace.lireTrace(ligne));				
+				}else {
+					System.out.println("Erreur dans le fichier de départ.");
 				}
 				compteur ++;
 			}
-			for(Polygone sf : map){
-				System.out.println(sf.toString());
-			}
 			br.close();
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new Jeu(depart, arrive, map, min_x, max_x, min_y, max_y, N);
+		return new Jeu(traces, map, min_x, max_x, min_y, max_y, N);
 	}
 }

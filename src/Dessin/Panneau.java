@@ -8,75 +8,143 @@ import java.awt.Label;
 import java.awt.Font;
 import java.awt.Panel;
 import java.awt.Button;
+import java.awt.Dimension;
+
 import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
  
 public class Panneau extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
 	public Panneau(Jeu jeu) {
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		
-		Panel panel_6 = new Panel();
-		add(panel_6);
-		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
-		
-		JPanel panel_7 = new JPanel();
-		panel_6.add(panel_7);
-		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.Y_AXIS));
-		
-		JPanel panel_8 = new JPanel();
-		panel_7.add(panel_8);
+		this.setVisible(true);
+		this.setPreferredSize(new Dimension(280,600));
+		setLayout(null);
 		
 		JLabel lblTrouActuel = new JLabel("Trou actuel :");
-		panel_8.add(lblTrouActuel);
+		lblTrouActuel.setBounds(134, 81, 80, 14);
+		add(lblTrouActuel);
 		
 		JLabel lblScoreActuel = new JLabel("Score Actuel :");
-		panel_8.add(lblScoreActuel);
-		
-		JPanel panel_9 = new JPanel();
-		panel_7.add(panel_9);
-		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.X_AXIS));
+		lblScoreActuel.setBounds(134, 49, 86, 14);
+		add(lblScoreActuel);
 		
 		JLabel lblScoreTotal = new JLabel("Score Total :");
-		panel_9.add(lblScoreTotal);
+		lblScoreTotal.setBounds(10, 49, 79, 14);
+		add(lblScoreTotal);
 		
 		JLabel lblParTotal = new JLabel("Par Total :");
-		panel_9.add(lblParTotal);
-		
-		Panel panel_3 = new Panel();
-		panel_6.add(panel_3);
-		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.Y_AXIS));
-		
-		Panel panel_4 = new Panel();
-		panel_3.add(panel_4);
+		lblParTotal.setBounds(10, 81, 61, 14);
+		add(lblParTotal);
 		
 		Label label_1 = new Label("X :");
-		panel_4.add(label_1);
+		label_1.setBounds(25, 283, 27, 22);
+		add(label_1);
 		
 		textField = new JTextField();
-		panel_4.add(textField);
+		textField.setBounds(59, 313, 86, 20);
+		add(textField);
 		textField.setColumns(10);
 		
-		Panel panel_5 = new Panel();
-		panel_3.add(panel_5);
-		
 		Label label_2 = new Label("Y :");
-		panel_5.add(label_2);
+		label_2.setBounds(25, 311, 28, 22);
+		add(label_2);
 		
 		textField_1 = new JTextField();
-		panel_5.add(textField_1);
+		textField_1.setBounds(58, 285, 86, 20);
+		add(textField_1);
 		textField_1.setColumns(10);
 		
-		Button button = new Button("Tirer !");
-		panel_3.add(button);
-		
 		JLabel lblAstuce = new JLabel("Astuces :");
-		panel_6.add(lblAstuce);
+		lblAstuce.setBounds(77, 414, 68, 14);
+		add(lblAstuce);
 		
 		JLabel lblDistanceAuProchain = new JLabel("Distance au prochain Trou:");
-		panel_6.add(lblDistanceAuProchain);
+		lblDistanceAuProchain.setBounds(25, 439, 154, 14);
+		add(lblDistanceAuProchain);
 		
-		JLabel lblDegrParRapport = new JLabel("Degr\u00E9 par rapport au prochain trou :");
-		panel_6.add(lblDegrParRapport);
+		JLabel lblDegrParRapport = new JLabel("Degre par rapport au prochain trou :");
+		lblDegrParRapport.setBounds(25, 464, 215, 14);
+		add(lblDegrParRapport);
+		
+		JLabel lblAngle = new JLabel("Angle :");
+		lblAngle.setBounds(10, 144, 46, 14);
+		add(lblAngle);
+		
+		JLabel lblDistance = new JLabel("Distance :");
+		lblDistance.setBounds(10, 169, 61, 14);
+		add(lblDistance);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(72, 141, 86, 20);
+		add(textField_2);
+		textField_2.setColumns(10);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(72, 166, 86, 20);
+		add(textField_3);
+		textField_3.setColumns(10);
+		
+		// AVEC DISTANCE ET ANGLE
+		JButton btnTirer = new JButton("Tirer !");
+		btnTirer.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("CLICK"); 
+				if(!textField_2.getText().isEmpty() && !textField_3.getText().isEmpty()) {
+					float angle = 0.0f;
+					float distance = 0.0f;
+					try {
+						angle = Float.parseFloat(textField_2.getText());
+						distance = Float.parseFloat(textField_3.getText());
+						if(angle >= 0 && angle <= 360 && distance > 0) {
+							System.out.println("Vous avez tapé un angle de: " + angle + " et une distance " + distance);
+							textField_2.setText("");
+							textField_3.setText("");
+						}else {
+							System.out.println("Vos valeurs ne sont pas cohérentes.");
+						}
+					}catch (NumberFormatException ex) {
+						System.out.println("Vous n'avez pas entré deux réels."); 
+				    } 
+				}
+			}
+		});
+		btnTirer.setBounds(59, 219, 89, 23);
+		add(btnTirer);
+		
+		// AVEC COORDONNEES
+		JButton btnTirer_1 = new JButton("Tirer !");
+		btnTirer_1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				System.out.println("CLICK"); 
+				if(!textField.getText().isEmpty() && !textField_1.getText().isEmpty()) {
+					float x = 0.0f;
+					float y = 0.0f;
+					try {
+					x = Float.parseFloat(textField_1.getText());
+					y = Float.parseFloat(textField.getText());
+					if(x >= 0.0f && x <= 10.0f && y >= 0.0f && y <= 10.0f) {
+						System.out.println("Vous avez tapé: " + x + " " + y);
+						textField.setText("");
+						textField_1.setText("");
+					}else {
+						System.out.println("Vos valeurs ne sont pas cohérentes.");
+					}
+					}catch (NumberFormatException ex) {
+						System.out.println("Vous n'avez pas entré deux réels."); 
+				    } 
+				}
+			}
+		});
+		btnTirer_1.setBounds(65, 365, 89, 23);
+		add(btnTirer_1);
+		
+		JLabel lblParDuTrou = new JLabel("Par du trou actuel :");
+		lblParDuTrou.setBounds(59, 11, 116, 14);
+		add(lblParDuTrou);
 	} 		          
 }

@@ -72,6 +72,5 @@ public class Main {
 		Lecteur lec = new Lecteur(nomFichier);
 		Jeu jeu = lec.creationJeu(0, 10, 0, 10, N);
 		jeu.JeuGraphique();
-		//TestsUnitairesMaths.menuprincipalMaths();
 	}
 }

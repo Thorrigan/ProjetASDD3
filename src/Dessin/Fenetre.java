@@ -9,6 +9,9 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import Maths.Triangle;
 import main.Jeu;
+import javax.swing.JLabel;
+import javax.swing.BoxLayout;
+import java.awt.Font;
 
 public class Fenetre extends JFrame {
 	ArrayList<Triangle> lpoly;
@@ -16,7 +19,7 @@ public class Fenetre extends JFrame {
 	public Fenetre(ArrayList<Triangle> lpoly){
 	this.lpoly = lpoly;
     this.setTitle("Ma première fenêtre Java");
-    this.setSize(1100, 900);
+    this.setSize(1200, 900);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
     this.setVisible(true);
@@ -24,12 +27,25 @@ public class Fenetre extends JFrame {
     Jeu jeu = null;
     
     JPanel pan = new JPanel();
-    this.setContentPane(pan);
+    pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+    
+    JPanel panel = new JPanel();
+    pan.add(panel);
+    
+    JLabel lblJeuDeGolf = new JLabel("Jeu de Golf");
+    lblJeuDeGolf.setFont(new Font("Arial Black", Font.BOLD, 16));
+    panel.add(lblJeuDeGolf);
+    
+    JPanel panel_1 = new JPanel();
+    pan.add(panel_1);
     JPanel dessin = new Dessin(lpoly, 0);
+    panel_1.add(dessin);
+    dessin.setPreferredSize(new Dimension(800,800));
+    dessin.setLayout(null);
     JPanel panneau = new Panneau(null);
-    pan.add(dessin);
-    pan.add(panneau);
-    pan.setSize(new Dimension(300,300));
+    panel_1.add(panneau);
+    pan.setSize(new Dimension(1100,900));
     pan.setVisible(true);
+    this.setContentPane(pan);
   }
 }

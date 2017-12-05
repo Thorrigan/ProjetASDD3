@@ -32,7 +32,7 @@ public class Dessin extends JPanel{
 		  this.addMouseListener(new MouseAdapter() {
 		    	public void mousePressed(MouseEvent e) {
 		    		float x = (float) e.getX()/scalaire;
-		    		float y = 11.0f - ((float) e.getY()/scalaire);
+		    		float y = 10.0f - ((float) e.getY()/scalaire);
 		    		x = Math.round(x*100.0f)/100.0f;
 		    		y = Math.round(y*100.0f)/100.0f;
 		    		if(e.getButton() == MouseEvent.BUTTON3) {
