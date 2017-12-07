@@ -1,13 +1,4 @@
 package main;
-import java.util.ArrayList;
-import java.util.Scanner;
-import javax.swing.JFrame;
-
-import Dessin.Fenetre;
-import Maths.Point;
-import Maths.Polygone;
-import Maths.Triangle;
-import Tests.TestsUnitairesMaths;
 
 /**
  * Compl�xit�: Dans ce programme, nous noterons: 

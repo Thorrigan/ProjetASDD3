@@ -40,7 +40,6 @@ public class Jeu {
 	public Jeu(ArrayList<Trace> trace, ArrayList<Polygone> lst, float min_x, float max_x, float min_y, float max_y, int N) {
 		this.balle = trace.get(0).getDepart();
 		this.map = QuadTree.ConstructionQT(lst, 0, 10, 0, 10, N);
-		this.map.afficher();
 		this.lpoly = lst;
 		this.traces = trace;
 		this.trouAct = 0;
@@ -80,6 +79,10 @@ public class Jeu {
 	
 	public Point ptDepart() {
 		return this.traces.get(trouAct).getDepart();
+	}
+	
+	public Trace getactTrace() {
+		return this.traces.get(this.trouAct);
 	}
 	
 	public Point ptArrive() {

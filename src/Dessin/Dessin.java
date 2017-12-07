@@ -18,6 +18,7 @@ import Maths.Point;
 import Maths.Polygone;
 import Maths.Triangle;
 import main.Jeu;
+import main.Trace;
 
 public class Dessin extends JPanel {
 	  private int scalaire = 79; //resize ++
@@ -56,6 +57,34 @@ public class Dessin extends JPanel {
 		  }else {
 			  dessinPolygone(g2);  
 		  }
+		  
+		  if(this.fen.getaffichageTrace() == true) {
+			  Trace t = jeu.getactTrace();
+			  ArrayList<Integer> surfacesID = t.getSurfaces();
+			  System.out.println(surfacesID);
+			  for (int i = 0; i < this.jeu.getPolygones().size(); i++) {
+				  if(surfacesID.contains(i)) {
+					  System.out.println(this.jeu.getPolygones().get(i));
+					  Path2D path = new Path2D.Float();
+					  g2.setStroke(new BasicStroke(2.0f));
+					  for (int j = 0; j < this.jeu.getPolygones().get(i).getLstp().size(); j++) {
+						  float[] x = new float[this.jeu.getPolygones().get(i).getLstp().size()];
+						  float[] y = new float[this.jeu.getPolygones().get(i).getLstp().size()];
+						  x[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getX())*80.0f);
+						  y[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getY()) *80.0f);
+						  if (j == 0)
+							  path.moveTo(x[j], y[j]);
+						  else
+							  path.lineTo(x[j], y[j]);
+					  }
+					  g2.setColor(new Color(255, 100, 100));
+					  g2.fill(path);
+					  g2.setColor(Color.black);
+					  g2.draw(path);
+					  path.closePath(); 
+				  }	
+			  }
+		  }
 		  dessinBalle(g2);
 		  dessinArrivee(g2);
 	  }
@@ -75,8 +104,6 @@ public class Dessin extends JPanel {
 	  private void dessinTriangle(Graphics2D g2) {		  
 		  for(Triangle t : this.jeu.getTriangles()) {
 			  Path2D path = new Path2D.Float();
-			  double thickness = 2;
-			  Stroke oldStroke = g2.getStroke();
 			  g2.setStroke(new BasicStroke(2.0f));
 			  path.moveTo(t.getP1().getX()*scalaire,t.getP1().getY()*scalaire);
 			  path.lineTo(t.getP2().getX()*scalaire,t.getP2().getY()*scalaire);

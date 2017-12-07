@@ -89,13 +89,31 @@ public class Point implements Comparable<Point>{
 	}
 	
 	public float angle(Point p1){
-		if (p1.getX() == this.x)
-			return 90;
-		else if (p1.getY() == this.y)
+		if(this.equals(p1)) {
 			return 0;
+		}
+		else if(p1.getX() == this.x && p1.getY() > this.y)
+			return 0;
+		else if(p1.getX() == this.x && p1.getY() < this.y)
+			return 180;
+		else if(p1.getY() == this.y && p1.getX() > this.x)
+			return 90;
+		else if(p1.getY() == this.y && p1.getX() < this.x)
+			return 270;
 		else {
 			Point p2 = new Point(p1.getX(), this.y);
-			return (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+			if(p1.getX() > this.x && p1.getY() > this.y) {
+				return (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+			}
+			else if(p1.getX() > this.x && p1.getY() < this.y) {
+				return 90.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+			}
+			else if(p1.getX() > this.x && p1.getY() < this.y) {
+				return 180.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+			}
+			else {
+				return 270.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+			}
 		}
 	}
 }

@@ -19,8 +19,10 @@ import java.awt.Font;
 
 public class Fenetre extends JFrame {	
 	private boolean afficherTriangulation;
+	private boolean affichertrace;
 	public Fenetre(Jeu jeu){
 		this.afficherTriangulation = false;
+		this.affichertrace = false;
 		this.setTitle("Jeu de Golf");
 		this.setSize(1200, 900);
 		this.setLocationRelativeTo(null);
@@ -36,5 +38,12 @@ public class Fenetre extends JFrame {
 	}
 	public boolean getaffichagetriangulation() {
 		return this.afficherTriangulation;
+	}
+	
+	public void affichageTrace(boolean b) {
+		this.affichertrace = b;
+	}
+	public boolean getaffichageTrace() {
+		return this.affichertrace;
 	}
 }
