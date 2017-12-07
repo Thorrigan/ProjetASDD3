@@ -2,15 +2,15 @@ package Maths;
 import java.util.ArrayList;
 /**
  * <p>
- * Une classe reprÃ©sentant une forme gÃ©omÃ©trique de type "Droite". Elle passe par les deux points qui forment la droite.
- * Elle est aussi reprÃ©sentÃ©e par les 3 variables a,b,c de l'Ã©quation cartÃ©sienne ax+by+c=0 reprÃ©sentant cette mÃªme droite
+ * Une classe représentant une forme géométrique de type "Droite". Elle passe par les deux points qui forment la droite.
+ * Elle est aussi représentée par les 3 variables a,b,c de l'équation cartésienne ax+by+c=0 représentant cette même droite
  * </p>
  * @version 1.0
  * @author Matthias Goulley, Apollon Vieira
  * @see Forme
  */
 public class Droite implements Forme{
-	// Variables Equation CartÃ©sienne
+	// Variables Equation Cartésienne
 	protected float a;
 	protected float b;
 	protected float c;
@@ -19,8 +19,8 @@ public class Droite implements Forme{
 	protected Point p2;
 	
 	/**
-	 * Constructeur de la classe. NB: L'ordre des points en paramÃ¨tre n'importe pas.
-	 * ComplÃ©xitÃ©: O(1)
+	 * Constructeur de la classe. NB: L'ordre des points en paramètre n'importe pas.
+	 * Compléxité: O(1)
 	 * @param p1 Le premier point directeur de la droite
 	 * @param p2 Le deuxieme point directeur de la droite
 	 */
@@ -43,7 +43,7 @@ public class Droite implements Forme{
 		//Droite ordinaire
 		else {
 			a = (p2.getY() - p1.getY())/(p2.getX() - p1.getX());		
-			b = -1;
+			b = - 1;
 			c = p1.getY() - a*p1.getX();
 		}
 		// On affecte les bonnes valeurs aux bonnes variables.
@@ -55,49 +55,50 @@ public class Droite implements Forme{
 	}
 	
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @see Forme#contient(Point)
 	 */
 	public boolean contient(Point p1) {
 		return this.a*p1.getX() + this.b*p1.getY() + this.c == 0;
 	}
 	
-	public Point pointenX(float x) {
-		if(this.estOrdinaire() && p1.getX() < p2.getX()) {
-			return new Point(x, (this.a*x)+c);
-		}else if(this.estOrdinaire() && p1.getX() > p2.getX()){
-			return new Point(-1, (-this.a)+c);
-		}else if(this.estHorizontale() && p1.getX() < p2.getX()) {
-			return new Point(x, this.p1.getY());
-		}else if(this.estHorizontale() && p1.getX() > p2.getX()) {
-			return new Point(-1, this.p1.getY());
-		}else if(this.estVerticale() && p1.getY() > p2.getY()) {
-			return new Point(p1.getX(), -1);
-		}else if(this.estVerticale() && p1.getY() < p2.getY()) {
-			return new Point(p1.getX(), x);
-		}
-		return null;
-	}
-	
 	/**
-	 * Permet de localiser un point par rapport Ã  une droite.
-	 * ComplÃ©xitÃ©: O(1)
+	 * Permet de localiser un point par rapport à une droite.
+	 * Compléxité: O(1)
 	 * @param p Le point que l'on veut localiser
 	 * @return Le demi-Plan auquel appartient le point p. NB: Renvoi 0 si le point est sur la droite.
 	 */
 	public int demiPlan(Point p) {
 		if(contient(p)) {
 			return 0;
-		}else if(p.getY() > this.a*p.getX() + this.c) {
-			return 1;
 		}
-		else {
-			return -1;
+		if(this.estOrdinaire()){
+			if(0 <= this.a*p.getX() + this.b*p.getY() + this.c) {
+				return 1;
+			}
+			else {
+				return -1;
+			}
+		}else if(this.estHorizontale()){
+			if(p.getY() > this.p1.getY()) {
+				return 1;
+			}else {
+				return -1;
+			}
+		}else if(this.estVerticale()){
+			if(p.getX() > this.p1.getX()) {
+				return 1;
+			}else {
+				return -1;
+			}
+		}else{
+			System.out.println("EREUR DEMI PLAN");
+			return 0;
 		}
 	}
 	
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -105,7 +106,7 @@ public class Droite implements Forme{
 	}
 	
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @see Forme#intersection(Forme)
 	 */
 	public boolean intersection(Forme f1) {
@@ -130,14 +131,14 @@ public class Droite implements Forme{
 	}
 
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1) si f1 est une droite. Sinon voir la dÃ©finition de la fonction dans la classe de f1.
+	 * Compléxité: O(1) si f1 est une droite. Sinon voir la définition de la fonction dans la classe de f1.
 	 * NB: Retourne 1 ou 0 point
 	 * @see Forme#PointsIntersection(Forme)
 	 */
 	public ArrayList<Point> PointsIntersection(Forme f1) {
 		// On regarde quel est le type de f1
 		if(f1 instanceof Droite) {
-			Droite d1 = (Droite) f1; // on rÃ©cupÃ¨re notre droite Ã  partir de la forme
+			Droite d1 = (Droite) f1; // on récupère notre droite à partir de la forme
 			ArrayList<Point> lstp = new ArrayList<Point>();
 			// On test si il y a bien une intersection
 			if(!intersection(d1)) {
@@ -147,12 +148,12 @@ public class Droite implements Forme{
 			float x = 0.0f;
 			float y = 0.0f;
 			//
-			// On fait affronter les diffÃ©rents types possibles de droites
-			// Il est possible de rÃ©aliser un cas gÃ©nÃ©ral :         
+			// On fait affronter les différents types possibles de droites
+			// Il est possible de réaliser un cas général :         
 			//         (x4-x3)(y1-y3) + (y4-y3)(x3-x1) 
 			//g : p = ------------------------------- 
 			//         (y4-y3)(x2-x1) - (x4-x3)(y2-y1)
-			// Mais notre mÃ©thode rÃ©alise moins de calculs en une seule fois. Mais plusieurs petits calculs
+			// Mais notre méthode réalise moins de calculs en une seule fois. Mais plusieurs petits calculs
 			// Les chances d'erreurs d'approximations sur les nombres flotants sont alors moindres.
 			//
 			if(this.estOrdinaire() && d1.estOrdinaire()) {
@@ -185,7 +186,7 @@ public class Droite implements Forme{
 	}
 	
 	/**
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @return Vrai ssi la droite est verticale, sinon Faux
 	 */
 	protected boolean estVerticale() {
@@ -196,7 +197,7 @@ public class Droite implements Forme{
 	}
 	
 	/**
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @return Vrai ssi la droite est horizontale, sinon Faux
 	 */
 	protected boolean estHorizontale() {
@@ -207,7 +208,7 @@ public class Droite implements Forme{
 	}
 	
 	/**
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @return Vrai ssi la droite n'est ni horizontale, ni verticale, sinon Faux
 	 */
 	protected boolean estOrdinaire() {
@@ -218,7 +219,7 @@ public class Droite implements Forme{
 	}
 
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @see Forme#contient(Forme)
 	 */
 	public boolean contient(Forme f1) {

@@ -2,8 +2,8 @@ package Maths;
 import java.util.ArrayList;
 /**
  * <p>
- * Une classe reprÃ©sentant une forme gÃ©omÃ©trique de type "Rectangle".
- * Elle est reprÃ©sentÃ©e par 2 points seulement car les deux autres points du rectangles sont calculables.
+ * Une classe représentant une forme géométrique de type "Rectangle".
+ * Elle est représentée par 2 points seulement car les deux autres points du rectangles sont calculables.
  * </p>
  * @version 1.0
  * @author Matthias Goulley, Apollon Vieira
@@ -14,10 +14,10 @@ public class Rectangle implements Forme{
 	private Point p2;
 	
 	/**
-	 * Constructeur d'un rectangle Ã  l'aide de deux points
-	 * ComplÃ©xitÃ©: O(1)
+	 * Constructeur d'un rectangle à l'aide de deux points
+	 * Compléxité: O(1)
 	 * @param p1 Le premier point du rectangle
-	 * @param p2 Le deuxiÃ¨me point du rectangle (diagonale avec le premier point)
+	 * @param p2 Le deuxième point du rectangle (diagonale avec le premier point)
 	 */
 	public Rectangle(Point p1, Point p2) {
 		if(p1.getX() < p2.getX()) {
@@ -30,7 +30,7 @@ public class Rectangle implements Forme{
 	}
 	/**
 	 * Divise un rectangle en 4 sous rectangles.
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @return Les 4 sous rectangles de ce rectangle
 	 */
 	public Rectangle[] division() {
@@ -44,7 +44,7 @@ public class Rectangle implements Forme{
 	
 	/**
 	 * Compte le nombre d'intersection avec une liste de triangle
-	 * ComplÃ©xitÃ©: O(nbt)
+	 * Compléxité: O(nbt)
 	 * @param tab la liste des triangles.
 	 * @return le nombre d'intersection entre les triangle et le rectangle
 	 */
@@ -59,8 +59,8 @@ public class Rectangle implements Forme{
 	
 	/**
 	 * Localise le point au centre du rectangle.
-	 * ComplÃ©xitÃ©: O(1)
-	 * @return Le point situÃ© au centredu rectangle
+	 * Compléxité: O(1)
+	 * @return Le point situé au centredu rectangle
 	 */
 	public Point centre() {
 		return (new Segment(p1,p2)).milieu();
@@ -109,8 +109,8 @@ public class Rectangle implements Forme{
 	
 	
 	/**
-	 * Permet de "dÃ©couper" un rectangle en 4 segments qui le composent
-	 * ComplÃ©xitÃ©: O(1)
+	 * Permet de "découper" un rectangle en 4 segments qui le composent
+	 * Compléxité: O(1)
 	 * @return les 4 segments du rectangle
 	 */
 	public Segment[] transformationSegment() {
@@ -124,7 +124,7 @@ public class Rectangle implements Forme{
 	}
 	
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: en meilleur cas O(nbs) dans le rectangle -> O(4) -> O(1), 
+	 * Compléxité: en meilleur cas O(nbs) dans le rectangle -> O(4) -> O(1), 
 	 * en pire cas O(4^4) -> O(256) -> O(1),
 	 * ou si f1 est un polygone, voir la classe polygone
 	 * @see Forme#intersection(Forme)
@@ -177,7 +177,7 @@ public class Rectangle implements Forme{
 	}
 
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @see Forme#contient(Point)
 	 */
 	public boolean contient(Point p) {
@@ -192,7 +192,7 @@ public class Rectangle implements Forme{
 	}
 	
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1)
+	 * Compléxité: O(1)
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -200,7 +200,7 @@ public class Rectangle implements Forme{
 	}
 
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: en meilleur cas O(nbs) du rectangle -> O(4) -> O(1),
+	 * Compléxité: en meilleur cas O(nbs) du rectangle -> O(4) -> O(1),
 	 * en pire cas O(4^4) -> O(256) -> O(1),
 	 * Sinon si f1 est un polgone, voir la classe polygone.
 	 * @see Forme#PointsIntersection(Forme)
@@ -252,7 +252,7 @@ public class Rectangle implements Forme{
 		return p2;
 	}
 	/* (non-Javadoc)
-	 * ComplÃ©xitÃ©: O(1) en meilleur cas, O(1) en pire cas ou si f1 est un polygone voir la classe polygone
+	 * Compléxité: O(1) en meilleur cas, O(1) en pire cas ou si f1 est un polygone voir la classe polygone
 	 * @see Forme#contient(Forme)
 	 */
 	public boolean contient(Forme f1) {

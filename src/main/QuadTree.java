@@ -9,16 +9,10 @@ import Maths.Triangle;
 public class QuadTree {
 	private Noeud racine;
 	private int N; //nb max de triangle dans une r√©gion
-	private static int erreur;
 	
 	public QuadTree(float min_x,float max_x, float min_y, float max_y, int nbIntersec) {
-		racine = new Noeud(new Rectangle(new Point(min_x, min_y), new Point(max_x, max_y)));
-		N = nbIntersec;
-		erreur = 0;
-	}
-	
-	public static int getErreur() {
-		return erreur;
+		this.racine = new Noeud(new Rectangle(new Point(min_x, min_y), new Point(max_x, max_y)));
+		this.N = nbIntersec;
 	}
 
 	private class Noeud{
@@ -85,12 +79,12 @@ public class QuadTree {
 				for(Triangle t : n.triangles) {
 					System.out.print(t);
 				}
-				System.out.print("\n");
+				System.out.print("f\n");
 			}else if(n.estFeuille() && n.triangles == null) {
 				for(int i = 0; i < hauteur; i++) {
 					System.out.print("             ");
 				}
-				System.out.print(n.region.centre() + "\n");
+				System.out.print(n.region.centre() + "F\n");
 			}
 			else {
 				affichage(n.n1, hauteur +1);
@@ -98,7 +92,7 @@ public class QuadTree {
 				for(int i = 0; i < hauteur; i++) {
 					System.out.print("             ");
 				}
-				System.out.print(n.region.centre() + "\n");
+				System.out.print(n.region.centre() + "g\n");
 				affichage(n.n3, hauteur +1);
 				affichage(n.n4, hauteur +1);
 			}
@@ -156,20 +150,13 @@ public class QuadTree {
 				inserer(n.n4, t);
 				return;
 			}
-			else{
-				System.out.println("ERREURRRRRRRRRRRRRRRRRRRRRRRRRR");
-				System.out.println("\n\n\n");
-				System.out.println("RÈgions : " + n.region);
-				this.erreur++;
-				System.out.println(t);
-				return;
-			}
 		}
 	}
 	
 	public Triangle recherche(Point p) {
+	//	System.out.println("Le point n'est pas dans la rÈgion de dÈpart.");
+
 		if(!racine.region.contient(p)) {
-			System.out.println("Le point n'est pas dans la rÈgion de dÈpart.");
 			return null;
 		}	
 		return recherche(racine, p);
@@ -177,22 +164,53 @@ public class QuadTree {
 	
 	private Triangle recherche(Noeud n, Point p) {
 		if(n.estFeuille()) {
+			//System.out.println(n.triangles);
+			for(Triangle t : n.triangles) {
+				if(t.contient(p)) {
+					//System.out.println("charlieDELTA : " + n);
+					return t;
+				}
+			}
+		}
+		else {
+			//System.out.println("Pas charlie : " + n);
+			Triangle t1 = recherche(n.n1, p);
+			Triangle t2 = recherche(n.n2, p);
+			Triangle t3 = recherche(n.n3, p);
+			Triangle t4 = recherche(n.n4, p);
+			if(t1 != null){
+				return t1;
+			}
+			if(t2 != null){
+				return t2;
+			}
+			if(t3 != null){
+				return t3;
+			}
+			if(t4 != null){
+				return t4;
+			}
+		}
+		return null; // Si le point n'est pas dans un triangle
+	}
+	/*private Triangle recherche(Noeud n, Point p) {
+		if(n.estFeuille()) {
 			for(Triangle t : n.triangles) {
 				if(t.contient(p)) {
 					return t;
 				}
 			}
-		}else if(n.n1.estFeuille() && n.n2.estFeuille() && n.n3.estFeuille() && n.n4.estFeuille()) {
-			if(recherche(n.n1, p) != null) {
+		}else if(n.n1.estFeuille() || n.n2.estFeuille() || n.n3.estFeuille() || n.n4.estFeuille()) {
+			if(recherche(n.n1, p) != null && n.n1.estFeuille()) {
 				return recherche(n.n1, p);
 			}
-			if(recherche(n.n2, p) != null) {
+			if(recherche(n.n2, p) != null && n.n2.estFeuille()) {
 				return recherche(n.n2, p);
 			}
-			if(recherche(n.n3, p) != null) {
+			if(recherche(n.n3, p) != null && n.n3.estFeuille()) {
 				return recherche(n.n3, p);
 			}
-			if(recherche(n.n4, p) != null) {
+			if(recherche(n.n4, p) != null && n.n4.estFeuille()) {
 				return recherche(n.n4, p);
 			}
 		}else {
@@ -208,9 +226,7 @@ public class QuadTree {
 				return recherche(n.n4, p);
 			}
 		}
-		return null; // Si le point n'est pas dans un triangle
-	}
-	
+		*/
 	
 	public static  QuadTree ConstructionQT(ArrayList<Polygone> plg, float min_x,float max_x, float min_y, float max_y, int nbIntersec) {
 		ArrayList<Triangle> lst = new ArrayList<Triangle>();
