@@ -62,7 +62,6 @@ public class Droite implements Forme{
 		return this.a*p1.getX() + this.b*p1.getY() + this.c == 0;
 	}
 	
-	
 	public Point pointenX(float x) {
 		if(this.estOrdinaire() && p1.getX() < p2.getX()) {
 			return new Point(x, (this.a*x)+c);

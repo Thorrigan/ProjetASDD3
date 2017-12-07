@@ -19,11 +19,11 @@ import Maths.Polygone;
 import Maths.Triangle;
 import main.Jeu;
 
-public class Dessin extends JPanel{
+public class Dessin extends JPanel {
 	  private int scalaire = 79; //resize ++
 	  private Jeu jeu;
 	  
-	  public Dessin(final Jeu jeu) {
+	  public Dessin(final Jeu jeu, Fenetre fen) {
 		  this.jeu = jeu;
 		  this.addMouseListener(new MouseAdapter() {
 		    	public void mousePressed(MouseEvent e) {
@@ -34,6 +34,7 @@ public class Dessin extends JPanel{
 		    		if(e.getButton() == MouseEvent.BUTTON3) {
 		    			Point dest = new Point(x,y);
 						jeu.JouerCoup(dest);
+						
 		    		}else {
 		    			System.out.println("Pas le bon bouton.");
 		    		}
@@ -56,7 +57,7 @@ public class Dessin extends JPanel{
 	  
 	  private void dessinBalle(Graphics2D g2) {
 		  g2.setColor(new Color(255, 255, 150));
-		  Ellipse2D.Double shape = new Ellipse2D.Double(jeu.ptDepart().getX()*this.scalaire, jeu.ptDepart().getY() * this.scalaire, 15, 15);
+		  Ellipse2D.Double shape = new Ellipse2D.Double(jeu.ballePosition().getX()*this.scalaire, jeu.ballePosition().getY() * this.scalaire, 15, 15);
 		  g2.fill(shape);
 	  }
 	  

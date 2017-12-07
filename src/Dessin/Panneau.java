@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Label;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Panel;
 import java.awt.Button;
 import java.awt.Dimension;
@@ -23,28 +24,36 @@ public class Panneau extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JLabel lblTrouActuel;
+	private JLabel lblScoreActuel;
+	private JLabel lblScoreTotal;
+	private JLabel lblParTotal;
+	private JLabel lblDistanceAuProchain;
+	private JLabel lblDegrParRapport;
+	private JLabel lblParDuTrou;
+	private Jeu jeu;
 	public Panneau(final Jeu jeu) {
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(280,600));
 		setLayout(null);
-		
-		JLabel lblTrouActuel = new JLabel("Trou actuel: " + jeu.trouActuel());
-		lblTrouActuel.setBounds(134, 81, 80, 14);
+		this.jeu = jeu;
+		lblTrouActuel = new JLabel("Trou actuel: " + jeu.trouActuel());
+		lblTrouActuel.setBounds(134, 81, 136, 14);
 		add(lblTrouActuel);
 		
-		JLabel lblScoreActuel = new JLabel("Score Actuel: " + jeu.scoreactuel());
-		lblScoreActuel.setBounds(134, 49, 86, 14);
+		lblScoreActuel = new JLabel("Score Actuel: " + jeu.scoreactuel());
+		lblScoreActuel.setBounds(134, 49, 136, 14);
 		add(lblScoreActuel);
 		
-		JLabel lblScoreTotal = new JLabel("Score Total: " + jeu.scoretotal());
-		lblScoreTotal.setBounds(10, 49, 79, 14);
+		lblScoreTotal = new JLabel("Score Total: " + jeu.scoretotal());
+		lblScoreTotal.setBounds(10, 49, 114, 14);
 		add(lblScoreTotal);
 		
-		JLabel lblParTotal = new JLabel("Par Total: " + jeu.partotal());
-		lblParTotal.setBounds(10, 81, 79, 14);
+		lblParTotal = new JLabel("Par Total: " + jeu.partotal());
+		lblParTotal.setBounds(10, 81, 114, 14);
 		add(lblParTotal);
 		
-		Label label_1 = new Label("X :");
+		JLabel label_1 = new JLabel("X :");
 		label_1.setBounds(25, 283, 27, 22);
 		add(label_1);
 		
@@ -53,7 +62,7 @@ public class Panneau extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 		
-		Label label_2 = new Label("Y :");
+		JLabel label_2 = new JLabel("Y :");
 		label_2.setBounds(25, 311, 28, 22);
 		add(label_2);
 		
@@ -66,11 +75,11 @@ public class Panneau extends JPanel {
 		lblAstuce.setBounds(77, 414, 68, 14);
 		add(lblAstuce);
 		
-		JLabel lblDistanceAuProchain = new JLabel("Distance au prochain Trou:");
+		lblDistanceAuProchain = new JLabel("Distance au Trou:");
 		lblDistanceAuProchain.setBounds(25, 439, 154, 14);
 		add(lblDistanceAuProchain);
 		
-		JLabel lblDegrParRapport = new JLabel("Degre par rapport au prochain trou :");
+		lblDegrParRapport = new JLabel("Angle par rapport au trou :");
 		lblDegrParRapport.setBounds(25, 464, 215, 14);
 		add(lblDegrParRapport);
 		
@@ -146,8 +155,19 @@ public class Panneau extends JPanel {
 		btnTirer_1.setBounds(65, 365, 89, 23);
 		add(btnTirer_1);
 		
-		JLabel lblParDuTrou = new JLabel("Par du trou actuel: " + jeu.parAct());
+		lblParDuTrou = new JLabel("Par du trou actuel: " + jeu.parAct());
 		lblParDuTrou.setBounds(59, 11, 116, 14);
 		add(lblParDuTrou);
-	} 		          
+	} 	
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);   
+		lblTrouActuel.setText("Trou actuel: " + jeu.trouActuel());
+		lblScoreActuel.setText("Score Actuel: " + jeu.scoreactuel());
+		lblScoreTotal.setText("Score Total: " + jeu.scoretotal());
+		lblParTotal.setText("Par Total: " + jeu.partotal());
+		lblDistanceAuProchain.setText("Distance au Trou:");
+		lblDegrParRapport.setText("Angle par rapport au trou :");
+		lblParDuTrou.setText("Par du trou actuel: " + jeu.parAct());
+	}
 }

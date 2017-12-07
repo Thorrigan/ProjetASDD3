@@ -15,33 +15,14 @@ import java.awt.Font;
 
 public class Fenetre extends JFrame {	
 	public Fenetre(Jeu jeu){
-    this.setTitle("Jeu de Golf");
-    this.setSize(1200, 900);
-    this.setLocationRelativeTo(null);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
-    this.setVisible(true);
-    this.setResizable(false);
+		this.setTitle("Jeu de Golf");
+		this.setSize(1200, 900);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             
+		this.setVisible(true);
+		this.setResizable(false);
     
-    JPanel pan = new JPanel();
-    pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
-    
-    JPanel panel = new JPanel();
-    pan.add(panel);
-    
-    JLabel lblJeuDeGolf = new JLabel("Jeu de Golf");
-    lblJeuDeGolf.setFont(new Font("Arial Black", Font.BOLD, 16));
-    panel.add(lblJeuDeGolf);
-    
-    JPanel panel_1 = new JPanel();
-    pan.add(panel_1);
-    JPanel dessin = new Dessin(jeu);
-    panel_1.add(dessin);
-    dessin.setPreferredSize(new Dimension(800,800));
-    dessin.setLayout(null);
-    JPanel panneau = new Panneau(jeu);
-    panel_1.add(panneau);
-    pan.setSize(new Dimension(1100,900));
-    pan.setVisible(true);
-    this.setContentPane(pan);
+		Fond pan = new Fond(jeu, this);
+		this.setContentPane(pan);
   }
 }

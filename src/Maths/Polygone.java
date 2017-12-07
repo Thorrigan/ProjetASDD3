@@ -98,10 +98,8 @@ public class Polygone implements Forme{
 			return triangles;
 		}
 		if(points.size() == 3) {
-			// Si les trois points sont align�s
 			Droite d1 = new Droite(points.get(0), points.get(1));
 			if(d1.contient(points.get(2))) {
-				//System.out.println("3 derniers points alignés DUH");
 				return triangles;
 			}
 			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2), this.type));
