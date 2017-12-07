@@ -28,7 +28,7 @@ public class Main {
 		// Initialisation du programme avec les valeurs par d�fault
 		// ou les valeurs entree en ligne de commande
 		String nomFichier = "";
-		int N = 0;
+		int N = 3;
 		float min_X = 0;
 		float min_Y = 0;
 		float max_X = 10;

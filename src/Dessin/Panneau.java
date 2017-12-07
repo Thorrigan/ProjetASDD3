@@ -18,6 +18,7 @@ import Maths.Point;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JCheckBox;
  
 public class Panneau extends JPanel {
 	private JTextField textField;
@@ -31,8 +32,9 @@ public class Panneau extends JPanel {
 	private JLabel lblDistanceAuProchain;
 	private JLabel lblDegrParRapport;
 	private JLabel lblParDuTrou;
+	private JCheckBox chckbxAfficherLaTriangulation;
 	private Jeu jeu;
-	public Panneau(final Jeu jeu) {
+	public Panneau(final Jeu jeu, final Fenetre fen) {
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(280,600));
 		setLayout(null);
@@ -76,7 +78,7 @@ public class Panneau extends JPanel {
 		add(lblAstuce);
 		
 		lblDistanceAuProchain = new JLabel("Distance au Trou:");
-		lblDistanceAuProchain.setBounds(25, 439, 154, 14);
+		lblDistanceAuProchain.setBounds(25, 439, 215, 14);
 		add(lblDistanceAuProchain);
 		
 		lblDegrParRapport = new JLabel("Angle par rapport au trou :");
@@ -158,6 +160,21 @@ public class Panneau extends JPanel {
 		lblParDuTrou = new JLabel("Par du trou actuel: " + jeu.parAct());
 		lblParDuTrou.setBounds(59, 11, 116, 14);
 		add(lblParDuTrou);
+		
+		chckbxAfficherLaTriangulation = new JCheckBox("Afficher la triangulation");
+		chckbxAfficherLaTriangulation.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				if(chckbxAfficherLaTriangulation.isSelected()) {
+					fen.affichageTriangulation(true);
+					fen.repaint();
+				}else {
+					fen.affichageTriangulation(false);
+					fen.repaint();
+				}
+			}
+		});
+		chckbxAfficherLaTriangulation.setBounds(6, 496, 234, 23);
+		add(chckbxAfficherLaTriangulation);
 	} 	
 	
 	public void paintComponent(Graphics g) {

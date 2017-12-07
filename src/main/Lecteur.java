@@ -33,7 +33,7 @@ public class Lecteur {
 			int nbsurfaces = 0;
 			int nbtraces = 0;
 			while((ligne = br.readLine()) != null){
-				System.out.println(ligne);				
+				//System.out.println(ligne);				
 				if(compteur == 0){
 					nbsurfaces = Integer.parseInt(ligne);
 				}
@@ -67,8 +67,8 @@ public class Lecteur {
 					map.add(s);
 				}else if(compteur == nbsurfaces +1) {
 					nbtraces = Integer.parseInt(ligne);
-				}else if(compteur >= nbsurfaces + nbtraces + 1) {
-					traces.add(Trace.lireTrace(ligne));				
+				}else if(compteur > nbsurfaces + 1 && compteur <= nbsurfaces + nbtraces + 1) {
+					traces.add(Trace.lireTrace(ligne));	
 				}else {
 					System.out.println("Erreur dans le fichier de départ.");
 				}

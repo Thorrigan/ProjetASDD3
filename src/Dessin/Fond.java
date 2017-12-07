@@ -27,7 +27,7 @@ public class Fond extends JPanel{
 	    panel_1.add(dessin);
 	    dessin.setPreferredSize(new Dimension(800,800));
 	    dessin.setLayout(null);
-	    JPanel panneau = new Panneau(jeu);
+	    JPanel panneau = new Panneau(jeu, fen);
 	    panel_1.add(panneau);
 	    this.setSize(new Dimension(1100,900));
 	    this.setVisible(true);

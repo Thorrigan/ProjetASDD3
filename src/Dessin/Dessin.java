@@ -22,8 +22,10 @@ import main.Jeu;
 public class Dessin extends JPanel {
 	  private int scalaire = 79; //resize ++
 	  private Jeu jeu;
+	  private Fenetre fen;
 	  
 	  public Dessin(final Jeu jeu, Fenetre fen) {
+		  this.fen = fen;
 		  this.jeu = jeu;
 		  this.addMouseListener(new MouseAdapter() {
 		    	public void mousePressed(MouseEvent e) {
@@ -49,8 +51,11 @@ public class Dessin extends JPanel {
 		  g2.scale(1.0, -1.0);
 		  g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		  g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-		  //dessinTriangle(g2);
-		  dessinPolygone(g2);
+		  if(this.fen.getaffichagetriangulation() == true) {
+			  dessinTriangle(g2);
+		  }else {
+			  dessinPolygone(g2);  
+		  }
 		  dessinBalle(g2);
 		  dessinArrivee(g2);
 	  }
