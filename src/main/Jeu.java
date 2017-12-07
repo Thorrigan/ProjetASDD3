@@ -107,7 +107,11 @@ public class Jeu {
 				// on traite le point et tout et tout...
 				balle = SaisiePoint();
 				
-				
+				System.out.println("TESTUUU : ");
+				cible = SaisiePoint();
+				System.out.println("cible :" + cible);
+				cible = this.CalculePointAtterrissageBalle(cible);
+				System.out.println("cible post aterrisage5:" + cible);
 				
 			}
 			System.out.println("Vous avez fini ce trace.");
@@ -186,7 +190,17 @@ public class Jeu {
 		else
 			distr = (1-(b/100)) * balle.distance(cible);
 		this.scoreact++;
-		return balle.rotation(distr, angler);
+		
+		p = new Point(balle.getX()+distr, balle.getY());
+		System.out.println("p : " + p);
+		System.out.println("angle" + angle);
+		p = balle.rotation(p, angle);
+		System.out.println(balle.angle(cible));
+		//cible = balle.rotation(cible, angler);
+		System.out.println("angle " + balle.angle(p));
+		Droite da = new Droite(cible, balle);
+		System.out.println("cible " + cible + "le point appartient t'il a la a dreoite : " +  da.contient(p));
+		return p;
 	}
 	
 	
