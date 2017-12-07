@@ -32,8 +32,7 @@ public class Lecteur {
 			int compteur = 0;
 			int nbsurfaces = 0;
 			int nbtraces = 0;
-			while((ligne = br.readLine()) != null){
-				//System.out.println(ligne);				
+			while((ligne = br.readLine()) != null){			
 				if(compteur == 0){
 					nbsurfaces = Integer.parseInt(ligne);
 				}

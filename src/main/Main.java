@@ -1,5 +1,7 @@
 package main;
 
+import Maths.Point;
+
 /**
  * Compl�xit�: Dans ce programme, nous noterons: 
  * 1 : une compl�xit� constante
@@ -81,7 +83,8 @@ public class Main {
 		
 		Lecteur lec = new Lecteur(nomFichier);
 		Jeu jeu = lec.creationJeu(min_X, max_X, min_Y, max_Y, N);
-		//jeu.JeuGraphique();
-		jeu.JeuConsole();
+		jeu.JeuGraphique();
+		
+		//jeu.JeuConsole();
 	}
 }

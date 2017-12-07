@@ -116,8 +116,9 @@ public class Dessin extends JPanel {
 				  g2.setColor(new Color(1, 215, 88));
 			  else if(t.getType() == 'S') //vertsapin
 				  g2.setColor(new Color(9, 106, 9));
-			  else //
-				  g2.setColor(new Color(253, 241, 184)); //sable
+			  else {
+				  g2.setColor(new Color(253, 241, 184)); //sable  
+			  }
 			  
 			  //g2.setColor(new Color(253, 241, 184)); //sable
 		  
@@ -152,8 +153,9 @@ public class Dessin extends JPanel {
 				  g2.setColor(new Color(1, 215, 88));
 			  else if(this.jeu.getPolygones().get(i).getType() == 'S') //vertsapin
 				  g2.setColor(new Color(9, 106, 9));
-			  else //
-				  g2.setColor(new Color(253, 241, 184)); //sable
+			  else {
+				  g2.setColor(new Color(253, 241, 184)); //sable  
+			  }	
 			  g2.fill(path);
 			  g2.setColor(Color.black);
 			  g2.draw(path);

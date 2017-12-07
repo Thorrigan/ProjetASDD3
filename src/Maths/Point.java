@@ -1,8 +1,5 @@
 package Maths;
 
-import main.Droite;
-import main.Point;
-
 public class Point implements Comparable<Point>{
 	private float x;
 	private float y;
@@ -82,13 +79,11 @@ public class Point implements Comparable<Point>{
 	}
 	
 	public Point rotation(Point cible, float angle){
-		float x,y, xnew, ynew;
-		x = 0;
-		y = 0;
-		x = cible.getX() - this.x;
-		y = cible.getY() - this.y;
-		xnew = this.x + (float) ((Math.cos(Math.toRadians(angle))* x) - Math.sin(Math.toRadians(angle))* y);
-		ynew = this.y + (float) ((Math.sin(Math.toRadians(angle))* x) + Math.cos(Math.toRadians(angle))* y);
+		float X,Y, xnew, ynew;
+		X = this.x - cible.getX();
+		Y = this.y - cible.getY();
+		xnew = cible.getX() + (float) ((Math.cos(Math.toRadians(angle))* X) - Math.sin(Math.toRadians(angle))* Y);
+		ynew = cible.getY() + (float) ((Math.sin(Math.toRadians(angle))* X) + Math.cos(Math.toRadians(angle))* Y);
 		return new Point(xnew,ynew);
 	}
 	
@@ -144,7 +139,7 @@ public class Point implements Comparable<Point>{
 	}
 	
 	public float angle(Point p1){
-		if(this.equals(p1)) {
+		/*if(this.equals(p1)) {
 			return 0;
 		}
 		else if(p1.getY() == this.y && p1.getX() > this.x)
@@ -169,6 +164,14 @@ public class Point implements Comparable<Point>{
 			else {
 				return 270.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
 			}
+		}*/
+		if (p1.getX() == this.x)
+			return 90;
+		else if (p1.getY() == this.y)
+			return 0;
+		else {
+			Point p2 = new Point(p1.getX(), this.y);
+			return (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
 		}
 	}
 }

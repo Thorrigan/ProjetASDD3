@@ -15,6 +15,7 @@ import Maths.Droite;
 import Maths.Point;
 import Maths.Polygone;
 import Maths.Rectangle;
+import Maths.Segment;
 import Maths.Triangle;
 
 public class Jeu {
@@ -40,6 +41,14 @@ public class Jeu {
 	public Jeu(ArrayList<Trace> trace, ArrayList<Polygone> lst, float min_x, float max_x, float min_y, float max_y, int N) {
 		this.balle = trace.get(0).getDepart();
 		this.map = QuadTree.ConstructionQT(lst, 0, 10, 0, 10, N);
+		//this.map.afficher();
+		for(float i = 0.0f; i <= 10.0f; i+= 0.1f) {
+			for(float j = 0.0f; j <= 10.0f; j+= 0.1f) {
+				if(this.map.recherche(new Point(i,j)) == null) {
+					System.out.println("ERREUR i: " + i + "  j: " + j);
+				}
+			}
+		}
 		this.lpoly = lst;
 		this.traces = trace;
 		this.trouAct = 0;
@@ -112,7 +121,7 @@ public class Jeu {
 				System.out.println("TESTUUU : ");
 				cible = SaisiePoint();
 				System.out.println("cible :" + cible);
-				cible = this.CalculePointAtterrissageBalle(cible);
+				//cible = this.CalculePointAtterrissageBalle(cible);
 				System.out.println("cible post aterrisage5:" + cible);
 				
 			}
@@ -155,7 +164,11 @@ public class Jeu {
 	}
 	
 	public void JouerCoup(float angle, float distance) {
+		System.out.println(balle);
 		System.out.println("On tire avec un angle de " + angle + " degres et une distance de " + distance);
+		balle = CalculePointDepartBalle(CalculePointAtterrissageBalle(angle,distance));
+		System.out.println("Balle après modification: " + balle);
+		this.fenetre.repaint();
 	}
 	
 	public ArrayList<Polygone> getPolygones(){
@@ -170,84 +183,68 @@ public class Jeu {
 		return triangles;
 	}
 	
-	//A TESTER LUL
-	public Point CalculePointAtterrissageBalle(Point cible) {
-		float angle, b, moda, angler, distr;
-		int signe; //0 negatif //1 positif
-		
-		angle = balle.angle(cible);
-		signe = (int) Math.random(); //(int)(Math.random()*(max-min))+min
-		System.out.println(signe);
-		b = (float) (Math.random() *(40));
-		moda = (float) (Math.random() *(40));
-		if (signe == 1)
-			angler = angle + moda;
-		else
-			angler = angle - moda;
+	public Point CalculePointAtterrissageBalle(float angle, float distance) {
+		float[] pourcentage = {1,2,3,4,5,6,7,8,9,10,40};
+		int rand = (int) (Math.random() *(pourcentage.length));
+		float anglemodifie = pourcentage[rand];
+		rand = (int) (Math.random() *(pourcentage.length));
+		float distancemodifie = pourcentage[rand];
+		float signe = (int) Math.random();
+		if(signe == 0) {
+			signe = 1;
+		}else {
+			signe = -1;
+		}
+		angle = (angle + (1+(anglemodifie/100))) * signe;
 		signe = (int) Math.random();
-		if (signe == 1)
-			distr = (1+(b/100)) * balle.distance(cible);
-		else if (state == 2)
-			distr = ((1-(b/100)) * balle.distance(cible)) / 2;
-		else
-			distr = (1-(b/100)) * balle.distance(cible);
-		this.scoreact++;
-		
-		Point p;
-		p = new Point(balle.getX()+distr, balle.getY());
-		System.out.println("p : " + p);
-		System.out.println("angle" + angle);
-		p = balle.rotation(p, angle);
-		System.out.println(balle.angle(cible));
-		//cible = balle.rotation(cible, angler);
-		System.out.println("angle " + balle.angle(p));
-		Droite da = new Droite(cible, balle);
-		System.out.println("cible " + cible + "le point appartient t'il a la a dreoite : " +  da.contient(p));
-		return p;
+		if(signe == 0) {
+			signe = 1;
+		}else {
+			signe = -1;
+		}
+		distance = distance * (1+(signe * distancemodifie/100));
+		System.out.println("angle mod : " + angle + "  distance mod : " + distance);
+		Point pointintermediaire = new Point(balle.getX()+distance, balle.getY());
+		return pointintermediaire.rotation(balle, angle);
+	}
+	
+	private Polygone getGreen() {
+		int polygoneID = this.getactTrace().getSurfaces().get(this.getactTrace().getSurfaces().size()-1);
+		return this.lpoly.get(polygoneID);
 	}
 	
 	
 	
 	public Point CalculePointDepartBalle(Point cible){
-		if (map.recherche(cible) == null)
-			return null;
+		// Si la balle attérit en dehors des limites ou dans une surface sapin
+		if (map.recherche(cible) == null) {
+			System.out.println("cible : " + cible);
+			this.scoreact++;
+			return balle; 
+		}
 		else {
 			char type = map.recherche(cible).getType();
-			if (cible.getX() > 10.0 || cible.getY() > 10.0 || type == 'S') {
+			if(type == 'S') {
 				this.scoreact++;
-				return balle;
+				System.out.println("BLABLABLA");
+				return balle; 
 			}
 			else if (type == 'J') {
 				this.state = 2;
 				return cible;
 			}
 			else if (type == 'B') {
-				int i = 0;
-				Droite d = new Droite(cible, this.ptArrive()); //p1 cible, p2 arrivée
-				ArrayList<Point> points;
-				this.scoreact++;
-				//trouver le polygone qui contient le point
-				
-				
-				// PAS BON DE CHERCHE DANS LA LISTE DES POLYGONES, UTILISER QUADTREE ?????
-				while (lpoly.get(i).contient(cible) == false)
-					i++;
-				//obtention point intersection
-				points = lpoly.get(i).PointsIntersection(d);
-				
-				
-				
-				
-				Point min = new Point(1555.0f, 1555.0f);
-				//calcul distance mini
-				for (Point p : points) {
-					if (cible.distance(p) < cible.distance(min))
-						min = p;
+				Segment seg = new Segment(balle, cible);
+				for(Polygone p : this.lpoly) {
+					if(p.contient(cible)) {
+						cible = seg.PointsIntersection(p).get(0);
+						break;
+					}
 				}
 				this.state = 0;
-				return min;
+				return CalculePointDepartBalle(cible);	
 			}
-			else if (this.ptArrive().distance(cible) <= 1.0) {
+			else if (this.ptArrive().distance(cible) <= 1.0 && this.getGreen().contient(cible)) {
 				this.state = 1;
 				return cible;
 			}
