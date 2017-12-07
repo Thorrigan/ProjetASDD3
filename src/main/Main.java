@@ -81,6 +81,7 @@ public class Main {
 		
 		Lecteur lec = new Lecteur(nomFichier);
 		Jeu jeu = lec.creationJeu(min_X, max_X, min_Y, max_Y, N);
-		jeu.JeuGraphique();
+		//jeu.JeuGraphique();
+		jeu.JeuConsole();
 	}
 }

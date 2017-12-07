@@ -1,5 +1,7 @@
 package Maths;
 
+import main.Droite;
+import main.Point;
 
 public class Point implements Comparable<Point>{
 	private float x;
@@ -79,26 +81,79 @@ public class Point implements Comparable<Point>{
 		return (float) Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
 	}
 	
-	public Point rotation(float dist, float angle){
-		return new Point((float)(((Math.cos(Math.toRadians(angle))* this.x) - Math.sin(Math.toRadians(angle))* this.y) * dist),(float) (((Math.sin(Math.toRadians(angle))* this.x) + Math.cos(Math.toRadians(angle))* this.y)) * dist);
+	public Point rotation(Point cible, float angle){
+		float x,y, xnew, ynew;
+		x = 0;
+		y = 0;
+		x = cible.getX() - this.x;
+		y = cible.getY() - this.y;
+		xnew = this.x + (float) ((Math.cos(Math.toRadians(angle))* x) - Math.sin(Math.toRadians(angle))* y);
+		ynew = this.y + (float) ((Math.sin(Math.toRadians(angle))* x) + Math.cos(Math.toRadians(angle))* y);
+		return new Point(xnew,ynew);
 	}
 	
-	public void rotationv(float dist, float angle){
-		this.x = (float) ((Math.cos(angle)* this.x) - Math.sin(angle)* this.y);
-		this.y = (float) ((Math.sin(angle)* this.x) + Math.cos(angle)* this.y);
+	public void rotationv(Point centre, float angle, float dist){
+		float x,y,a,b,c, A,B,C, delta, xnew, ynew;
+	
+		//rotation
+		/*x = this.x - centre.getX();
+		y = this.y - centre.getY();
+		this.x = centre.getX() + (float) ((Math.cos(Math.toRadians(angle))* x) - Math.sin(Math.toRadians(angle))* y);
+		this.y = centre.getY() + (float) ((Math.sin(Math.toRadians(angle))* x) + Math.cos(Math.toRadians(angle))* y);*/
+		x = 0;
+		y = 0;
+		x = centre.getX() - this.x;
+		y = centre.getY() - this.y;
+		xnew = this.x + (float) ((Math.cos(Math.toRadians(angle))* x) - Math.sin(Math.toRadians(angle))* y);
+		ynew = this.y + (float) ((Math.sin(Math.toRadians(angle))* x) + Math.cos(Math.toRadians(angle))* y);
+		
+		Point p = new Point(xnew, ynew);
+		Droite d = new Droite(this, p);
+
+		/*//point intersection droite cercle
+		a = -d.getA();
+		b = d.getB();
+		c = -d.getC();
+		System.out.println(d);
+		A = 1 + (a*a) / (b*b);
+		B = -2*this.getX() - (2 * a * c * this.getY()) / b;
+		C = this.getX() * this.getX() + this.getY() * this.getY() + (2*a*c) / b - (dist * dist) + (c/b) * (c/b); 
+		System.out.println("A : " + A + " B : " + B + " C : " + C);
+		delta = (B * B) - (4 * A * C);
+		System.out.println("delta" + delta);
+		if (delta > 0) {
+			float xp1 = -B + (float) (Math.sqrt(delta) / (2*A));
+			float yp1 = (a*xp1 + c) / b;
+			float xp2 = -B - (float) (Math.sqrt(delta) / (2*A));
+			float yp2 = (a*xp2 + c) / b;
+			
+			Point p1 = new Point(xp1, yp1);
+			Point p2 = new Point(xp2, yp2);
+			if (this.angle(p1) == angle)
+				System.out.println(p1.distance(this));
+			else if (this.angle(p2) == angle)
+				System.out.println(p2.distance(this));
+		}
+		else if(delta == 0) {
+			float xp1 = -B + 2 / A;
+			float yp1 = (a*xp1 + c) / b;
+			Point p1 = new Point(xp1, yp1);
+			System.out.println(p1.distance(this));
+		}*/
+			
 	}
 	
 	public float angle(Point p1){
 		if(this.equals(p1)) {
 			return 0;
 		}
-		else if(p1.getX() == this.x && p1.getY() > this.y)
-			return 0;
-		else if(p1.getX() == this.x && p1.getY() < this.y)
-			return 180;
 		else if(p1.getY() == this.y && p1.getX() > this.x)
-			return 90;
+			return 0;
 		else if(p1.getY() == this.y && p1.getX() < this.x)
+			return 180;
+		else if(p1.getX() == this.x && p1.getY() > this.y)
+			return 90;
+		else if(p1.getX() == this.x && p1.getY() < this.y)
 			return 270;
 		else {
 			Point p2 = new Point(p1.getX(), this.y);

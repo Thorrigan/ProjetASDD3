@@ -102,6 +102,8 @@ public class Jeu {
 			System.out.println(region);
 			while(!region.contient(balle)) {
 				System.out.println("La balle se situe en: " + balle);
+				Point cible = new Point(0.0f,0.0f);
+
 				//Point dest = SaisiePoint();
 				//System.out.println("On veut se diriger en: " + dest);
 				// on traite le point et tout et tout...
@@ -191,6 +193,7 @@ public class Jeu {
 			distr = (1-(b/100)) * balle.distance(cible);
 		this.scoreact++;
 		
+		Point p;
 		p = new Point(balle.getX()+distr, balle.getY());
 		System.out.println("p : " + p);
 		System.out.println("angle" + angle);
