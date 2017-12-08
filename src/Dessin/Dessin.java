@@ -21,7 +21,7 @@ import main.Jeu;
 import main.Trace;
 
 public class Dessin extends JPanel {
-	  private int scalaire = 79; //resize ++
+	  private int scalaire = 80; //resize ++
 	  private Jeu jeu;
 	  private Fenetre fen;
 	  
@@ -59,34 +59,48 @@ public class Dessin extends JPanel {
 		  }
 		  
 		  if(this.fen.getaffichageTrace() == true) {
-			  Trace t = jeu.getactTrace();
-			  ArrayList<Integer> surfacesID = t.getSurfaces();
-			  System.out.println(surfacesID);
-			  for (int i = 0; i < this.jeu.getPolygones().size(); i++) {
-				  if(surfacesID.contains(i)) {
-					  System.out.println(this.jeu.getPolygones().get(i));
-					  Path2D path = new Path2D.Float();
-					  g2.setStroke(new BasicStroke(2.0f));
-					  for (int j = 0; j < this.jeu.getPolygones().get(i).getLstp().size(); j++) {
-						  float[] x = new float[this.jeu.getPolygones().get(i).getLstp().size()];
-						  float[] y = new float[this.jeu.getPolygones().get(i).getLstp().size()];
-						  x[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getX())*80.0f);
-						  y[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getY()) *80.0f);
-						  if (j == 0)
-							  path.moveTo(x[j], y[j]);
-						  else
-							  path.lineTo(x[j], y[j]);
-					  }
-					  g2.setColor(new Color(255, 100, 100));
-					  g2.fill(path);
-					  g2.setColor(Color.black);
-					  g2.draw(path);
-					  path.closePath(); 
-				  }	
-			  }
+			  dessinTrace(g2);
 		  }
 		  dessinBalle(g2);
 		  dessinArrivee(g2);
+	  }
+	  
+	  private void dessinTrace(Graphics2D g2) {
+		  Trace t = jeu.getactTrace();
+		  ArrayList<Integer> surfacesID = t.getSurfaces();
+		  System.out.println(surfacesID);
+		  for (int i = 0; i < this.jeu.getPolygones().size(); i++) {
+			  if(surfacesID.contains(i)) {
+				  System.out.println(this.jeu.getPolygones().get(i));
+				  Path2D path = new Path2D.Float();
+				  g2.setStroke(new BasicStroke(3.0f));
+				  for (int j = 0; j < this.jeu.getPolygones().get(i).getLstp().size(); j++) {
+					  float[] x = new float[this.jeu.getPolygones().get(i).getLstp().size()];
+					  float[] y = new float[this.jeu.getPolygones().get(i).getLstp().size()];
+					  x[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getX())*scalaire);
+					  y[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getY()) *scalaire);
+					  if (j == 0)
+						  path.moveTo(x[j], y[j]);
+					  else
+						  path.lineTo(x[j], y[j]);
+				  }
+				  if (this.jeu.getPolygones().get(i).getType() == 'B')//eau
+					  g2.setColor(new Color(115, 194, 251));
+				  else if(this.jeu.getPolygones().get(i).getType() == 'C') //vertclair
+					  g2.setColor(new Color(159, 232, 85));
+				  else if(this.jeu.getPolygones().get(i).getType() == 'V') //vert
+					  g2.setColor(new Color(1, 215, 88));
+				  else if(this.jeu.getPolygones().get(i).getType() == 'S') //vertsapin
+					  g2.setColor(new Color(9, 106, 9));
+				  else {
+					  g2.setColor(new Color(253, 241, 184)); //sable  
+				  }	
+				  g2.fill(path);
+				  g2.setColor(new Color(255, 100, 100));
+				  g2.draw(path);
+				  path.closePath(); 
+			  }	
+		  }
 	  }
 	  
 	  private void dessinBalle(Graphics2D g2) {
@@ -138,8 +152,8 @@ public class Dessin extends JPanel {
 			  for (int j = 0; j < this.jeu.getPolygones().get(i).getLstp().size(); j++) {
 				  float[] x = new float[this.jeu.getPolygones().get(i).getLstp().size()];
 				  float[] y = new float[this.jeu.getPolygones().get(i).getLstp().size()];
-				  x[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getX())*80.0f);
-				  y[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getY()) *80.0f);
+				  x[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getX())*scalaire);
+				  y[j] = ((this.jeu.getPolygones().get(i).getLstp().get(j).getY()) *scalaire);
 				  if (j == 0)
 					  path.moveTo(x[j], y[j]);
 				  else

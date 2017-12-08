@@ -159,7 +159,6 @@ public class Rectangle implements Forme{
 					}
 				}
 			}
-			//System.out.println("PAS D'intersection entre la region: "+ toString() + " et le triangle " + t1);
 			return false;
 		}else if(f1 instanceof Rectangle) {
 			Rectangle r1 = (Rectangle) f1;
@@ -245,12 +244,20 @@ public class Rectangle implements Forme{
 		return lstp;
 	}
 	
+	/**
+	 * Getter du premier point du rectangle
+	 */
 	public Point getP1() {
 		return p1;
 	}
+	
+	/**
+	 * Getter du second point du rectangle
+	 */
 	public Point getP2() {
 		return p2;
 	}
+	
 	/* (non-Javadoc)
 	 * Compléxité: O(1) en meilleur cas, O(1) en pire cas ou si f1 est un polygone voir la classe polygone
 	 * @see Forme#contient(Forme)

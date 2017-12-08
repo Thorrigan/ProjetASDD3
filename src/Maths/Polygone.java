@@ -34,6 +34,12 @@ public class Polygone implements Forme{
 		this.lstp = lstp;
 	}
 	
+	/**
+	 * Constructeur d'un polygone sans type (utile uniquement pour les tests)
+	 * ComplÃ©xitÃ©: O(taille(lstp))
+	 * @param lstp Une liste de point/sommet
+	 * @param t Le type de la surface du polygone
+	 */
 	public Polygone(ArrayList<Point> lstp) {
 		this.minX = 0.0f;
 		for(Point p : lstp) {
@@ -68,11 +74,18 @@ public class Polygone implements Forme{
 		this.lstp.add(p);
 	}
 	
+	/**
+	 * Obtention du type du polygone (couleur)
+	 * @return Le type du polygone
+	 */
 	public char getType() {
 		return type;
 	}
 	
-	
+	/**
+	 * Obtention des sommets du polygone
+	 * @return La liste des sommets du polygone
+	 */
 	public ArrayList<Point> getLstp() {
 		return lstp;
 	}
@@ -90,27 +103,30 @@ public class Polygone implements Forme{
 	
 	private ArrayList<Triangle> triangulation(ArrayList<Point> points, int index){
 		if(index > points.size()-3) {
-			index = 0;
+			index = 0; // Revient au debut du tableau
 		}
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-
+		
+		// Si il n'y a aucun sommet
 		if(points.isEmpty()) {
 			return triangles;
 		}
+		// Si il n'y a que trois points (ou qu'il ne reste plus que 3 points)
 		if(points.size() == 3) {
 			// Si les trois points sont alignï¿½s
 			Droite d1 = new Droite(points.get(0), points.get(1));
 			if(d1.contient(points.get(2))) {
-				//System.out.println("3 derniers points alignÃ©s DUH");
 				return triangles;
 			}
 			triangles.add(new Triangle(points.get(0), points.get(1), points.get(2), this.type));
 			return triangles;
 		}
-	
+		
+		// On prend les trois premiers points du tableau décalés de index
 		Point A = points.get(0+index);
 		Point B = points.get(1+index);
 		Point C = points.get(2+index);
+		// On créer les triangle des trois points succéssifs
 		Triangle t = new Triangle(A, B, C, this.type);
 		Segment seg = new Segment(A, C);
 		for(Point p : this.lstp){
@@ -121,11 +137,12 @@ public class Polygone implements Forme{
 				return resultat;
 			}
 		}
+		// Si il n'y a pas d'intersection et que le polygone contient le point du milieu du segment (on aurait pu prendre nimporte quel autre point...)
 		if(!this.intersection(seg) && this.contient(seg.milieu())) {
 			triangles.add(t);
 			points.remove(B);
 		}
-		else{
+		else{ // sinon on passe au trois points suivants 
 			index++;
 		}
 		

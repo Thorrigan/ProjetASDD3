@@ -35,12 +35,12 @@ public class Jeu {
 	0 default
 	1 buff
 	2 debuff sable
-	3 
+	3 Fin
 	*/
 	
 	public Jeu(ArrayList<Trace> trace, ArrayList<Polygone> lst, float min_x, float max_x, float min_y, float max_y, int N) {
 		this.balle = trace.get(0).getDepart();
-		this.map = QuadTree.ConstructionQT(lst, 0, 10, 0, 10, N);
+		this.map = QuadTree.ConstructionQT(lst, min_x, max_x, min_y, max_y, N);
 		//this.map.afficher();
 		for(float i = 0.0f; i <= 10.0f; i+= 0.1f) {
 			for(float j = 0.0f; j <= 10.0f; j+= 0.1f) {
@@ -103,7 +103,20 @@ public class Jeu {
 		fenetre = new Fenetre(this);		
 	}
 	
-	public void JeuConsole(){
+	public void golfit() {
+		if (this.scoreact - this.parAct() == 1)
+			System.out.println("Bogey.");
+		else if (this.scoreact - this.parAct() == 0)
+			System.out.println("Par ! ");
+		else if (this.scoreact - this.parAct() == -1)
+			System.out.println("Birdie !!");
+		else if (this.scoreact - this.parAct() == -2)
+			System.out.println("Eagle !!! ");
+		else if (this.scoreact - this.parAct() == -3)
+			System.out.println("Albatross Félicitation !!! ");
+	}
+	
+	public void JeuConsole(){		
 		for(Trace t : this.traces) {
 			float aprox = 0.5f;
 			Rectangle region = new Rectangle(new Point(t.getArrivee().getX()-aprox, t.getArrivee().getY()-aprox), 
@@ -127,6 +140,7 @@ public class Jeu {
 			}
 			System.out.println("Vous avez fini ce trace.");
 			System.out.println("Vous avez obtenu le score:  " + this.scoreact + " / " + this.parAct());
+			golfit();
 			this.trouAct++;
 		}
 		System.out.println("Vous venez de finir le jeu.");
@@ -152,15 +166,9 @@ public class Jeu {
 	
 	public void JouerCoup(Point dest) {
 		System.out.println("On tire vers le point " + dest);
-		this.balle = dest;
-		this.fenetre.repaint();
-		this.scoreact++;
-		
-		
-		if(fin == true) {
-			System.out.println("Vous avez gagné !");
-			System.exit(0);
-		}
+		float angle = balle.angle(dest);
+		float distance = balle.distance(dest);
+		JouerCoup(angle, distance);
 	}
 	
 	public void JouerCoup(float angle, float distance) {
@@ -168,6 +176,13 @@ public class Jeu {
 		System.out.println("On tire avec un angle de " + angle + " degres et une distance de " + distance);
 		balle = CalculePointDepartBalle(CalculePointAtterrissageBalle(angle,distance));
 		System.out.println("Balle après modification: " + balle);
+		float aproximation = 0.03f;
+		Rectangle rect = new Rectangle(new Point(this.getactTrace().getArrivee().getX() - aproximation, this.getactTrace().getArrivee().getY() - aproximation),
+			new Point(this.getactTrace().getArrivee().getX() - aproximation, this.getactTrace().getArrivee().getY() + aproximation));
+		// Si la balle est dans le trou
+		if(rect.contient(balle)) {
+			System.out.print("Fin du jeu");
+		}
 		this.fenetre.repaint();
 	}
 	
@@ -175,6 +190,10 @@ public class Jeu {
 		return this.lpoly;
 	}
 	
+	public int getState() {
+		return state;
+	}
+
 	public ArrayList<Triangle> getTriangles(){
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		for(Polygone p : this.lpoly) {
@@ -202,9 +221,12 @@ public class Jeu {
 		}else {
 			signe = -1;
 		}
-		distance = distance * (1+(signe * distancemodifie/100));
+		if (state != 2)
+			distance = distance * (1+(signe * distancemodifie/100));
+		else
+			distance = (distance * (1+(signe * distancemodifie/100)) / 2);
 		System.out.println("angle mod : " + angle + "  distance mod : " + distance);
-		Point pointintermediaire = new Point(balle.getX()+distance, balle.getY());
+		Point pointintermediaire = new Point(balle.getX()+distance, balle.getY());	
 		return pointintermediaire.rotation(balle, angle);
 	}
 	
@@ -225,11 +247,12 @@ public class Jeu {
 		else {
 			char type = map.recherche(cible).getType();
 			if(type == 'S') {
+				System.out.println("Sapin");
 				this.scoreact++;
-				System.out.println("BLABLABLA");
 				return balle; 
 			}
 			else if (type == 'J') {
+				System.out.println("Sable");
 				this.state = 2;
 				return cible;
 			}
@@ -237,18 +260,33 @@ public class Jeu {
 				Segment seg = new Segment(balle, cible);
 				for(Polygone p : this.lpoly) {
 					if(p.contient(cible)) {
+						System.out.println(seg.PointsIntersection(p).get(0));
 						cible = seg.PointsIntersection(p).get(0);
 						break;
 					}
 				}
+				float angle = balle.angle(cible);
+				float distance = balle.distance(cible)-0.1f;	
+				
+				Point pointintermediaire = new Point(balle.getX() + distance, balle.getY());	
+				cible = pointintermediaire.rotation(balle, angle);
 				this.state = 0;
 				return CalculePointDepartBalle(cible);	
 			}
-			else if (this.ptArrive().distance(cible) <= 1.0 && this.getGreen().contient(cible)) {
+			else if (this.getGreen().contient(cible)) {
+				System.out.println("Green");
+				// Si il est dans les moins d'un metre
+				if(this.ptArrive().distance(cible) <= 1.0) {
+					
+				}
+				else {
+					
+				}
 				this.state = 1;
 				return cible;
 			}
 			else {
+				System.out.println("ERR");
 				this.state = 0;
 				return cible;
 			}

@@ -57,19 +57,32 @@ public class Triangle implements Forme{
 		return tab;
 		
 	}
-
+	
+	/**
+	 * Getter du premier point du triangle
+	 */
 	public Point getP1() {
 		return this.p1;
 	}
 	
+	/**
+	 * Getter du second point du triangle
+	 */
 	public Point getP2() {
 		return this.p2;
 	}
 	
+	/**
+	 * Getter du troisième point du triangle
+	 */
 	public Point getP3() {
 		return this.p3;
 	}
 	
+	/**
+	 * @deprecated Finalement non utilisé dans notre projet...
+	 * @return Le barycentre du triangle
+	 */
 	public Point centre() {
 		Segment AB = new Segment(this.p1, this.p2);
 		Segment AC = new Segment(this.p1, this.p3);

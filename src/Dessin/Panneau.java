@@ -14,6 +14,10 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.UIManager;
  
 public class Panneau extends JPanel {
 	private JTextField textField;
@@ -30,6 +34,7 @@ public class Panneau extends JPanel {
 	private JCheckBox chckbxAfficherLaTriangulation;
 	private Jeu jeu;
 	private JCheckBox chckbxAfficherLeTrace;
+	private JLabel lblAa;
 	public Panneau(final Jeu jeu, final Fenetre fen) {
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(280,600));
@@ -52,50 +57,50 @@ public class Panneau extends JPanel {
 		add(lblParTotal);
 
 		JLabel label_1 = new JLabel("X :");
-		label_1.setBounds(25, 283, 27, 22);
+		label_1.setBounds(10, 244, 27, 22);
 		add(label_1);
 
 		textField = new JTextField();
-		textField.setBounds(59, 313, 86, 20);
+		textField.setBounds(89, 276, 86, 20);
 		add(textField);
 		textField.setColumns(10);
 
 		JLabel label_2 = new JLabel("Y :");
-		label_2.setBounds(25, 311, 28, 22);
+		label_2.setBounds(10, 277, 28, 22);
 		add(label_2);
 
 		textField_1 = new JTextField();
-		textField_1.setBounds(58, 285, 86, 20);
+		textField_1.setBounds(89, 245, 86, 20);
 		add(textField_1);
 		textField_1.setColumns(10);
 
 		JLabel lblAstuce = new JLabel("Astuces :");
-		lblAstuce.setBounds(77, 414, 68, 14);
+		lblAstuce.setBounds(10, 353, 68, 14);
 		add(lblAstuce);
 
-		lblDistanceAuProchain = new JLabel("Distance au Trou:");
-		lblDistanceAuProchain.setBounds(25, 439, 215, 14);
+		lblDistanceAuProchain = new JLabel("Distance au Trou : " + jeu.ballePosition().distance(jeu.getactTrace().getArrivee()));
+		lblDistanceAuProchain.setBounds(10, 439, 215, 14);
 		add(lblDistanceAuProchain);
 
-		lblDegrParRapport = new JLabel("Angle par rapport au trou :");
-		lblDegrParRapport.setBounds(25, 464, 215, 14);
+		lblDegrParRapport = new JLabel("Angle par rapport au trou : " + jeu.ballePosition().angle(jeu.getactTrace().getArrivee()));
+		lblDegrParRapport.setBounds(10, 460, 215, 14);
 		add(lblDegrParRapport);
 
 		JLabel lblAngle = new JLabel("Angle :");
-		lblAngle.setBounds(10, 144, 46, 14);
+		lblAngle.setBounds(10, 130, 46, 14);
 		add(lblAngle);
 
 		JLabel lblDistance = new JLabel("Distance :");
-		lblDistance.setBounds(10, 169, 61, 14);
+		lblDistance.setBounds(10, 155, 61, 14);
 		add(lblDistance);
 
 		textField_2 = new JTextField();
-		textField_2.setBounds(72, 141, 86, 20);
+		textField_2.setBounds(89, 122, 86, 20);
 		add(textField_2);
 		textField_2.setColumns(10);
 
 		textField_3 = new JTextField();
-		textField_3.setBounds(72, 166, 86, 20);
+		textField_3.setBounds(89, 152, 86, 20);
 		add(textField_3);
 		textField_3.setColumns(10);
 
@@ -123,7 +128,7 @@ public class Panneau extends JPanel {
 				}
 			}
 		});
-		btnTirer.setBounds(59, 219, 89, 23);
+		btnTirer.setBounds(89, 183, 86, 22);
 		add(btnTirer);
 
 		// AVEC COORDONNEES
@@ -150,7 +155,7 @@ public class Panneau extends JPanel {
 				}
 			}
 		});
-		btnTirer_1.setBounds(65, 365, 89, 23);
+		btnTirer_1.setBounds(89, 307, 86, 23);
 		add(btnTirer_1);
 
 		lblParDuTrou = new JLabel("Par du trou actuel: " + jeu.parAct());
@@ -169,7 +174,7 @@ public class Panneau extends JPanel {
 				}
 			}
 		});
-		chckbxAfficherLaTriangulation.setBounds(6, 496, 248, 23);
+		chckbxAfficherLaTriangulation.setBounds(6, 533, 248, 23);
 		add(chckbxAfficherLaTriangulation);
 		
 		chckbxAfficherLeTrace = new JCheckBox("Afficher le Trace actuel");
@@ -184,8 +189,24 @@ public class Panneau extends JPanel {
 				}
 			}
 		});
-		chckbxAfficherLeTrace.setBounds(6, 523, 244, 23);
+		chckbxAfficherLeTrace.setBounds(6, 559, 244, 23);
 		add(chckbxAfficherLeTrace);
+		
+		JLabel lblPositionDuTrou = new JLabel("Position du trou : " + jeu.getactTrace().getArrivee());
+		lblPositionDuTrou.setBounds(10, 485, 245, 14);
+		add(lblPositionDuTrou);
+		
+		JTextArea txtrArriverAMoins = new JTextArea();
+		txtrArriverAMoins.setBackground(UIManager.getColor("Label.background"));
+		txtrArriverAMoins.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		txtrArriverAMoins.setLineWrap(true);
+		txtrArriverAMoins.setText("Arriver a moins d'un metre du trou vous garantis de  \r\nr\u00E9ussir votre prochain coup si vous visez le trou.");
+		txtrArriverAMoins.setBounds(10, 374, 260, 30);
+		add(txtrArriverAMoins);
+		
+		lblAa = new JLabel("");
+		lblAa.setBounds(10, 406, 244, 30);
+		add(lblAa);
 	} 	
 
 	public void paintComponent(Graphics g) {
@@ -197,5 +218,21 @@ public class Panneau extends JPanel {
 		lblDistanceAuProchain.setText("Distance au Trou:");
 		lblDegrParRapport.setText("Angle par rapport au trou :");
 		lblParDuTrou.setText("Par du trou actuel: " + jeu.parAct());
+		lblDistanceAuProchain.setText("Distance au Trou : " + jeu.ballePosition().distance(jeu.getactTrace().getArrivee()));
+		lblDegrParRapport.setText("Angle par rapport au trou : " + jeu.ballePosition().angle(jeu.getactTrace().getArrivee()));
+		if(jeu.getState() == 0) {
+			lblAa.setText("");
+		}else if(jeu.getState() == 1) {
+			lblAa.setForeground(Color.GREEN);
+			lblAa.setText("Visez le trou !");
+		}else if(jeu.getState() == 2) {
+			lblAa.setForeground(Color.RED);
+			lblAa.setText("Sable : Frappez fort !");
+		}else if(jeu.getState() == 3) {
+			lblAa.setForeground(Color.BLUE);
+			lblAa.setText("Attention au Plouf");
+		}else {
+			System.out.println("ERREUR !");
+		}
 	}
 }

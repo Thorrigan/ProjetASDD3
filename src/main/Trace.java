@@ -60,11 +60,12 @@ public class Trace {
 					indicepoly += s.charAt(i);
 					i++;
 				}
-				surfs.add(Integer.parseInt(indicepoly));
+				surfs.add(Integer.parseInt(indicepoly)-2);
 			}
 		}
 		parrr = surfs.get(surfs.size()-1);
 		surfs.remove(surfs.size()-1);
+		//System.out.println(surfs);
 		return new Trace(dep, arr, parrr, surfs);
 	}
 	

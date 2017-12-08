@@ -1,9 +1,22 @@
 package Maths;
 
+/**
+ * <p>
+ *	Une classe représentant un point cartésien avec des coordonnée réelles: Float 
+ * </p>
+ * @version 2.0
+ * @author Matthias Goulley, Apollon Vieira
+ *
+ */
 public class Point implements Comparable<Point>{
 	private float x;
 	private float y;
 	
+	/**
+	 * Constructeur d'un point
+	 * @param x Coordonnée en X abscisse
+	 * @param y Coordonnée en Y ordonnée
+	 */
 	public Point(float x, float y){
 		x = Math.round(x*100.0f)/100.0f;
 		y = Math.round(y*100.0f)/100.0f;
@@ -16,7 +29,10 @@ public class Point implements Comparable<Point>{
 		this.x = x;
 		this.y = y;
 	}
-
+	
+	/**
+	 * Test si deux points sont équivalent
+	 */
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -36,24 +52,32 @@ public class Point implements Comparable<Point>{
 	}
 
 
-
+	/**
+	 * Getter de la valeur en X.
+	 * @return La valeur en X du point
+	 */
 	public float getX(){
 		return this.x;
 	}
+	
+	/**
+	 * Getter de la valeur en Y.
+	 * @return La valeur en Y du point
+	 */
 	public float getY(){
 		return this.y;
 	}
-	public void setX(float x) {
-		this.x = x;
-	}
-	public void setY(float y) {
-		this.y = y;
-	}
-
+	
+	/**
+	 * Permet de définir l'affichage d'un point dans la console.
+	 */
 	public String toString() {
 		return "(" + x + ", " + y + ")";
 	}
-
+	
+	/**
+	 * Compare deux points ensemble (voir qui est le plus petit ou le plus grand)
+	 */
 	public int compareTo(Point p) {
 		if(y < p.y) {
 			return -1;
@@ -70,14 +94,21 @@ public class Point implements Comparable<Point>{
 		return 0;
 	}
 	
+	/**
+	 * Donne la distance entre deux points
+	 * @param p1	Le point d'on on veut connaitre la distance
+	 * @return La distance entre les deux points
+	 */
 	public float distance(Point p1){
 		return (float) Math.sqrt(Math.pow(Math.abs(p1.getX()-this.x), 2) + Math.pow(Math.abs(p1.getY()-this.y), 2));
 	}
 	
-	public float distanceOrigine(){
-		return (float) Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
-	}
-	
+	/**
+	 * Réalise la rotation d'un point par rapport à un autre, avec un angle donné.
+	 * @param cible Le point de rotation
+	 * @param angle L'angle de la rotation
+	 * @return Le point correspondant à la rotation
+	 */
 	public Point rotation(Point cible, float angle){
 		float X,Y, xnew, ynew;
 		X = this.x - cible.getX();
@@ -87,59 +118,14 @@ public class Point implements Comparable<Point>{
 		return new Point(xnew,ynew);
 	}
 	
-	public void rotationv(Point centre, float angle, float dist){
-		float x,y,a,b,c, A,B,C, delta, xnew, ynew;
 	
-		//rotation
-		/*x = this.x - centre.getX();
-		y = this.y - centre.getY();
-		this.x = centre.getX() + (float) ((Math.cos(Math.toRadians(angle))* x) - Math.sin(Math.toRadians(angle))* y);
-		this.y = centre.getY() + (float) ((Math.sin(Math.toRadians(angle))* x) + Math.cos(Math.toRadians(angle))* y);*/
-		x = 0;
-		y = 0;
-		x = centre.getX() - this.x;
-		y = centre.getY() - this.y;
-		xnew = this.x + (float) ((Math.cos(Math.toRadians(angle))* x) - Math.sin(Math.toRadians(angle))* y);
-		ynew = this.y + (float) ((Math.sin(Math.toRadians(angle))* x) + Math.cos(Math.toRadians(angle))* y);
-		
-		Point p = new Point(xnew, ynew);
-		Droite d = new Droite(this, p);
-
-		/*//point intersection droite cercle
-		a = -d.getA();
-		b = d.getB();
-		c = -d.getC();
-		System.out.println(d);
-		A = 1 + (a*a) / (b*b);
-		B = -2*this.getX() - (2 * a * c * this.getY()) / b;
-		C = this.getX() * this.getX() + this.getY() * this.getY() + (2*a*c) / b - (dist * dist) + (c/b) * (c/b); 
-		System.out.println("A : " + A + " B : " + B + " C : " + C);
-		delta = (B * B) - (4 * A * C);
-		System.out.println("delta" + delta);
-		if (delta > 0) {
-			float xp1 = -B + (float) (Math.sqrt(delta) / (2*A));
-			float yp1 = (a*xp1 + c) / b;
-			float xp2 = -B - (float) (Math.sqrt(delta) / (2*A));
-			float yp2 = (a*xp2 + c) / b;
-			
-			Point p1 = new Point(xp1, yp1);
-			Point p2 = new Point(xp2, yp2);
-			if (this.angle(p1) == angle)
-				System.out.println(p1.distance(this));
-			else if (this.angle(p2) == angle)
-				System.out.println(p2.distance(this));
-		}
-		else if(delta == 0) {
-			float xp1 = -B + 2 / A;
-			float yp1 = (a*xp1 + c) / b;
-			Point p1 = new Point(xp1, yp1);
-			System.out.println(p1.distance(this));
-		}*/
-			
-	}
-	
+	/**
+	 * Calcul l'angle entre deux points
+	 * @param p1 Le point dont on veut connaitre l'orientation
+	 * @return L'angle entre les deux points par rapport
+	 */
 	public float angle(Point p1){
-		/*if(this.equals(p1)) {
+		if(this.equals(p1)) {
 			return 0;
 		}
 		else if(p1.getY() == this.y && p1.getX() > this.x)
@@ -156,22 +142,14 @@ public class Point implements Comparable<Point>{
 				return (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
 			}
 			else if(p1.getX() > this.x && p1.getY() < this.y) {
-				return 90.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+				return 270.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
 			}
-			else if(p1.getX() > this.x && p1.getY() < this.y) {
+			else if(p1.getX() > this.x && p1.getY() > this.y) {
 				return 180.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
 			}
 			else {
-				return 270.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+				return 90.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
 			}
-		}*/
-		if (p1.getX() == this.x)
-			return 90;
-		else if (p1.getY() == this.y)
-			return 0;
-		else {
-			Point p2 = new Point(p1.getX(), this.y);
-			return (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
 		}
 	}
 }

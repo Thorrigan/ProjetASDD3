@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Une interface qui représente toutes les formes géométrique possibles. 
  * NB: On pourrait rajouter des cercles, des lignes courbes, etc... Qui hériteraient aussi de cette interface
  * </p>
- * @version 1.0
+ * @version 2.0
  * @author Matthias Goulley, Apollon Vieira
  * @see Droite
  * @see Segment
