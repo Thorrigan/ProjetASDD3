@@ -31,7 +31,7 @@ public class Jeu {
 	private Fenetre fenetre;
 	
 	
-	/*STATE A CHOISIR
+	/*STATE
 	0 default
 	1 buff
 	2 debuff sable
@@ -42,13 +42,6 @@ public class Jeu {
 		this.balle = trace.get(0).getDepart();
 		this.map = QuadTree.ConstructionQT(lst, min_x, max_x, min_y, max_y, N);
 		//this.map.afficher();
-		for(float i = 0.0f; i <= 10.0f; i+= 0.1f) {
-			for(float j = 0.0f; j <= 10.0f; j+= 0.1f) {
-				if(this.map.recherche(new Point(i,j)) == null) {
-					System.out.println("ERREUR i: " + i + "  j: " + j);
-				}
-			}
-		}
 		this.lpoly = lst;
 		this.traces = trace;
 		this.trouAct = 0;
@@ -56,6 +49,8 @@ public class Jeu {
 		this.scoreact = 0;
 		this.state = 0;
 		this.fin = false;
+		System.out.println(this.traces);
+		System.out.println(this.getactTrace());
 	}
 	
 	public int parAct() {
@@ -172,16 +167,30 @@ public class Jeu {
 	}
 	
 	public void JouerCoup(float angle, float distance) {
+		System.out.println("Nombre de traces: " + this.traces.size());
+		System.out.println("Trace actuel: " + this.trouAct);
 		System.out.println(balle);
 		System.out.println("On tire avec un angle de " + angle + " degres et une distance de " + distance);
 		balle = CalculePointDepartBalle(CalculePointAtterrissageBalle(angle,distance));
 		System.out.println("Balle après modification: " + balle);
-		float aproximation = 0.03f;
+		float aproximation = 0.8f;
 		Rectangle rect = new Rectangle(new Point(this.getactTrace().getArrivee().getX() - aproximation, this.getactTrace().getArrivee().getY() - aproximation),
-			new Point(this.getactTrace().getArrivee().getX() - aproximation, this.getactTrace().getArrivee().getY() + aproximation));
+			new Point(this.getactTrace().getArrivee().getX() + aproximation, this.getactTrace().getArrivee().getY() + aproximation));
 		// Si la balle est dans le trou
 		if(rect.contient(balle)) {
-			System.out.print("Fin du jeu");
+			System.out.println("Fin du trace !");
+			this.golfit();
+			// Si c'était le dernier trace
+			if(this.parAct() == this.traces.size()) {
+				System.out.println("Fin du jeu !");
+				System.exit(0);
+			}else {
+				System.out.println("On passe au trace suivant !");
+				this.state = 0;
+				this.scoreact = 0;
+				this.trouAct++;
+				this.balle = this.getactTrace().getDepart();
+			}
 		}
 		this.fenetre.repaint();
 	}
@@ -242,6 +251,7 @@ public class Jeu {
 		if (map.recherche(cible) == null) {
 			System.out.println("cible : " + cible);
 			this.scoreact++;
+			this.scoretot++;
 			return balle; 
 		}
 		else {
@@ -249,6 +259,7 @@ public class Jeu {
 			if(type == 'S') {
 				System.out.println("Sapin");
 				this.scoreact++;
+				this.scoretot++;
 				return balle; 
 			}
 			else if (type == 'J') {
@@ -282,6 +293,8 @@ public class Jeu {
 				else {
 					
 				}
+				this.scoretot++;
+				this.scoreact++;
 				this.state = 1;
 				return cible;
 			}

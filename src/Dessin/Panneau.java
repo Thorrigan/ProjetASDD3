@@ -211,7 +211,7 @@ public class Panneau extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);   
-		lblTrouActuel.setText("Trou actuel: " + jeu.trouActuel());
+		lblTrouActuel.setText("Trou actuel: " + (jeu.trouActuel() +1));
 		lblScoreActuel.setText("Score Actuel: " + jeu.scoreactuel());
 		lblScoreTotal.setText("Score Total: " + jeu.scoretotal());
 		lblParTotal.setText("Par Total: " + jeu.partotal());

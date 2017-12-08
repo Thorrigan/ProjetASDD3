@@ -68,6 +68,7 @@ public class Lecteur {
 					nbtraces = Integer.parseInt(ligne);
 				}else if(compteur > nbsurfaces + 1 && compteur <= nbsurfaces + nbtraces + 1) {
 					traces.add(Trace.lireTrace(ligne));	
+					//compteur++;
 				}else {
 					System.out.println("Erreur dans le fichier de départ.");
 				}
@@ -79,6 +80,7 @@ public class Lecteur {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(traces);
 		return new Jeu(traces, map, min_x, max_x, min_y, max_y, N);
 	}
 }

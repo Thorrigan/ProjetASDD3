@@ -139,16 +139,16 @@ public class Point implements Comparable<Point>{
 		else {
 			Point p2 = new Point(p1.getX(), this.y);
 			if(p1.getX() > this.x && p1.getY() > this.y) {
-				return (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+				return (float) Math.toDegrees(Math.asin(p1.distance(p2)/this.distance(p1)));
 			}
 			else if(p1.getX() > this.x && p1.getY() < this.y) {
-				return 270.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+				return 360.0f - (float) Math.toDegrees(Math.asin(p1.distance(p2)/this.distance(p1)));
 			}
-			else if(p1.getX() > this.x && p1.getY() > this.y) {
-				return 180.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+			else if(p1.getX() < this.x && p1.getY() > this.y) {
+				return (float) Math.toDegrees(Math.asin(p1.distance(p2)/this.distance(p1)));
 			}
 			else {
-				return 90.0f + (float) Math.toDegrees(Math.asin(this.distance(p2)/this.distance(p1)));
+				return 180.0f + (float) Math.toDegrees(Math.asin(p1.distance(p2)/this.distance(p1)));
 			}
 		}
 	}

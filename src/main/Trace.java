@@ -18,6 +18,10 @@ public class Trace {
 		this.surfaces = surfaces;
 	}
 	
+	public String toString() {
+		return "Trace [depart=" + depart + ", arrivee=" + arrivee + ", par=" + par + ", surfaces=" + surfaces + "]";
+	}
+	
 	// O(n)
 	public static Trace lireTrace(String s) {
 		Point dep = null;
@@ -65,8 +69,7 @@ public class Trace {
 		}
 		parrr = surfs.get(surfs.size()-1);
 		surfs.remove(surfs.size()-1);
-		//System.out.println(surfs);
-		return new Trace(dep, arr, parrr, surfs);
+		return new Trace(dep, arr, parrr+2, surfs);
 	}
 	
 	public Point getDepart() {
@@ -82,68 +85,3 @@ public class Trace {
 		return surfaces;
 	}
 }
-
-/*if(s.charAt(i) == ',') {
-System.out.println(s.charAt(i));
-i++;
-} else if(compteur < 4) {
-System.out.println(s.charAt(i));
-String indicepoly = "";
-while(s.charAt(i) != ',') {
-	indicepoly += s.charAt(i);
-	i++;
-}
-surfs.add(Integer.parseInt(indicepoly));
-} else if(compteur == 4) {
-System.out.println(s.charAt(i));
-if(s.charAt(i) == '('){
-	i++;
-	float X = 0.0f;
-	float Y = 0.0f;
-	String ss = "";
-	while(s.charAt(i) != ','){
-		ss += s.charAt(i);
-		i++;
-	}
-	X = Float.parseFloat(ss);
-	i++;
-	
-	ss = "";
-	while(s.charAt(i) != ')'){
-		ss += s.charAt(i);
-		i++;
-	}
-	Y = Float.parseFloat(ss);
-	dep = new Point(X, Y);
-}
-} else if(compteur == 5) {
-System.out.println(s.charAt(i));
-if(s.charAt(i) == '('){
-	i++;
-	float X = 0.0f;
-	float Y = 0.0f;
-	String ss = "";
-	while(s.charAt(i) != ','){
-		ss += s.charAt(i);
-		i++;
-	}
-	X = Float.parseFloat(ss);
-	i++;
-	
-	ss = "";
-	while(s.charAt(i) != ')'){
-		ss += s.charAt(i);
-		i++;
-	}
-	Y = Float.parseFloat(ss);
-	arr = new Point(X, Y);
-}
-}else {
-System.out.println(s.charAt(i));
-String chiffrepar = "";
-while(i != s.length()) {
-	chiffrepar += s.charAt(i);
-	i++;
-}
-}
-compteur++;*/
